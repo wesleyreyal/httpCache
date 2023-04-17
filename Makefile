@@ -2,10 +2,7 @@ PHONY: start-dev start-prod
 .PHONY: help
 
 help:
-	@echo The possible commands :
-	@echo start-dev  Run the application in dev
-	@echo start-prod  Run the application in prod
-
+	@grep -E '(^[0-9a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-25s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/
 DEV_STACK=docker compose -f docker-compose.yml -f
 
 start-dev: ## Run the application in dev
