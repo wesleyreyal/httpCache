@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3"
 
 # Development environment override
 services:
@@ -17,6 +17,13 @@ services:
     extra_hosts:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
   pwa:
     build:
