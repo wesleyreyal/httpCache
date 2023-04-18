@@ -38,7 +38,7 @@ final class DomainFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'dns' => self::faker()->text(255),
+            'dns' => self::faker()->domainName(),
             'owner' => UserFactory::random(),
             'valid' => self::faker()->boolean(),
         ];
