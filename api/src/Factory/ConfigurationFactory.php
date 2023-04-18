@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Configuration;
 use App\Repository\ConfigurationRepository;
+use Exception;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -39,12 +40,16 @@ final class ConfigurationFactory extends ModelFactory
         parent::__construct();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getDefaults(): array
     {
+        $subdomain = ["mail", "shop", "blog", "support", "forum", "api", "news", "events", "status", "dev"];
         return [
             'configuration' => self::faker()->text(255),
-            'ip' => self::faker()->text(39),
-            'zone' => self::faker()->text(100),
+            'ip' => self::faker()->ipv4(),
+            'zone' => $subdomain[random_int(0,count($subdomain))],
             'domain' => DomainFactory::random(),
         ];
     }
