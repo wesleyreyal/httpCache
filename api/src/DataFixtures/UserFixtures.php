@@ -15,7 +15,8 @@ class UserFixtures extends Fixture
             'email' => 'admin@test.fr',
             'firstname' => 'John',
             'lastname' => 'Doe',
-            'password' => 'test',
+            ##Corresponds to 'test'
+            'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
             'roles' => ['ROLE_ADMIN'],
         ]);
         UserFactory::createMany(3);
