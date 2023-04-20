@@ -23,11 +23,11 @@ class Domain
     #[ORM\Column]
     private bool $valid;
 
-    #[ORM\ManyToOne(inversedBy: Domain::class)]
+    #[ORM\ManyToOne(inversedBy: 'domains')]
     #[ORM\JoinColumn(nullable: false)]
     private User $owner;
 
-    #[ORM\OneToMany(mappedBy: Domain::class, targetEntity: Configuration::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
     private Collection $configurations;
 
     public function __construct()
