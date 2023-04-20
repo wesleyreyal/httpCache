@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 150, nullable: true)]
     private string $company;
 
-    #[ORM\OneToMany(mappedBy: User::class, targetEntity: Domain::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
 
     public function __construct()

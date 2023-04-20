@@ -27,7 +27,7 @@ class Configuration
     #[ORM\Column(length: 39)]
     private string $ip;
 
-    #[ORM\ManyToOne(inversedBy: Configuration::class)]
+    #[ORM\ManyToOne(inversedBy: 'configurations')]
     #[ORM\JoinColumn(nullable: false)]
     private Domain $domain;
 
