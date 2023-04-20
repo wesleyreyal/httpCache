@@ -18,10 +18,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column]
     private array $roles = [];
@@ -30,18 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private string $password ;
 
     #[ORM\Column(length: 100)]
-    private ?string $lastname = null;
+    private string $lastname;
 
     #[ORM\Column(length: 100)]
-    private ?string $firstname = null;
+    private string $firstname;
 
     #[ORM\Column(length: 150, nullable: true)]
-    private ?string $company = null;
+    private string $company;
 
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: User::class, targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
 
     public function __construct()
@@ -116,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // $this->plainPassword;
     }
 
     public function getLastname(): ?string

@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ConfigurationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
@@ -15,20 +16,20 @@ class Configuration
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 100)]
-    private ?string $zone = null;
+    private string $zone;
 
-    #[ORM\Column(length: 255)]
-    private ?string $configuration = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private string $configuration;
 
     #[ORM\Column(length: 39)]
-    private ?string $ip = null;
+    private string $ip;
 
-    #[ORM\ManyToOne(inversedBy: 'configurations')]
+    #[ORM\ManyToOne(inversedBy: Configuration::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Domain $domain = null;
+    private Domain $domain;
 
     public function getId(): ?int
     {

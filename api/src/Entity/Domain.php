@@ -15,19 +15,19 @@ class Domain
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $dns = null;
+    private string $dns;
 
     #[ORM\Column]
-    private ?bool $valid = null;
+    private bool $valid;
 
-    #[ORM\ManyToOne(inversedBy: 'domains')]
+    #[ORM\ManyToOne(inversedBy: Domain::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
+    private User $owner;
 
-    #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: Domain::class, targetEntity: Configuration::class, orphanRemoval: true)]
     private Collection $configurations;
 
     public function __construct()
