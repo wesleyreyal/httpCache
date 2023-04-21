@@ -3,13 +3,40 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\DomainRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DomainRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => 'get_domain_normalization'],
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'get_domain_normalization'],
+        ),
+        new Post(
+            normalizationContext: ['groups' => 'create_domain_normalization'],
+            denormalizationContext: ['groups' => 'create_domain_denormalization'],
+        ),
+        new Patch(
+            normalizationContext: ['groups' => 'update_domain_normalization'],
+            denormalizationContext: ['groups' => 'update_domain_denormalization'],
+
+        ),
+        new Delete()
+    ],
+    security: "is_granted('ROLE_ADMIN') or object.owner == user"
+)]
 class Domain
 {
     #[ORM\Id]
@@ -18,9 +45,11 @@ class Domain
     private int $id;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get_domain_normalization','create_domain_normalization','create_domain_denormalization','update_domain_normalization','update_domain_denormalization'])]
     private string $dns;
 
     #[ORM\Column]
+    #[Groups(['get_domain_normalization','create_domain_normalization','update_domain_normalization'])]
     private bool $valid;
 
     #[ORM\ManyToOne(inversedBy: 'domains')]
@@ -28,6 +57,7 @@ class Domain
     private User $owner;
 
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
+    #[Groups(['get_domain_normalization','create_domain_normalization','update_domain_normalization'])]
     private Collection $configurations;
 
     public function __construct()
