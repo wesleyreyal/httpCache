@@ -20,17 +20,14 @@ final class AdminContextBuilder implements SerializerContextBuilderInterface
 
     public function createFromRequest(Request $request, bool $normalization, ?array $extractedAttributes = null): array
     {
-
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
-        // Add `admin:update_user_normalization` for normalization requests
-        // Otherwise, add `admin:update_user_denormalization` for denormalization requests
-
-
         if ($request->getMethod() == Request::METHOD_PATCH && $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             if(!is_array($context['groups'])) {
                 $context['groups'] = [$context['groups']];
             }
-            $context['groups'][] = $normalization ? 'admin:update_user_normalization' : 'admin:update_user_denormalization';
+            // Add `admin:update_user_normalization` for normalization requests
+            // Otherwise, add `admin:update_user_denormalization` for denormalization requests
+            $context['groups'][] = $normalization ? 'admin:create_update_user_normalization' : 'admin:create_update_user_denormalization';
         }
 
         return $context;

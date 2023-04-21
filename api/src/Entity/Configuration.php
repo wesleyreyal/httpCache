@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(),
         new Post(
-            denormalizationContext: ['groups' => 'create_update_domain_denormalization']
+            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
         ),
         new Patch(
             denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Delete(),
     ],
     normalizationContext: ['groups' => 'get_configuration_normalization'],
-    security: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user"
+    security: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user",
 )]
 class Configuration
 {

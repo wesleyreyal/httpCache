@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'get_domain_normalization'],
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
         ),
         new Get(
             normalizationContext: ['groups' => 'get_domain_normalization'],
@@ -31,11 +31,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(
             normalizationContext: ['groups' => 'update_domain_normalization'],
             denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
-
         ),
         new Delete()
     ],
-    security: "is_granted('ROLE_ADMIN') or object.owner == user"
+    security: "is_granted('ROLE_ADMIN') or object.owner == user",
 )]
 class Domain
 {

@@ -24,10 +24,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'get_user_normalization'],
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_ADMIN')",
         ),
         new Get(
-            normalizationContext: ['groups' => 'get_user_normalization']
+            normalizationContext: ['groups' => 'get_user_normalization'],
         ),
         new Post(
             normalizationContext: ['groups' => 'create_update_user_normalization'],
@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Delete(),
     ],
-    security: "is_granted('ROLE_ADMIN') or object == user"
+    security: "is_granted('ROLE_ADMIN') or object == user",
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private string $email;
 
-    #[Groups(['get_users_normalization','admin:update_user_denormalization'])]
+    #[Groups(['get_users_normalization','admin:create_update_user_denormalization','admin:create_update_user_normalization'])]
     #[ORM\Column]
     private array $roles = [];
 
