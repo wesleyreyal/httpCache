@@ -20,10 +20,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(),
         new Post(
-            denormalizationContext: ['groups' => 'create_configuration_denormalization']
+            denormalizationContext: ['groups' => 'create_update_domain_denormalization']
         ),
         new Patch(
-            denormalizationContext: ['groups' => 'update_configuration_denormalization'],
+            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
         ),
         new Delete(),
     ],
@@ -37,15 +37,15 @@ class Configuration
     #[ORM\Column]
     private int $id;
 
-    #[Groups(['get_configuration_normalization','create_configuration_denormalization','update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $zone;
 
-    #[Groups(['get_configuration_normalization','create_configuration_denormalization','update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
     #[ORM\Column(type: Types::TEXT)]
     private string $configuration;
 
-    #[Groups(['get_configuration_normalization','create_configuration_denormalization','update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
     #[ORM\Column(length: 39)]
     private string $ip;
 

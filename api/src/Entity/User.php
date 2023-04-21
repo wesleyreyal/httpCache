@@ -30,12 +30,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'get_user_normalization']
         ),
         new Post(
-            normalizationContext: ['groups' => 'create_user_normalization'],
+            normalizationContext: ['groups' => 'create_update_user_normalization'],
             denormalizationContext: ['groups' => 'create_user_denormalization'],
             processor: UserPasswordHasher::class,
         ),
         new Patch(
-            normalizationContext: ['groups' => 'update_user_normalization'],
+            normalizationContext: ['groups' => 'create_update_user_normalization'],
             denormalizationContext: ['groups' => 'update_user_denormalization'],
             processor: UserPasswordHasher::class,
         ),
@@ -50,11 +50,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private int $id;
 
-    #[Groups(['get_user_normalization','create_user_normalization','create_user_denormalization','update_user_normalization','update_user_denormalization'])]
+    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 180, unique: true)]
     private string $email;
 
-    #[Groups(['get_users_normalization','admin:update_user_denormalization','update_user_normalization'])]
+    #[Groups(['get_users_normalization','admin:update_user_denormalization'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -65,19 +65,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['create_user_denormalization','update_user_denormalization'])]
     private ?string $password ;
 
-    #[Groups(['get_users_normalization','create_user_normalization','create_user_denormalization','update_user_normalization','update_user_denormalization','update_user_denormalization'])]
+    #[Groups(['get_users_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $lastname;
 
-    #[Groups(['get_users_normalization','create_user_normalization','create_user_denormalization','update_user_normalization','update_user_denormalization'])]
+    #[Groups(['get_users_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $firstname;
 
-    #[Groups(['get_users_normalization','create_user_normalization','create_user_denormalization','update_user_normalization','update_user_denormalization'])]
+    #[Groups(['get_users_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 150, nullable: true)]
     private string $company;
 
-    #[Groups(['get_users_normalization','update_user_normalization'])]
+    #[Groups(['get_users_normalization'])]
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
 

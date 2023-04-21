@@ -26,11 +26,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Post(
             normalizationContext: ['groups' => 'create_domain_normalization'],
-            denormalizationContext: ['groups' => 'create_domain_denormalization'],
+            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
         ),
         new Patch(
             normalizationContext: ['groups' => 'update_domain_normalization'],
-            denormalizationContext: ['groups' => 'update_domain_denormalization'],
+            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
 
         ),
         new Delete()
@@ -45,11 +45,11 @@ class Domain
     private int $id;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['get_domain_normalization','create_domain_normalization','create_domain_denormalization','update_domain_normalization','update_domain_denormalization'])]
+    #[Groups(['get_domain_normalization','create_update_domain_normalization','create_update_domain_denormalization'])]
     private string $dns;
 
     #[ORM\Column]
-    #[Groups(['get_domain_normalization','create_domain_normalization','update_domain_normalization'])]
+    #[Groups(['get_domain_normalization','create_update_domain_normalization'])]
     private bool $valid;
 
     #[ORM\ManyToOne(inversedBy: 'domains')]
@@ -57,7 +57,7 @@ class Domain
     private User $owner;
 
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
-    #[Groups(['get_domain_normalization','create_domain_normalization','update_domain_normalization'])]
+    #[Groups(['get_domain_normalization','create_update_domain_normalization'])]
     private Collection $configurations;
 
     public function __construct()
