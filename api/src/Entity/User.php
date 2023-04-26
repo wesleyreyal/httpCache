@@ -1,9 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,24 +18,48 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
     operations: [
-        new Post(processor: UserPasswordHasher::class)
-    ]
+        new GetCollection(
+            normalizationContext: ['groups' => 'get_user_normalization'],
+            security: "is_granted('ROLE_ADMIN')",
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'get_user_normalization'],
+        ),
+        new Post(
+            normalizationContext: ['groups' => 'create_update_user_normalization'],
+            denormalizationContext: ['groups' => 'create_user_denormalization'],
+            processor: UserPasswordHasher::class,
+        ),
+        new Patch(
+            normalizationContext: ['groups' => 'create_update_user_normalization'],
+            denormalizationContext: ['groups' => 'update_user_denormalization'],
+            processor: UserPasswordHasher::class,
+        ),
+        new Delete(),
+    ],
+    security: "is_granted('ROLE_ADMIN') or object == user",
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Assert\NotBlank]
     private int $id;
 
+    #[Assert\NotBlank]
+    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 180, unique: true)]
     private string $email;
 
+    #[Assert\NotBlank]
+    #[Groups(['get_user_normalization','admin:create_update_user_denormalization','admin:create_update_user_normalization'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -36,31 +67,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Groups(['create_user_denormalization','update_user_denormalization'])]
     private string $password ;
 
+    #[Assert\NotBlank]
+    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $lastname;
 
+    #[Assert\NotBlank]
+    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $firstname;
 
+    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 150, nullable: true)]
     private string $company;
 
+    #[Groups(['get_user_normalization'])]
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
 
     public function __construct()
     {
         $this->domains = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -72,19 +112,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -101,9 +133,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;
@@ -116,16 +145,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
@@ -137,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -149,12 +173,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCompany(): ?string
+    public function getCompany(): string
     {
         return $this->company;
     }
 
-    public function setCompany(?string $company): self
+    public function setCompany(string $company): self
     {
         $this->company = $company;
 

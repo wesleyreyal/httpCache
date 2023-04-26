@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Factory\DomainFactory;
@@ -15,7 +17,7 @@ class UserFixtures extends Fixture
             'email' => 'admin@test.fr',
             'firstname' => 'John',
             'lastname' => 'Doe',
-            ##Corresponds to 'test'
+            # Corresponds to 'test'
             'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
             'roles' => ['ROLE_ADMIN'],
         ]);
