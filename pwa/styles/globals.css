@@ -4,20 +4,22 @@
 
 @layer base {
     * {
-        font-family: Poppins;
+        font-family: Montserrat, serif;
+        @apply no-underline text-rich_black;
     }
 
-    a {
-        @apply no-underline text-cyan-700;
+    .logo_souin {
+        letter-spacing: -4px;
+        margin-right: 3px;
+    }
+
+    .logo_app {
+        @apply text-argentinian_blue;
+        font-weight: 600;
     }
 }
 
 @layer utilities {
-    .bg-spider-cover {
-        @apply bg-cyan-700 bg-center bg-no-repeat;
-        background-image: url("../public/api-platform/web.svg");
-        background-size: 110%;
-    }
     .ribbon {
         position: absolute;
         top: 0;
