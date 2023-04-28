@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Poppins", "system-ui"],
+        'sans': ["Montserrat"],
+        'roboto': ['Roboto', 'sans-serif'],
       },
       boxShadow: {
         card: "0px 0px 20px 0px rgba(0, 0, 0, 0.15)",
@@ -29,11 +30,6 @@ module.exports = {
         yellow: "#F6D800",
         red: "#FF1313",
         green: "#1AC421",
-        cyan: {
-          500: "#46b6bf",
-          700: "#0f929a",
-          200: "#bceff3"
-        },
         black: "#1d1e1c",
         white: "#ffffff",
         transparent: "transparent",
