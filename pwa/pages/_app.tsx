@@ -6,7 +6,7 @@ import { AuthProviders } from '../context';
 function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) {
   return (
     <AuthProviders>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </AuthProviders>
   );
 }

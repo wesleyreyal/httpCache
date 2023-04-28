@@ -7,15 +7,6 @@ module.exports = {
         sans: ['Montserrat'],
         roboto: ['Roboto', 'sans-serif'],
       },
-      boxShadow: {
-        card: '0px 0px 20px 0px rgba(0, 0, 0, 0.15)',
-      },
-      transitionDuration: {
-        DEFAULT: '300ms',
-      },
-      minHeight: {
-        24: '96px',
-      },
       colors: {
         eggshell: '#F3FAFF',
         rich_black: '#01161E',
@@ -31,10 +22,6 @@ module.exports = {
         white: '#ffffff',
         transparent: 'transparent',
       },
-    },
-    container: {
-      padding: '2rem',
-      center: true,
     },
   },
   plugins: [require('@tailwindcss/forms')],
