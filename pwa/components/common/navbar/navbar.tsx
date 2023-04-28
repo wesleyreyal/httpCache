@@ -1,33 +1,37 @@
-import React, { useState } from "react";
-import PropTypes from 'prop-types';
-import NavElement from "./navElement";
-import Link from "next/link";
+import React, { FC, useState } from 'react';
+import Element from './element';
+import Link from 'next/link';
+import { useIsAuth } from '../../../context';
 
-function Navbar(props: {connected : boolean}) {
-  const [showMenu, setShowMenu] = useState(false);
-  const handleMenuClick = () => {
-    setShowMenu(!showMenu);
-  };
+type commonElementProps = {
+  text: string;
+  link: string;
+};
 
-  let navElements = (
-    <>
-      <NavElement text="sign in" link="/signin"/>
-      <NavElement text="register" link="/register"/>
-    </>
-  );
+const commonElementsConnected: commonElementProps[] = [
+  {
+    text: 'register',
+    link: '/register',
+  },
+  {
+    text: 'sign in',
+    link: '/signin',
+  },
+];
 
-  if (props.connected) {
-    navElements = (
-      <>
-        <NavElement text="domains" link="/domains"/>
-        <NavElement text="profile" link="/profile"/>
-      </>
-    );
-  }
-
-  const menuClass = `items-center justify-between w-full md:flex md:w-auto ${
-    showMenu ? "" : "hidden"
-  }`;
+const commonElementsUnconnected: commonElementProps[] = [
+  {
+    text: 'domains',
+    link: '/domains',
+  },
+  {
+    text: 'profile',
+    link: '/profile',
+  },
+];
+export const Navbar: FC = () => {
+  const [show, setShow] = useState(false);
+  const connected = useIsAuth();
 
   return (
     <nav className="bg-eggshell fixed w-full z-20 top-0 left-0 shadow-md">
@@ -38,11 +42,11 @@ function Navbar(props: {connected : boolean}) {
         </Link>
         <div className="flex">
           <button
-            onClick={handleMenuClick}
+            onClick={() => setShow(!show)}
             type="button"
             className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
             aria-controls="navbar-sticky"
-            aria-expanded={showMenu}
+            aria-expanded={show}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -60,23 +64,22 @@ function Navbar(props: {connected : boolean}) {
             </svg>
           </button>
         </div>
-        <div className={menuClass} id="navbar-sticky">
+        <div
+          className={`items-center justify-between w-full md:flex md:w-auto ${show ? '' : 'hidden'}`}
+          id="navbar-sticky"
+        >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-eggshell gap-x-12">
-            <NavElement text="about" link="/about"/>
-            {navElements}
+            <Element text="about" link="/about" />
+            {connected
+              ? commonElementsUnconnected.map((element, id) => {
+                  return <Element key={id} {...element} />;
+                })
+              : commonElementsConnected.map((element, id) => {
+                  return <Element key={id} {...element} />;
+                })}
           </ul>
         </div>
       </div>
     </nav>
-);
-}
-
-Navbar.PropTypes = {
-  connected: PropTypes.bool,
-}
-
-Navbar.defaultProps = {
-  connected: false,
-}
-export default Navbar;
-
+  );
+};
