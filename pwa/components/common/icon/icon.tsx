@@ -1,7 +1,7 @@
 import React from "react";
-import {Box, Code, Cpu, Icon as FeatherIcon, Maximize2, Server} from "react-feather";
+import {Box, Code, Cpu, Icon as FeatherIcon, Maximize2, Plus, Server} from "react-feather";
 
-type AllowedIcons = 'box'|'server'|'code'|'extensible'|'performance' ;
+type AllowedIcons = 'box'|'server'|'code'|'extensible'|'performance'|'plus' ;
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -15,6 +15,8 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Maximize2;
     case 'performance':
       return Cpu
+    case 'plus':
+      return Plus;
   }
 }
 
