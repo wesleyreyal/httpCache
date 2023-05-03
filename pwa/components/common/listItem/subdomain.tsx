@@ -7,8 +7,9 @@ import {Button} from "../button";
 type subdomainProps = {
   zone: string;
   ip: string;
+  showPopup: (value: boolean) => void;
 }
-export const Subdomain: React.FC<subdomainProps> = ({zone, ip}) => {
+export const Subdomain: React.FC<subdomainProps> = ({zone, ip, showPopup}) => {
   const [change, setChange] = useState(false);
   const handleInputChange = (value: boolean) => {
     setChange(value);
@@ -23,9 +24,10 @@ export const Subdomain: React.FC<subdomainProps> = ({zone, ip}) => {
       <InputWithoutLabel defaultValue={zone} onChange={handleInputChange} />
       <InputWithoutLabel  defaultValue={ip} onChange={handleInputChange} />
       <EditConfiguration />
-      {change ? <Button text="save changes" onclick={handleButtonClick}/> : <div className="w-full flex justify-center">
-        <Icon name="trash" iconColor="red" size={32}/>
-      </div>}
+      {change ? <Button text="save changes" onclick={handleButtonClick} functionShowPopup={showPopup} addedClass="m-auto" /> :
+        <div className="w-full flex justify-center">
+          <Icon name="trash" iconColor="red" size={32}/>
+        </div>}
     </>
   )
 }

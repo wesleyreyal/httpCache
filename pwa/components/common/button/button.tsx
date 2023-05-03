@@ -1,23 +1,21 @@
-import React, {useState} from "react";
+import React from "react";
 
 type buttonProps = {
   text: string;
-  onclick: (value: boolean) => void;
+  onclick?: (value: boolean) => void;
+  functionShowPopup?: (value: boolean) => void;
+
+  wide?: boolean;
 }
 
-export const Button: React.FC<buttonProps> = ({text, onclick}) => { // Ajout de onclick
-  const [change, setChange] = useState(true);
-
-  const handleClick = () => { // Enlever l'argument event
-    setChange(false);
-    if (onclick) {
-      onclick(false);
-    }
-    console.log('aaaaaaaaaa');
+export const Button: React.FC<buttonProps> = ({text, onclick, functionShowPopup, wide}) => {
+  const handleClick = () => {
+    if (onclick) onclick(false);
+    if (functionShowPopup) functionShowPopup(true);
   };
 
   return (
-    <button className="btn bg-argentinian_blue rounded-sm text-white font-bold py-3 ml-4" onClick={handleClick}>{text}</button> // Utilisation de onClick
+    <button className={`btn bg-argentinian_blue rounded-sm text-white font-bold m-auto w-fit ${wide ? 'px-7 py-5' : 'p-3'}`} onClick={handleClick}>{text}</button>
   )
 }
 

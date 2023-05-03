@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Box,
+  Box, Check,
   ChevronDown,
   ChevronLeft,
   Code,
@@ -12,7 +12,7 @@ import {
   Trash2
 } from "react-feather";
 
-type AllowedIcons = 'box'|'server'|'code'|'extensible'|'performance'|'plus'|'arrow-down'|'arrow-left'|'trash' ;
+export type AllowedIcons = 'box'|'server'|'code'|'extensible'|'performance'|'plus'|'arrow-down'|'arrow-left'|'trash'|'check' ;
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -34,6 +34,8 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return ChevronLeft
     case 'trash':
       return Trash2
+    case 'check':
+      return Check;
   }
 }
 
