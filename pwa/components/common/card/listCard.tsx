@@ -36,7 +36,7 @@ const listCardProps: cardProps[] = [
 ];
 export const ListCard: React.FC = () => {
   return (
-    <div className="listCard  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-items-center gap-y-20">
+    <div className="listCard grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-items-center gap-y-20">
       {
         listCardProps.map((card, id) => <Card key={id} {...card} />
       )}

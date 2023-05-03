@@ -10,9 +10,7 @@ export const InputWithoutLabel: React.FC<inputProps> = ({defaultValue, onChange}
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setChange(true);
-      if (onChange) {
-        onChange(true);
-      }
+      onChange?.(true)
     };
 
   return (
