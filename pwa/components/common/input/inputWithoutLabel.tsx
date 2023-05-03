@@ -17,7 +17,7 @@ export const InputWithoutLabel: React.FC<inputProps> = ({defaultValue, onChange}
     <div className="form-control max-w-xs m-auto">
       <input
         type="text"
-        className="input input-bordered w-full rounded-lg border-2 border-argentinian_blue text-center"
+        className="input input-bordered w-full rounded-lg border-2 border-argentinian_blue p-1 text-center"
         defaultValue={defaultValue}
         onChange={handleChange}
       />

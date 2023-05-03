@@ -2,13 +2,15 @@ import React from "react";
 
 type titleProps = {
   title: string;
+
+  blueLine?: boolean;
 }
 
-export const Title: React.FC<titleProps> = ({title}) => {
+export const Title: React.FC<titleProps> = ({title, blueLine}) => {
   return (
-    <h1 className="title_yellow relative group text-5xl font-bold m-8">
+    <h1 className="title_yellow relative group text-5xl font-bold w-fit">
       {title}
-      <span className="absolute bottom-0.5 left-0 w-0 h-3 bg-yellow transition-all w-80 -z-10"></span>
+      <span className={`absolute bottom-0.5 left-0 h-3 inline-block w-full -z-10 ml-2 ${blueLine ? 'bg-argentinian_blue' : 'bg-yellow'}`}></span>
     </h1>
   );
 }

@@ -4,18 +4,25 @@ type buttonProps = {
   text: string;
   onclick?: (value: boolean) => void;
   functionShowPopup?: (value: boolean) => void;
-
   wide?: boolean;
+  empty?: boolean;
+  addedClass?: string;
 }
 
-export const Button: React.FC<buttonProps> = ({text, onclick, functionShowPopup, wide}) => {
+export const Button: React.FC<buttonProps> = ({text, onclick, functionShowPopup, wide, empty, addedClass}) => {
   const handleClick = () => {
     if (onclick) onclick(false);
     if (functionShowPopup) functionShowPopup(true);
   };
 
   return (
-    <button className={`btn bg-argentinian_blue rounded-sm text-white font-bold m-auto w-fit ${wide ? 'px-7 py-5' : 'p-3'}`} onClick={handleClick}>{text}</button>
+    <button className={`btn rounded-sm font-bold w-fit border-4 border-argentinian_blue
+      ${addedClass ? addedClass : ''}
+      ${wide ? 'px-9 py-2' : 'px-3 py-0 h-fit'}
+      ${empty ? 'bg-eggshell text-argentinian_blue' : 'bg-argentinian_blue text-white'}`}
+      onClick={handleClick}>
+      {text}
+    </button>
   )
 }
 
