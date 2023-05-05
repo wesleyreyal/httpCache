@@ -1,23 +1,25 @@
-import React, {useState} from "react";
+import React from 'react';
 
-type inputProps = {
-  placeholder: string;
-  labelText: string;
-  password?: boolean;
-  optional?: boolean;
-}
+type inputType = { label?: string; id?: string; optional?: boolean } & React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
-export const Input: React.FC<inputProps> = ({placeholder, labelText, password,optional}) => {
-  return (
-    <div className="form-control max-w-xs w-full m-auto font-medium">
-      <label>
-        {labelText} {optional ? '(optional)' : ''}
-        <input
-          type={password ? 'password' : 'text'}
-          className="input input-bordered w-full rounded-lg border-2 border-argentinian_blue p-2 placeholder:text-sm pl-4"
-          placeholder={placeholder}
-        />
+export const InputBaseWithoutLabel: React.FC<Omit<inputType, 'label'>> = (props) => <InputBase id="abcd" {...props} />;
+
+export const InputBase: React.FC<inputType> = ({ className = '', type = 'text', label, id, optional, ...input }) => (
+  <div className="form-control w-80">
+    {label && (
+      <label htmlFor={id}>
+        {label}
+        {optional && ' (optional)'}
       </label>
-    </div>
-  );
-}
+    )}
+    <input
+      type={type}
+      className={`input input-bordered w-full rounded-lg border-2 border-argentinian_blue p-1 pl-4 ${className}`}
+      id={id}
+      {...input}
+    />
+  </div>
+);
