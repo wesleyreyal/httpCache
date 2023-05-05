@@ -1,33 +1,24 @@
-import {InputWithoutLabel} from "../input";
-import {Icon} from "../icon";
-import React, {useState} from "react";
-import {EditConfiguration} from "./editConfiguration";
-import {Button} from "../button";
+import { InputBaseWithoutLabel } from '../input';
+import { Icon } from '../icon';
+import React from 'react';
+import { EditConfiguration } from './editConfiguration';
+import { Button } from '../button';
+import { usePushToast } from '../../../context/toastContext';
 
 type subdomainProps = {
   zone: string;
   ip: string;
-  showPopup: (value: boolean) => void;
-}
-export const Subdomain: React.FC<subdomainProps> = ({zone, ip, showPopup}) => {
-  const [change, setChange] = useState(false);
-  const handleInputChange = (value: boolean) => {
-    setChange(value);
-  };
-
-  const handleButtonClick = (value: boolean) => {
-    setChange(value);
-  };
+};
+export const Subdomain: React.FC<subdomainProps> = ({ zone, ip }) => {
+  const pushToast = usePushToast();
 
   return (
-    <>
-      <InputWithoutLabel defaultValue={zone} onChange={handleInputChange} />
-      <InputWithoutLabel  defaultValue={ip} onChange={handleInputChange} />
+    <div className="flex justify-around items-center max-w-screen-xl">
+      <InputBaseWithoutLabel defaultValue={zone} />
+      <InputBaseWithoutLabel defaultValue={ip} />
       <EditConfiguration />
-      {change ? <Button text="save changes" onclick={handleButtonClick} functionShowPopup={showPopup} addedClass="m-auto" /> :
-        <div className="w-full flex justify-center">
-          <Icon name="trash" iconColor="red" size={32}/>
-        </div>}
-    </>
-  )
-}
+      <Button text="save changes" onclick={() => pushToast({ text: 'Your changes blalblab', variant: 'success' })} />
+      <Icon name="trash" iconColor="red" size={32} />
+    </div>
+  );
+};

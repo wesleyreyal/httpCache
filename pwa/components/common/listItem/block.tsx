@@ -1,15 +1,18 @@
-import React from "react";
+import React, { PropsWithChildren } from 'react';
 
 type blockProps = {
-  children: React.ReactNode;
   className?: string;
-  shadow? : boolean;
-}
+  withShadow?: boolean;
+};
 
-export const Block: React.FC<blockProps> = ({children, className, shadow= true}) => {
+export const Block: React.FC<PropsWithChildren<blockProps>> = ({ children, className, withShadow = true }) => {
   return (
-    <div className={`listItem bg-eggshell w-full flex justify-center mb-3 max-w-screen-xl ${shadow ? 'drop-shadow-md' : ''} ${className}`}>
+    <div
+      className={`listItem bg-eggshell w-full flex justify-center mb-3 max-w-screen-xl ${
+        withShadow ? 'drop-shadow-md' : ''
+      } ${className}`}
+    >
       {children}
     </div>
-  )
-}
+  );
+};

@@ -1,15 +1,18 @@
-import {AllowedIcons, Icon} from "../icon";
-import React from "react";
+//import { AllowedIcons} from '../icon';
+import React from 'react';
+
+type AllowedVariantPopup = 'alert-success' | 'alert-danger' | 'alert-info' | 'alert-warning';
 
 type popupProps = {
-  iconName: AllowedIcons;
+  //iconName: AllowedIcons;
   text: string;
-  success: boolean;
-}
+  variant: AllowedVariantPopup;
+};
 
-export const Popup: React.FC<popupProps> = ({iconName, text, success}) => (
-  <div className={`${success ? 'border-green text-green' : 'border-red text-red'} absolute z-10 right-0 w-fit border-2 font-semibold text-xl gap-x-4 flex items-center p-4 rounded-xl bg-eggshell drop-shadow-md`}>
-    <Icon name={iconName} size={32} iconColor={success ? 'green' : 'red'} />
-    {text}
+export const Popup: React.FC<popupProps> = ({ text, variant }) => (
+  <div className={`alert ${variant}`}>
+    <div>
+      <span>{text}</span>
+    </div>
   </div>
-)
+);

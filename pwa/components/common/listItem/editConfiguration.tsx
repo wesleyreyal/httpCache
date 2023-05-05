@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react';
+import Link from 'next/link';
 
 export const EditConfiguration: React.FC = () => {
   return (
-    <div className="flex w-full justify-between">
-      <a href="" className="text-argentinian_blue">edit json</a>
-      <a href="" className="text-argentinian_blue">edit caddyfile</a>
-      <a href="" className="text-argentinian_blue">edit user-friendly</a>
-    </div>
-  )
-}
+    <Link href="" className="text-argentinian_blue">
+      edit configuration
+    </Link>
+  );
+};
