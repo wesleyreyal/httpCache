@@ -1,6 +1,7 @@
-import React from "react";
+import React from 'react';
 import {
-  Box, Check,
+  Box,
+  Check,
   ChevronDown,
   ChevronLeft,
   Code,
@@ -9,10 +10,20 @@ import {
   Maximize2,
   Plus,
   Server,
-  Trash2
-} from "react-feather";
+  Trash2,
+} from 'react-feather';
 
-export type AllowedIcons = 'box'|'server'|'code'|'extensible'|'performance'|'plus'|'arrow-down'|'arrow-left'|'trash'|'check' ;
+export type AllowedIcons =
+  | 'box'
+  | 'server'
+  | 'code'
+  | 'extensible'
+  | 'performance'
+  | 'plus'
+  | 'arrow-down'
+  | 'arrow-left'
+  | 'trash'
+  | 'check';
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -25,15 +36,15 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
     case 'extensible':
       return Maximize2;
     case 'performance':
-      return Cpu
+      return Cpu;
     case 'plus':
       return Plus;
     case 'arrow-down':
-      return ChevronDown
+      return ChevronDown;
     case 'arrow-left':
-      return ChevronLeft
+      return ChevronLeft;
     case 'trash':
-      return Trash2
+      return Trash2;
     case 'check':
       return Check;
   }
@@ -44,12 +55,12 @@ type iconProps = {
   iconColor?: string;
   size?: number;
   addedClass?: string;
-}
+};
 
-export const Icon: React.FC<iconProps> = ({name, iconColor, size, addedClass}) => {
+export const Icon: React.FC<iconProps> = ({ name, iconColor, size, addedClass }) => {
   const InternalIcon = mapIcon(name);
   if (!InternalIcon) {
     return null;
   }
-  return <InternalIcon size={size != undefined ? size : 48} color={iconColor} className={addedClass} />;
+  return <InternalIcon size={size ? size : 48} color={iconColor} className={addedClass} />;
 };

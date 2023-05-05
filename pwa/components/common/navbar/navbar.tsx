@@ -19,7 +19,7 @@ const commonElementsConnected: commonElementProps[] = [
   },
 ];
 
-const commonElementsUnconnected: commonElementProps[] = [
+const commonElementsDisconnected: commonElementProps[] = [
   {
     text: 'domains',
     link: '/domains',
@@ -70,13 +70,8 @@ export const Navbar: FC = () => {
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-eggshell gap-x-12">
             <Element text="about" link="/about" />
-            {connected
-              ? commonElementsUnconnected.map((element, id) => {
-                  return <Element key={id} {...element} />;
-                })
-              : commonElementsConnected.map((element, id) => {
-                  return <Element key={id} {...element} />;
-                })}
+            {(connected && commonElementsDisconnected.map((element, id) => <Element key={id} {...element} />)) ||
+              commonElementsConnected.map((element, id) => <Element key={id} {...element} />)}
           </ul>
         </div>
       </div>
