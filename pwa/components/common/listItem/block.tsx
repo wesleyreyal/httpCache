@@ -5,14 +5,12 @@ type blockProps = {
   withShadow?: boolean;
 };
 
-export const Block: React.FC<PropsWithChildren<blockProps>> = ({ children, className, withShadow = true }) => {
-  return (
-    <div
-      className={`listItem bg-eggshell w-full flex justify-center mb-3 max-w-screen-xl ${
-        withShadow ? 'drop-shadow-md' : ''
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
-};
+export const Block: React.FC<PropsWithChildren<blockProps>> = ({ children, className, withShadow = true }) => (
+  <div
+    className={`listItem bg-eggshell w-full flex justify-center mb-3 max-w-screen-xl ${
+      withShadow ? 'drop-shadow-md' : ''
+    } ${className}`}
+  >
+    {children}
+  </div>
+);

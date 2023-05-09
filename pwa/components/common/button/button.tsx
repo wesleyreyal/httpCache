@@ -49,14 +49,12 @@ export const BaseButton: React.FC<buttonType> = ({
   type = 'button',
   className = '',
   onclick,
-}) => {
-  return (
-    <button
-      type={type}
-      className={`btn rounded-sm font-bold ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
-      onClick={onclick}
-    >
-      {text}
-    </button>
-  );
-};
+}) => (
+  <button
+    type={type}
+    className={`btn rounded-sm font-bold ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
+    onClick={onclick}
+  >
+    {text}
+  </button>
+);

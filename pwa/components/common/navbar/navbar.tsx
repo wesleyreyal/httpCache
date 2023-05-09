@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import Element from './element';
+import { Element } from './element';
 import Link from 'next/link';
 import { useIsAuth } from '../../../context';
 
