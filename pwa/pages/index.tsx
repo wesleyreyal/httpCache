@@ -1,5 +1,6 @@
 import React from 'react';
-import { EditForm, EditFormType } from '../components/common/form';
+import { EditForm, EditFormType, Register, Signin } from '../components/common/form';
+import { CollapseBlock, subdomainProps } from '../components/common/listItem/';
 
 const editFormFields: EditFormType[] = [
   {
@@ -20,5 +21,33 @@ const editFormFields: EditFormType[] = [
     placeholder: 'vinvin corp',
   },
 ];
-const Welcome = () => <EditForm fields={editFormFields} />;
+
+const config: subdomainProps[] = [
+  {
+    ip: '127.0.0.1',
+    zone: 'www',
+  },
+  {
+    ip: '127.0.0.1',
+    zone: 'www',
+  },
+  {
+    ip: '127.0.0.1',
+    zone: 'www',
+  },
+  {
+    ip: '127.0.0.1',
+    zone: 'www',
+  },
+];
+const Welcome = () => {
+  return (
+    <>
+      <Signin />
+      <Register />
+      <EditForm fields={editFormFields} />
+      <CollapseBlock number={1} name="google.com" configurations={config} />
+    </>
+  );
+};
 export default Welcome;

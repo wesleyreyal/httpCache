@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../button';
+import { BaseButton } from '../button';
 import { Title } from '../text';
 import { EditFormItem } from './editFormItem';
 
@@ -28,8 +28,8 @@ export const EditForm: React.FC<EditFormProps> = ({ fields }) => (
     <EditFormItem label="confirm password" type="password" placeholder="mynewsecretpassword" />
 
     <div className="w-full flex justify-between mt-6">
-      <Button text="cancel" wide empty />
-      <Button text="save changes" className="" wide />
+      <BaseButton text="cancel" wide outlined />
+      <BaseButton text="save changes" className="" wide />
     </div>
   </form>
 );
