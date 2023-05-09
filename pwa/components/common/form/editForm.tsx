@@ -11,7 +11,7 @@ export type EditFormType = {
 };
 
 type EditFormProps = {
-  fields: EditFormType[];
+  fields: ReadonlyArray<EditFormType>;
 };
 
 export const EditForm: React.FC<EditFormProps> = ({ fields }) => (

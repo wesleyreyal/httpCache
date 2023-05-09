@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Subdomain } from './subdomain';
+import { BlurBlock } from "../form";
+import { BaseButton } from "../button";
 
 type collapseBlockProps = {
   number: number;
   name: string;
-  configurations: subdomain[];
+  configurations: ReadonlyArray<subdomain>;
 };
 
 type subdomain = {
@@ -26,7 +28,7 @@ export const CollapseBlock: React.FC<collapseBlockProps> = ({ number, name, conf
         <span>{name}</span>
         <span>{configurations.length}</span>
       </div>
-      <div className="collapse-content flex flex-col justify-around gap-y-4 mt-4">
+      <div className="collapse-content flex flex-col justify-around gap-y-4 mt-4 items-center">
         {configurations.map((subdomain, idx) => (
           <Subdomain key={idx} {...subdomain} />
         ))}
