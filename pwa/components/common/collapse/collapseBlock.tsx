@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Subdomain } from './subdomain';
-import { BlurBlock } from "../form";
-import { BaseButton } from "../button";
 
 type collapseBlockProps = {
   number: number;

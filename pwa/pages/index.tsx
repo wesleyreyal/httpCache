@@ -1,6 +1,6 @@
 import React from 'react';
-import { EditForm, EditFormType, Register, Signin } from '../components/common/form';
-import { CollapseBlock, subdomainProps } from '../components/common/listItem/';
+import { EditInformation, EditFormType, Register, Signin } from '../components/common/form';
+import { CollapseBlock, subdomainProps } from '../components/common/collapse/';
 
 const editFormFields: EditFormType[] = [
   {
@@ -46,7 +46,7 @@ const Welcome = () => {
       <Signin />
       <CollapseBlock number={1} name="google.com" configurations={config} />
       <Register />
-      <EditForm fields={editFormFields} />
+      <EditInformation fields={editFormFields} />
     </>
   );
 };

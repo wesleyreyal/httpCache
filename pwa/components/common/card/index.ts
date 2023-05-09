@@ -1,1 +1,1 @@
-export { ListCard } from './listCard';
+export { List } from './list';

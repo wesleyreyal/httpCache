@@ -55,7 +55,7 @@ type iconProps = {
   iconColor?: string;
   size?: number;
   addedClass?: string;
-  onclick: () => void;
+  onclick?: () => void;
 };
 
 export const Icon: React.FC<iconProps> = ({ name, iconColor, size, addedClass, onclick }) => {
