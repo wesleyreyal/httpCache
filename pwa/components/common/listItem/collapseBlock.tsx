@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Subdomain } from './subdomain';
 
-type domainBlockProps = {
+type collapseBlockProps = {
   number: number;
   name: string;
   configurations: subdomain[];
@@ -12,7 +12,7 @@ type subdomain = {
   ip: string;
 };
 
-export const CollapseBlock: React.FC<domainBlockProps> = ({ number, name, configurations }) => {
+export const CollapseBlock: React.FC<collapseBlockProps> = ({ number, name, configurations }) => {
   const [open, setOpen] = useState(false);
 
   return (

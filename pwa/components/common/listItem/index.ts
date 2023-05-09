@@ -1,4 +1,4 @@
 export * from './addBlock';
-export * from './domainBlock';
+export * from './collapseBlock';
 export * from './subdomain';
 export * from './editBlock';
