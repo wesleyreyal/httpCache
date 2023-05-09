@@ -55,12 +55,13 @@ type iconProps = {
   iconColor?: string;
   size?: number;
   addedClass?: string;
+  onclick: () => void;
 };
 
-export const Icon: React.FC<iconProps> = ({ name, iconColor, size, addedClass }) => {
+export const Icon: React.FC<iconProps> = ({ name, iconColor, size, addedClass, onclick }) => {
   const InternalIcon = mapIcon(name);
   if (!InternalIcon) {
     return null;
   }
-  return <InternalIcon size={size ? size : 48} color={iconColor} className={addedClass} />;
+  return <InternalIcon size={size ? size : 48} color={iconColor} className={addedClass} onClick={onclick} />;
 };
