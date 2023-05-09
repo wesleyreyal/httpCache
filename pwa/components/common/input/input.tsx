@@ -20,7 +20,7 @@ export const InputBase: React.FC<inputType> = ({
 }) => (
   <div className={`form-control items-center w-80 ${className}`}>
     {label && (
-      <label htmlFor={id}>
+      <label htmlFor={id} className="self-start">
         {label}
         {optional && ' (optional)'}
       </label>
