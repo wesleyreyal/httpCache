@@ -1,8 +1,6 @@
 import React from 'react';
-
-type variant = 'info' | 'warning';
-
-type additionalTypes = { outlined?: boolean; text: string; variant?: variant; wide?: boolean; onclick?: () => void };
+import { AllowedVariant } from '../../../types';
+type additionalTypes = { outlined?: boolean; text: string; variant?: AllowedVariant; wide?: boolean };
 type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
@@ -11,7 +9,7 @@ export const OutlinedButton: React.FC<buttonType> = (props) => (
 );
 
 export const computeClassFromProps = ({ variant, outlined, wide }: Omit<additionalTypes, 'text'>): string => {
-  let classes = 'btn rounded-md font-bold ';
+  let classes = '';
   if (wide) {
     classes += 'px-9 py-2 ';
   } else {
@@ -22,19 +20,21 @@ export const computeClassFromProps = ({ variant, outlined, wide }: Omit<addition
     classes += 'bg-eggshell border-4 ';
     switch (variant) {
       case 'info':
-        classes += 'border-argentinian_blue text-argentinian_blue bg-eggshell ';
+        classes +=
+          'border-argentinian_blue text-argentinian_blue bg-eggshell hover:bg-argentinian_blue hover:border-argentinian_blue hover:text-eggshell';
         break;
       case 'warning':
-        classes += 'border-red text-red bg-eggshell ';
+        classes += 'border-red text-red bg-eggshell hover:bg-red hover:border-red hover:text-white';
         break;
     }
   } else {
+    classes += 'hover:bg-eggshell hover:border-eggshell';
     switch (variant) {
       case 'info':
-        classes += ' bg-argentinian_blue border-argentinian_blue';
+        classes += ' bg-argentinian_blue border-argentinian_blue hover:text-argentinian_blue ';
         break;
       case 'warning':
-        classes += ' bg-red border-red';
+        classes += ' bg-red border-red hover:text-red';
         break;
     }
   }
@@ -48,12 +48,12 @@ export const BaseButton: React.FC<buttonType> = ({
   text,
   type = 'button',
   className = '',
-  onclick,
+  ...props
 }) => (
   <button
     type={type}
     className={`btn rounded-sm font-bold ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
-    onClick={onclick}
+    {...props}
   >
     {text}
   </button>
