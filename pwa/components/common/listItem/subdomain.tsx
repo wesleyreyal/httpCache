@@ -1,9 +1,10 @@
 import { InputBaseWithoutLabel } from '../input';
 import { Icon } from '../icon';
-import React from 'react';
+import React, { useState } from 'react';
 import { EditConfiguration } from './editConfiguration';
 import { BaseButton } from '../button';
 import { usePushToast } from '../../../context';
+import { BlurBlock } from '../form';
 
 export type subdomainProps = {
   zone: string;
@@ -11,17 +12,27 @@ export type subdomainProps = {
 };
 export const Subdomain: React.FC<subdomainProps> = ({ zone, ip }) => {
   const pushToast = usePushToast();
+  const [validationPopup, setValidationPopup] = useState(false);
 
   return (
-    <div className="flex justify-around items-center max-w-screen-xl">
+    <div className="flex justify-around items-center max-w-screen-xl w-full">
       <InputBaseWithoutLabel defaultValue={zone} />
       <InputBaseWithoutLabel defaultValue={ip} />
       <EditConfiguration />
       <BaseButton
         text="save changes"
-        onclick={() => pushToast({ text: 'Your changes blalblab', variant: 'success' })}
+        onClick={() => pushToast({ text: 'Your changes blalblab', variant: 'success' })}
       />
-      <Icon name="trash" iconColor="red" size={32} />
+      <Icon name="trash" iconColor="red" size={32} onclick={() => setValidationPopup(true)} />
+      {validationPopup && (
+        <BlurBlock className="absolute w-screen left-0 top-2 h-full flex flex-col items-center justify-center gap-y-20">
+          <h1 className="text-2xl font-bold">Are you sure you want to delete this domain ?</h1>
+          <div className="flex gap-x-80">
+            <BaseButton text="cancel" variant="warning" outlined wide onClick={() => setValidationPopup(false)} />
+            <BaseButton text="Delete" variant="warning" wide />
+          </div>
+        </BlurBlock>
+      )}
     </div>
   );
 };

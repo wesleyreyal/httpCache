@@ -44,9 +44,9 @@ const Welcome = () => {
   return (
     <>
       <Signin />
+      <CollapseBlock number={1} name="google.com" configurations={config} />
       <Register />
       <EditForm fields={editFormFields} />
-      <CollapseBlock number={1} name="google.com" configurations={config} />
     </>
   );
 };
