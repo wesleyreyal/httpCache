@@ -7,6 +7,7 @@ import {
   Code,
   Cpu,
   Icon as FeatherIcon,
+  MapPin,
   Maximize2,
   Plus,
   Server,
@@ -23,7 +24,8 @@ export type AllowedIcons =
   | 'arrow-down'
   | 'arrow-left'
   | 'trash'
-  | 'check';
+  | 'check'
+  | 'pin';
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -47,6 +49,8 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Trash2;
     case 'check':
       return Check;
+    case 'pin':
+      return MapPin;
   }
 }
 

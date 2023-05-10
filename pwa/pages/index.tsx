@@ -1,7 +1,7 @@
 import React from 'react';
-import { EditFormType, EditInformation, Register, Signin } from '../components/common/form';
-import { CollapseBlock, subdomainProps } from '../components/common/collapse/';
-import { Tabbar } from '../components/common/tab';
+import { EditFormType } from '../components/common/form';
+import { subdomainProps } from '../components/common/collapse/';
+import { Footer } from '../components/common/footer';
 
 const editFormFields: EditFormType[] = [
   {
@@ -46,11 +46,7 @@ const tabsName = ['json', 'caddyfile', 'user-friendly'];
 const Welcome = () => {
   return (
     <>
-      <Tabbar tabsName={tabsName} />
-      <Signin />
-      <CollapseBlock number={1} name="google.com" configurations={config} />
-      <Register />
-      <EditInformation fields={editFormFields} />
+      <Footer />
     </>
   );
 };
