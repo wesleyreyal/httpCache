@@ -1,6 +1,7 @@
 import React from 'react';
-import { EditInformation, EditFormType, Register, Signin } from '../components/common/form';
+import { EditFormType, EditInformation, Register, Signin } from '../components/common/form';
 import { CollapseBlock, subdomainProps } from '../components/common/collapse/';
+import { Tabbar } from '../components/common/tab';
 
 const editFormFields: EditFormType[] = [
   {
@@ -40,9 +41,12 @@ const config: subdomainProps[] = [
     zone: 'www',
   },
 ];
+
+const tabsName = ['json', 'caddyfile', 'user-friendly'];
 const Welcome = () => {
   return (
     <>
+      <Tabbar tabsName={tabsName} />
       <Signin />
       <CollapseBlock number={1} name="google.com" configurations={config} />
       <Register />
