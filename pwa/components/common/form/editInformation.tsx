@@ -16,7 +16,7 @@ type EditFormProps = {
 
 export const EditInformation: React.FC<EditFormProps> = ({ fields }) => (
   <form action="" method="post" className="w-full flex flex-col max-w-lg gap-y-6 items-center">
-    <Title title="My account" blueLine />
+    <Title title="My account" />
     {fields.map((field, idx) => (
       <EditItem {...field} key={idx} />
     ))}

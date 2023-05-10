@@ -4,6 +4,6 @@ import { Icon } from '../icon';
 
 export const AddBlock: React.FC = () => (
   <Block>
-    <Icon name="plus" size={42} />
+    <Icon name="plus" size={40} />
   </Block>
 );

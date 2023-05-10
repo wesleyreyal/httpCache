@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlurBlock } from './blurBlock';
+import { BlurBlock } from '../block';
 import { Title } from '../text';
 import { BaseButton } from '../button';
 import { InputBase } from '../input';

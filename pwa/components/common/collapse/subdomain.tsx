@@ -28,8 +28,8 @@ export const Subdomain: React.FC<subdomainProps> = ({ zone, ip }) => {
         <BlurBlock className="absolute w-screen left-0 top-2 h-full flex flex-col items-center justify-center gap-y-20">
           <h1 className="text-2xl font-bold">Are you sure you want to delete this domain ?</h1>
           <div className="flex gap-x-80">
-            <BaseButton text="cancel" variant="warning" outlined wide onClick={() => setValidationPopup(false)} />
-            <BaseButton text="Delete" variant="warning" wide />
+            <BaseButton text="cancel" variant="danger" outlined wide onClick={() => setValidationPopup(false)} />
+            <BaseButton text="Delete" variant="danger" wide />
           </div>
         </BlurBlock>
       )}

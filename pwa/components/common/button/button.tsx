@@ -1,5 +1,6 @@
 import React from 'react';
 import { AllowedVariant } from '../../../types';
+
 type additionalTypes = { outlined?: boolean; text: string; variant?: AllowedVariant; wide?: boolean };
 type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
@@ -23,7 +24,7 @@ export const computeClassFromProps = ({ variant, outlined, wide }: Omit<addition
         classes +=
           'border-argentinian_blue text-argentinian_blue bg-eggshell hover:bg-argentinian_blue hover:border-argentinian_blue hover:text-eggshell';
         break;
-      case 'warning':
+      case 'danger':
         classes += 'border-red text-red bg-eggshell hover:bg-red hover:border-red hover:text-white';
         break;
     }
@@ -33,7 +34,7 @@ export const computeClassFromProps = ({ variant, outlined, wide }: Omit<addition
       case 'info':
         classes += ' bg-argentinian_blue border-argentinian_blue hover:text-argentinian_blue ';
         break;
-      case 'warning':
+      case 'danger':
         classes += ' bg-red border-red hover:text-red';
         break;
     }

@@ -19,9 +19,6 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({ children }) =
       value={(toast) => {
         setToastList([...toastList, toast]);
         setTimeout(() => {
-          setToastList((prevToastList) => prevToastList.slice(1));
-        }, 3000);
-        setTimeout(() => {
           setToastList([...toastList.slice(1)]);
         }, 3000);
       }}
