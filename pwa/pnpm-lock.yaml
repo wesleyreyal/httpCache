@@ -43,6 +43,9 @@ dependencies:
   react-feather:
     specifier: ^2.0.10
     version: 2.0.10(react@18.2.0)
+  react-monaco-editor:
+    specifier: ^0.52.0
+    version: 0.52.0(@types/react@18.2.0)(monaco-editor@0.36.1)(react@18.2.0)
   react-query:
     specifier: ^3.39.3
     version: 3.39.3(react-dom@18.2.0)(react@18.2.0)
@@ -4008,6 +4011,10 @@ packages:
       is-extendable: 1.0.1
     dev: true
 
+  /monaco-editor@0.36.1:
+    resolution: {integrity: sha512-/CaclMHKQ3A6rnzBzOADfwdSJ25BFoFT0Emxsc4zYVyav5SkK9iA6lEtIeuN/oRYbwPgviJT+t3l+sjFa28jYg==}
+    dev: false
+
   /ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: true
@@ -4842,6 +4849,19 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-monaco-editor@0.52.0(@types/react@18.2.0)(monaco-editor@0.36.1)(react@18.2.0):
+    resolution: {integrity: sha512-jhQSekf2JABbcpN45gKZlWfTS0QcBOZAbAWKGyfqy/KEcMXTwJpCOYGcn2Ur11SUUxWJUzhKjE2fx9BGBc5S8g==}
+    peerDependencies:
+      '@types/react': '>=16 <= 18'
+      monaco-editor: ^0.36.1
+      react: '>=16 <= 18'
+    dependencies:
+      '@types/react': 18.2.0
+      monaco-editor: 0.36.1
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-query@3.39.3(react-dom@18.2.0)(react@18.2.0):
