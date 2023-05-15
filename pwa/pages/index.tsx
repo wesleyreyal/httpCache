@@ -1,53 +1,11 @@
 import React from 'react';
-import { EditFormType } from '../components/common/form';
-import { subdomainProps } from '../components/common/collapse/';
-import { Footer } from '../components/common/footer';
+import { AccountInformation } from '../components/common/form';
 
-const editFormFields: EditFormType[] = [
-  {
-    label: 'firstname',
-    value: 'John',
-  },
-  {
-    label: 'lastname',
-    value: 'doe',
-  },
-  {
-    label: 'mail',
-    value: 'johndoe@example.com',
-    type: 'email',
-  },
-  {
-    label: 'company',
-    placeholder: 'vinvin corp',
-  },
-];
-
-const config: subdomainProps[] = [
-  {
-    ip: '127.0.0.1',
-    zone: 'www',
-  },
-  {
-    ip: '127.0.0.1',
-    zone: 'www',
-  },
-  {
-    ip: '127.0.0.1',
-    zone: 'www',
-  },
-  {
-    ip: '127.0.0.1',
-    zone: 'www',
-  },
-];
-
-const tabsName = ['json', 'caddyfile', 'user-friendly'];
 const Welcome = () => {
   return (
-    <>
-      <Footer />
-    </>
+    <div className="w-full flex">
+      <AccountInformation />
+    </div>
   );
 };
 export default Welcome;

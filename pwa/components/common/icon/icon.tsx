@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AlertOctagon,
   Box,
   Check,
   ChevronDown,
@@ -25,7 +26,8 @@ export type AllowedIcons =
   | 'arrow-left'
   | 'trash'
   | 'check'
-  | 'pin';
+  | 'pin'
+  | 'alert';
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -51,6 +53,8 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Check;
     case 'pin':
       return MapPin;
+    case 'alert':
+      return AlertOctagon;
   }
 }
 

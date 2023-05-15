@@ -9,16 +9,33 @@ export type AccountInformationType = {
   placeholder?: string;
 };
 
-type AccountInformationProps = {
-  fields: ReadonlyArray<AccountInformationType>;
-};
+const fields = [
+  {
+    label: 'firstname',
+    placeholder: 'firstname',
+    variant: 'danger',
+  },
+  {
+    label: 'firstname',
+    value: 'wesley',
+    variant: 'success',
+  },
+  {
+    label: 'firstname',
+    value: 'wesley',
+  },
+  {
+    label: 'firstname',
+    value: 'wesley',
+  },
+];
 
 const button = {
   text: 'save changes',
   wide: true,
 };
 
-export const AccountInformation: React.FC<AccountInformationProps> = ({ fields }) => (
+export const AccountInformation: React.FC = () => (
   <Form buttonProps={button} title="My account">
     {fields.map((field, idx) => (
       <InlineInput {...field} key={idx} />

@@ -8,8 +8,8 @@ type editFormItemType = {
   placeholder?: string;
 };
 export const InlineInput: React.FC<editFormItemType> = ({ value, label, ...props }) => (
-  <div className="flex justify-between items-center w-full gap-x-6">
-    <div className="text-xl">{label}</div>
+  <div className="flex justify-between w-full gap-x-6">
+    <div className="text-xl pt-2">{label}</div>
     <InputBase defaultValue={value} {...props} />
   </div>
 );
