@@ -1,16 +1,33 @@
 import React from 'react';
-import { BlurBlock } from '../block';
-import { Title } from '../text';
-import { InputBase } from '../input';
-import { BaseButton } from '../button';
+import { AuthenticationForm } from './forms';
+
+const inputs = [
+  {
+    placeholder: 'johndoe@example.com',
+    label: 'mail',
+    type: 'email',
+  },
+  {
+    placeholder: 'mysecretpassword',
+    label: 'password',
+    type: 'password',
+  },
+];
+
+const button = { text: 'signin', wide: true };
+
+const redirection = {
+  text: 'Don’t have an account ? ',
+  highlightText: 'Register here',
+  redirectionLink: '/register',
+};
 
 export const Signin: React.FC = () => (
-  <BlurBlock>
-    <form action="" className="pt-10 px-16 pb-12  flex justify-center items-center flex-col gap-y-6">
-      <Title title="Sign in" />
-      <InputBase placeholder="johndoe@example.com" label="mail" type="email" />
-      <InputBase placeholder="mysecretpassword" label="password" type="password" />
-      <BaseButton text="sign in" wide />
-    </form>
-  </BlurBlock>
+  <AuthenticationForm
+    title="Sign in"
+    action=""
+    inputs={inputs}
+    buttonProps={button}
+    redirectionInformation={redirection}
+  />
 );
