@@ -1,6 +1,6 @@
-import { Card, cardProps } from './card';
+import { Card, cardProps } from '../common/card';
 import React from 'react';
-import { Icon } from '../icon';
+import { Icon } from '../common/icon';
 
 const listCardProps: React.PropsWithChildren<cardProps>[] = [
   {
@@ -34,7 +34,7 @@ const listCardProps: React.PropsWithChildren<cardProps>[] = [
     text: 'textCard6',
   },
 ];
-export const List: React.FC = () => {
+export const CardList: React.FC = () => {
   return (
     <div className="listCard grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-items-center gap-y-20">
       {listCardProps.map((card, id) => (

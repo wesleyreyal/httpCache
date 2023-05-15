@@ -2,7 +2,7 @@ import React from 'react';
 import { AllowedVariant } from '../../../types';
 
 type additionalTypes = { outlined?: boolean; text: string; variant?: AllowedVariant; wide?: boolean };
-type buttonType = additionalTypes &
+export type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 export const OutlinedButton: React.FC<buttonType> = (props) => (
@@ -53,7 +53,7 @@ export const BaseButton: React.FC<buttonType> = ({
 }) => (
   <button
     type={type}
-    className={`btn rounded-sm font-bold ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
+    className={`btn rounded-sm font-bold w-fit ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
     {...props}
   >
     {text}

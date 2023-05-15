@@ -1,6 +1,6 @@
 import React from 'react';
-import { Icon } from '../icon';
 import Link from 'next/link';
+import { Icon } from '../../common/icon';
 
 export const Footer: React.FC = () => (
   <footer className="footer py-4 px-10 f-fit items-center md:h-20">

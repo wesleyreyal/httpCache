@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Subdomain } from './subdomain';
+import { Subdomain } from './subdomain/subdomain';
 
 type collapseBlockProps = {
   number: number;

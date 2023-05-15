@@ -16,3 +16,5 @@ export const Popup: React.FC<popupProps> = ({ text, variant }) => (
     </div>
   </div>
 );
+
+export default Popup;
