@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { BaseButton } from '../button';
+import { Textarea } from '../input';
 
 type jsonSchemaEditorType = {
   json: object;
@@ -50,7 +51,7 @@ export const JsonEditor: React.FC<jsonSchemaEditorType> = ({ json }) => {
           onAdd={() => true}
         />
       ) : (
-        <textarea onChange={handleJsonChange} className="w-full h-96" defaultValue={text} />
+        <Textarea text={text} onChange={handleJsonChange} />
       )}
     </>
   );

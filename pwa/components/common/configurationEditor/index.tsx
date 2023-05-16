@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Tabbar } from '../tab';
 import { JsonEditor } from '../editor';
+import { Textarea } from '../input';
 
 type configurationEditorType = {
   json: object;
+  caddy: string;
 };
-export const ConfigurationEditor: React.FC<configurationEditorType> = ({ json }) => {
+export const ConfigurationEditor: React.FC<configurationEditorType> = ({ json, caddy }) => {
   const [focusedTab, setFocusedTab] = useState(0);
   const [editor, setEditor] = useState(<div></div>);
 
@@ -15,17 +17,14 @@ export const ConfigurationEditor: React.FC<configurationEditorType> = ({ json })
         setEditor(<JsonEditor json={json} />);
         break;
       case 1:
-        //TODO replace with caddyfile editor
-        setEditor(<div>caddyfile editor</div>);
+        setEditor(<Textarea text={caddy} />);
         break;
       case 2:
         //TODO replace with user-friendly editor
         setEditor(<div>user-friendly editor</div>);
         break;
     }
-  }, [focusedTab, json]);
-
-  console.log(editor);
+  }, [caddy, focusedTab, json]);
 
   return (
     <div className="w-full px-10">
@@ -34,7 +33,9 @@ export const ConfigurationEditor: React.FC<configurationEditorType> = ({ json })
         className="ml-12"
         handleClick={(id) => setFocusedTab(id)}
       />
-      <div className="w-full relative p-2">{editor}</div>
+      <div className="w-full relative">{editor}</div>
     </div>
   );
 };
+
+export default ConfigurationEditor;
