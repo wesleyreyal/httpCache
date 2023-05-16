@@ -11,7 +11,7 @@ export const Tab: React.FC<tabProps> = ({ text, handleClick, className }) => {
   return (
     <Link
       href=""
-      className={`tab tab-lifted ${className}`}
+      className={`tab tab-lg tab-lifted ${className}`}
       onClick={() => {
         handleClick();
       }}
