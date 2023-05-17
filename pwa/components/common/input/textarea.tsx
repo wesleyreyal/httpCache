@@ -6,7 +6,7 @@ type textAreaType = {
 export const Textarea: React.FC<textAreaType> = ({ text, ...props }) => {
   return (
     <textarea
-      className="w-full h-96 border-1 border-neutral-400 border-opacity-30 rounded-md  "
+      className="textarea w-full h-96 border-1 border-neutral-400 border-opacity-30 rounded-md  "
       defaultValue={text}
       {...props}
     />
