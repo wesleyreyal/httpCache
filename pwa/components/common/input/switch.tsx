@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 type switchProps = {
   defaultChecked?: boolean;
-  onChange?: (value: boolean) => void;
 };
 
 export const Switch: React.FC<switchProps> = ({ defaultChecked = false }) => {
   const [checked, setChecked] = useState(defaultChecked);
+
   return (
     <input
       type="checkbox"
