@@ -5,6 +5,7 @@ import {
   Check,
   ChevronDown,
   ChevronLeft,
+  ChevronUp,
   Code,
   Cpu,
   Icon as FeatherIcon,
@@ -19,6 +20,9 @@ export type AllowedIcons =
   | 'box'
   | 'server'
   | 'code'
+  | 'code'
+  | 'chevron-down'
+  | 'chevron-up'
   | 'extensible'
   | 'performance'
   | 'plus'
@@ -37,6 +41,10 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Server;
     case 'code':
       return Code;
+    case 'chevron-down':
+      return ChevronDown;
+    case 'chevron-up':
+      return ChevronUp;
     case 'extensible':
       return Maximize2;
     case 'performance':

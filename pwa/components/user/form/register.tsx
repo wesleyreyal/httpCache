@@ -1,5 +1,6 @@
 import React from 'react';
-import { AuthenticationForm } from './forms';
+import { Form } from '../../common/form/forms';
+import { buttonType } from '../../common/button';
 
 const inputs = [
   {
@@ -35,17 +36,20 @@ const inputs = [
   },
 ];
 
-const button = {
+const button: buttonType = {
   text: 'register',
+  variant: 'success',
   wide: true,
 };
 
 const redirection = {
-  text: 'Already have an account ? ',
+  text: 'Already have an account?',
   highlightText: 'Signin here',
   redirectionLink: '/signin',
 };
 
-export const Register: React.FC = () => (
-  <AuthenticationForm title="Register" inputs={inputs} buttonProps={button} redirectionInformation={redirection} />
+const Register = () => (
+  <Form title="Register" inputs={inputs} buttonProps={button} redirectionInformation={redirection} />
 );
+
+export default Register;

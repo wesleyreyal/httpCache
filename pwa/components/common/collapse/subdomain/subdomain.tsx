@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { EditConfiguration } from './editConfiguration';
 import { BaseButton } from '../../button';
 import { usePushToast } from '../../../../context';
-import { Blur } from '../../block/blur';
+import { Blur } from '../../block';
 
 export type subdomainProps = {
   zone: string;

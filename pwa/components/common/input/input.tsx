@@ -62,10 +62,11 @@ export const InputBase: React.FC<inputType> = ({
       {label && (
         <label htmlFor={id} className={`self-start ${variantProps.textColor}`}>
           {label}
-          {optional && ' (optional)'}
+          {optional ? ' (optional)' : ' *'}
         </label>
       )}
       <input
+        required={!optional}
         type={type}
         className={`input input-bordered w-full rounded-lg border-2 p-1 px-4 ${inputClassName} ${variantProps.inputBorderColor}`}
         id={id}

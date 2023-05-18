@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { Title } from '../text';
-import { Blur } from '../block/blur';
+import { Blur } from '../block';
 import { InputBase, inputType } from '../input';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import { BaseButton, buttonType } from '../button';
 
 type redirectionType = {
@@ -17,6 +17,7 @@ type additionalTypes = {
   inputs?: ReadonlyArray<inputType>;
   buttonProps: buttonType;
   redirectionInformation?: redirectionType;
+  links?: LinkProps[];
 };
 
 type formType = additionalTypes & React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -31,17 +32,14 @@ export const AuthenticationForm: React.FC<PropsWithChildren<formType>> = ({ chil
 
 export const Form: React.FC<PropsWithChildren<formType>> = ({
   children,
-  authentication,
+  className,
   title,
   inputs,
   buttonProps,
   redirectionInformation,
   ...props
 }) => (
-  <form
-    {...props}
-    className={`flex justify-center items-center flex-col gap-y-4 ${authentication ? 'pt-10 px-16 pb-12' : ''}`}
-  >
+  <form {...props} className={`flex justify-center items-center flex-col gap-y-4 ${className}`}>
     <>
       <Title title={title} />
       {inputs ? inputs.map((inputProps, idx) => <InputBase key={idx} {...inputProps} />) : ''}
@@ -49,10 +47,8 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
       <BaseButton {...buttonProps} className="mt-6" />
       {redirectionInformation ? (
         <Link href={redirectionInformation.redirectionLink}>
-          {redirectionInformation.text}
-          <span className="text-argentinian_blue font-bold hover:text-rich_black">
-            {redirectionInformation.highlightText}
-          </span>
+          {redirectionInformation.text}{' '}
+          <span className="text-muted font-bold">{redirectionInformation.highlightText}</span>
         </Link>
       ) : (
         ''

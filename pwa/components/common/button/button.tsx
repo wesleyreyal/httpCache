@@ -1,15 +1,15 @@
 import React from 'react';
 import { AllowedVariant } from '../../../types';
 
-type additionalTypes = { outlined?: boolean; text: string; variant?: AllowedVariant; wide?: boolean };
+type additionalTypes = { text: string; variant?: AllowedVariant; wide?: boolean };
 export type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 export const OutlinedButton: React.FC<buttonType> = (props) => (
-  <BaseButton className={`btn-outline ${props.className}`} {...props} outlined />
+  <BaseButton className={`btn-outline ${props.className}`} {...props} />
 );
 
-export const computeClassFromProps = ({ variant, outlined, wide }: Omit<additionalTypes, 'text'>): string => {
+export const computeClassFromProps = ({ variant, wide }: Omit<additionalTypes, 'text'>): string => {
   let classes = wide ? 'btn-wide ' : '';
 
   switch (variant) {
@@ -34,7 +34,6 @@ export const computeClassFromProps = ({ variant, outlined, wide }: Omit<addition
 
 export const BaseButton: React.FC<buttonType> = ({
   variant = 'info',
-  outlined,
   wide,
   text,
   type = 'button',
@@ -43,7 +42,7 @@ export const BaseButton: React.FC<buttonType> = ({
 }) => (
   <button
     type={type}
-    className={`btn font-bold w-fit ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
+    className={`btn font-bold w-fit ${computeClassFromProps({ variant, wide })} ${className}`}
     {...props}
   >
     {text}
