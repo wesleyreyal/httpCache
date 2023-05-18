@@ -2,14 +2,14 @@ import { Tab } from './tab';
 import React, { useEffect, useState } from 'react';
 
 type tabbarProps = {
-  tabsName: string[];
+  tabsName: ReadonlyArray<string>;
   className?: string;
   handleClick?: (id: number) => void;
 };
 
 export const Tabbar: React.FC<tabbarProps> = ({ tabsName, className, handleClick }) => {
   const [focusedTab, setFocusedTab] = useState(0);
-  const [tabs, setTabs] = useState<JSX.Element[]>([]);
+  const [tabs, setTabs] = useState<ReadonlyArray<JSX.Element>>([]);
 
   useEffect(() => {
     setTabs(

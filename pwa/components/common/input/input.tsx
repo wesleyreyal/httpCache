@@ -58,7 +58,7 @@ export const InputBase: React.FC<inputType> = ({
   }, [variant]);
 
   return (
-    <div className={`form-control w-80 gap-y-1 ${className}`}>
+    <div className={`form-control gap-y-1 ${className}`}>
       {label && (
         <label htmlFor={id} className={`self-start ${variantProps.textColor}`}>
           {label}

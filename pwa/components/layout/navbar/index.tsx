@@ -9,7 +9,7 @@ type commonElementProps = {
   link: string;
 };
 
-const loggedOut: (commonElementProps & buttonType)[] = [
+const loggedOut: ReadonlyArray<commonElementProps & buttonType> = [
   {
     text: 'register',
     link: '/register',
@@ -23,7 +23,7 @@ const loggedOut: (commonElementProps & buttonType)[] = [
   },
 ];
 
-const loggedIn: commonElementProps[] = [
+const loggedIn: ReadonlyArray<commonElementProps> = [
   {
     text: 'domains',
     link: '/domains',

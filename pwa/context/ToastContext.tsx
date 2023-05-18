@@ -7,12 +7,12 @@ type toastContextType = {
   variant: AllowedVariant;
 };
 
-const ToastContext = React.createContext<(toast: toastContextType) => void>((toast: toastContextType) => {
+const ToastContext = React.createContext<(toast: toastContextType) => void>(() => {
   return;
 });
 
 export const ToastProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [toastList, setToastList] = useState<toastContextType[]>([]);
+  const [toastList, setToastList] = useState<ReadonlyArray<toastContextType>>([]);
 
   return (
     <ToastContext.Provider

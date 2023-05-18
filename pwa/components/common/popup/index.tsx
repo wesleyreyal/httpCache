@@ -1,10 +1,9 @@
 //import { AllowedIcons} from '../icon';
 import React from 'react';
 
-type AllowedVariantPopup = 'alert-success' | 'alert-danger' | 'alert-info' | 'alert-warning';
+type AllowedVariantPopup = 'alert-success' | 'alert-danger' | 'alert-ghost' | 'alert-info' | 'alert-warning';
 
 type popupProps = {
-  //iconName: AllowedIcons;
   text: string;
   variant: AllowedVariantPopup;
 };

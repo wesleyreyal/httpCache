@@ -17,7 +17,6 @@ type additionalTypes = {
   inputs?: ReadonlyArray<inputType>;
   buttonProps: buttonType;
   redirectionInformation?: redirectionType;
-  links?: LinkProps[];
 };
 
 type formType = additionalTypes & React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
