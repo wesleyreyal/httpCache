@@ -4,8 +4,8 @@ import { Title } from '../../components/common/text';
 import Navbar from '../../components/layout/navbar';
 import { Footer } from '../../components/layout/footer';
 import { Form } from '../../components/common/form/forms';
-import { InputBase, Switch } from '../../components/common/input';
-import { MultiSelect } from '../../components/common/input/select';
+import { InputBase, Select, Switch } from '../../components/common/input';
+import { MultiSelect } from '../../components/common/input';
 
 type uiItemProps = {
   title: string;
@@ -58,7 +58,55 @@ const Ui: NextPage = () => {
           <Switch />
           <Switch defaultChecked />
         </div>
-        <MultiSelect label="Select multiple" required />
+        <MultiSelect
+          label="Multiple select"
+          options={[
+            {
+              name: 'HTML',
+              value: 'html',
+            },
+            {
+              name: 'CSS',
+              value: 'css',
+            },
+            {
+              name: 'Ruby',
+              value: 'ruby',
+            },
+          ]}
+          required
+        />
+        <Select
+          label="Simple select"
+          placeholder="Choose one"
+          name="simple-select"
+          options={[
+            {
+              name: 'first',
+              value: 'first',
+            },
+            {
+              name: 'second',
+              value: 'second',
+            },
+          ]}
+        />
+        <Select
+          label="Multiple through simple select"
+          placeholder="Choose one"
+          name="simple-select"
+          options={[
+            {
+              name: 'first',
+              value: 'first',
+            },
+            {
+              name: 'second',
+              value: 'second',
+            },
+          ]}
+          isMultiple
+        />
       </UiItem>
     </div>
   );

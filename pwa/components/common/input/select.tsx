@@ -8,24 +8,10 @@ type ChipSelectProps = {
 };
 const ChipSelect: React.FC<ChipSelectProps> = ({ name, onClick }) => {
   return (
-    <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-teal-700 bg-teal-100 border border-teal-300 ">
+    <div className="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-base border border-success">
       <div className="text-xs font-normal leading-none max-w-full flex-initial">{name}</div>
       <div className="flex flex-auto flex-row-reverse">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            onClick={onClick}
-            width="100%"
-            height="100%"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="feather feather-x cursor-pointer hover:text-teal-400 rounded-full w-4 h-4 ml-2"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </div>
+        <Icon onClick={onClick} size={12} name="x" className="cursor-pointer hover:text-teal-400 rounded-full ml-2" />
       </div>
     </div>
   );
@@ -40,8 +26,8 @@ type OptionProps = option & {
 };
 const Option: React.FC<OptionProps> = ({ name, onClick }) => {
   return (
-    <div onClick={onClick} className="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100">
-      <div className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-teal-100">
+    <div onClick={onClick} className="cursor-pointer w-full rounded-t border-b hover:bg-gray-100">
+      <div className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
         <div className="w-full items-center flex">
           <div className="mx-2 leading-6">{name}</div>
         </div>
@@ -50,30 +36,24 @@ const Option: React.FC<OptionProps> = ({ name, onClick }) => {
   );
 };
 
-const options: option[] = [
-  {
-    name: 'HTML',
-    value: 'html',
-  },
-  {
-    name: 'CSS',
-    value: 'css',
-  },
-  {
-    name: 'Ruby',
-    value: 'ruby',
-  },
-];
-
 type MultiSelectProps = {
   label: string;
+  options: ReadonlyArray<option>;
+  placeholder?: string;
   required?: boolean;
+  selectedOptions?: ReadonlyArray<option>;
 };
 
-export const MultiSelect: React.FC<MultiSelectProps> = ({ label, required }) => {
+export const MultiSelect: React.FC<MultiSelectProps> = ({
+  label,
+  options,
+  placeholder,
+  required,
+  selectedOptions = [],
+}) => {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [choices, setChoices] = useState<ReadonlyArray<option>>([]);
+  const [choices, setChoices] = useState<ReadonlyArray<option>>(selectedOptions);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => {
@@ -110,10 +90,15 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({ label, required }) => 
               <ChipSelect key={id} name={choice.name} onClick={() => removeChoice(choice)} />
             ))}
             <div className="flex-1">
-              <input onChange={({ target: { value } }) => setValue(value)} value={value} className="h-full w-full" />
+              <input
+                onChange={({ target: { value } }) => setValue(value)}
+                value={value}
+                placeholder={!choices.length ? placeholder : ''}
+                className="h-full w-full input input-bordered w-full rounded-lg border-2 focus:outline-none p-1 px-4 border-0"
+              />
             </div>
           </div>
-          <div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200">
+          <div className="text-base w-8 py-1 pl-2 pr-1 border-l flex items-center">
             <Icon size={16} name={open ? 'chevron-up' : 'chevron-down'} />
           </div>
         </div>
@@ -141,3 +126,31 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({ label, required }) => 
     </div>
   );
 };
+
+type SelectProps = { label: string; options: ReadonlyArray<option> } & (
+  | { isMultiple: true; selectedOptions?: ReadonlyArray<option> }
+  | { isMultiple?: false; selectedOption?: option }
+);
+
+export const Select: React.FC<
+  SelectProps & React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
+> = ({ className, isMultiple, label, name, options, placeholder, ...props }) =>
+  isMultiple ? (
+    <MultiSelect label={label} options={options} placeholder={placeholder} {...props} />
+  ) : (
+    <div className={`form-control gap-y-1 ${className ?? ''}`}>
+      <label htmlFor={name}>{label}</label>
+      <select className="select w-full" name={name} id={name} {...props}>
+        {placeholder && (
+          <option disabled selected>
+            {placeholder}
+          </option>
+        )}
+        {options.map(({ name, value }, id) => (
+          <option key={id} value={value}>
+            {name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );

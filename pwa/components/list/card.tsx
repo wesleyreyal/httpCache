@@ -2,7 +2,7 @@ import { Card, cardProps } from '../common/card';
 import React from 'react';
 import { Icon } from '../common/icon';
 
-const listCardProps: React.PropsWithChildren<cardProps>[] = [
+const listCardProps: ReadonlyArray<React.PropsWithChildren<cardProps>> = [
   {
     children: <Icon name="box" iconColor="#3DA9FC" />,
     title: 'card1',
