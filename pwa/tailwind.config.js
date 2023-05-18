@@ -1,12 +1,8 @@
 /** @types {import("tailwindcss").Config} */
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  theme: {
+  /*theme: {
     extend: {
-      fontFamily: {
-        sans: ['Montserrat'],
-        roboto: ['Roboto', 'sans-serif'],
-      },
       colors: {
         eggshell: '#F3FAFF',
         rich_black: '#01161E',
@@ -23,6 +19,6 @@ module.exports = {
         transparent: 'transparent',
       },
     },
-  },
-  plugins: [require('@tailwindcss/forms'), require('daisyui')],
+  },*/
+  plugins: [require('daisyui')],
 };

@@ -1,3 +1,3 @@
-export type AllowedVariant = 'success' | 'danger' | 'info' | 'warning';
+export type AllowedVariant = 'success' | 'danger' | 'ghost' | 'info' | 'warning';
 
-
+export type ClassName = { className?: string };
