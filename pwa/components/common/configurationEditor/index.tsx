@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Tabbar } from '../tab';
-import { JsonEditor } from '../editor';
-import { JSONEditor } from '../editor/friendly';
-import { JsonProvider } from '../../../context';
+import { Tabbar } from 'components/common/tab';
+import { JsonEditor } from 'components/common/editor';
+import { JSONEditor } from 'components/common/editor/friendly';
+import { JsonProvider } from 'context';
 
 type ConfigurationEditorProps = {
   json: object;

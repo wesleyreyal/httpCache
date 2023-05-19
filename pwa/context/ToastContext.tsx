@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { AllowedVariant } from '../types';
-import Popup from '../components/common/popup';
+import { AllowedVariant } from 'types';
+import Popup from 'components/common/popup';
 
 type toastContextType = {
   text: string;

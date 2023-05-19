@@ -1,4 +1,4 @@
-//import { AllowedIcons} from '../icon';
+//import { AllowedIcons} from 'components/common/icon';
 import React from 'react';
 
 type AllowedVariantPopup = 'alert-success' | 'alert-danger' | 'alert-ghost' | 'alert-info' | 'alert-warning';

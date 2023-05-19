@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form } from '../../common/form/forms';
-import { buttonType } from '../../common/button';
+import { Form } from 'components/common/form/forms';
+import { buttonType } from 'components/common/button';
 
 const inputs = [
   {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Block } from './block';
-import { Icon } from '../icon';
+import { Icon } from 'components/common/icon';
 
 export const EditDomain: React.FC = () => (
   <Block className="gap-x-40 mt-6" withShadow={false}>

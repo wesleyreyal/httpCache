@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigurationEditor } from '../components/common/configurationEditor';
+import { ConfigurationEditor } from 'components/common/configurationEditor';
 
 const json = {
   apps: {

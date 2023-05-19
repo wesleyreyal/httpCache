@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import Link from 'next/link';
-import { useIsAuth } from '../../../context';
-import { BaseButton, buttonType } from '../../common/button';
-import { Blur } from '../../common/block';
+import { useIsAuth } from 'context';
+import { BaseButton, buttonType } from 'components/common/button';
+import { Blur } from 'components/common/block';
 
 type commonElementProps = {
   text: string;

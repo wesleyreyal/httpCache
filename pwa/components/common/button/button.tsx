@@ -1,5 +1,5 @@
 import React from 'react';
-import { AllowedVariant } from '../../../types';
+import { AllowedVariant } from 'types';
 
 type additionalTypes = { text: string; variant?: AllowedVariant; wide?: boolean };
 export type buttonType = additionalTypes &
@@ -36,7 +36,7 @@ export const BaseButton: React.FC<buttonType> = ({
   variant = 'info',
   wide,
   text,
-  type = 'button',
+  type = 'components/common/button',
   className = '',
   ...props
 }) => (

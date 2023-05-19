@@ -1,7 +1,7 @@
 import React from 'react';
-import { useIsAuth } from '../../context';
+import { useIsAuth } from 'context';
 import { redirect } from 'next/navigation';
-import { RegisterForm } from '../../components/user';
+import { RegisterForm } from 'components/user';
 import { NextPage } from 'next';
 
 const Register: NextPage = () => {

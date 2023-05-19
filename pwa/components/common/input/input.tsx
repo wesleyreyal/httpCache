@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { AllowedVariant } from '../../../types';
-import { AllowedIcons, Icon } from '../icon';
+import { AllowedVariant } from 'types';
+import { AllowedIcons, Icon } from 'components/common/icon';
 
 type VariantConfigType = {
   [key: string]: {

@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react';
-import { Title } from '../text';
-import { Blur } from '../block';
-import { InputBase, inputType } from '../input';
-import Link, { LinkProps } from 'next/link';
-import { BaseButton, buttonType } from '../button';
+import { Title } from 'components/common/text';
+import { Blur } from 'components/common/block';
+import { InputBase, inputType } from 'components/common/input';
+import Link from 'next/link';
+import { BaseButton, buttonType } from 'components/common/button';
 
 type redirectionType = {
   text: string;

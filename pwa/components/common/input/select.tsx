@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Icon } from '../icon';
-import useOnClickOutside from '../../../hooks/useClickOutside';
+import { Icon } from 'components/common/icon';
+import useOnClickOutside from 'hooks/useClickOutside';
 
 type ChipSelectProps = {
   name: string;
