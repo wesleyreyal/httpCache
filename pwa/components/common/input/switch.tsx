@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 type switchProps = {
   defaultChecked?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value: boolean) => void;
 };
 
 export const Switch: React.FC<switchProps> = ({ defaultChecked = false }) => {
