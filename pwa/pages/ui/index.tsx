@@ -1,11 +1,14 @@
 import { NextPage } from 'next';
-import React from 'react';
-import { Title } from '../../components/common/text';
-import Navbar from '../../components/layout/navbar';
-import { Footer } from '../../components/layout/footer';
-import { Form } from '../../components/common/form/forms';
-import { InputBase, Select, Switch } from '../../components/common/input';
-import { MultiSelect } from '../../components/common/input';
+import React, { useState } from 'react';
+import { Title } from 'components/common/text';
+import Navbar from 'components/layout/navbar';
+import { Footer } from 'components/layout/footer';
+import { Form } from 'components/common/form/forms';
+import { InputBase, Select, Switch } from 'components/common/input';
+import { MultiSelect } from 'components/common/input';
+import { BaseButton } from 'components/common/button';
+import { Domain } from 'actions';
+import { User } from 'actions/user';
 
 type uiItemProps = {
   title: string;
@@ -21,6 +24,7 @@ const UiItem: React.FC<React.PropsWithChildren<uiItemProps>> = ({ children, clas
 );
 
 const Ui: NextPage = () => {
+  const [data, setData] = useState<Record<string, object>>({});
   return (
     <div className="grid px-8 gap-16">
       <UiItem title="Title page">
@@ -107,6 +111,22 @@ const Ui: NextPage = () => {
           ]}
           isMultiple
         />
+      </UiItem>
+      <UiItem className="grid gap-4" title="API calls">
+        {Object.entries({
+          domains: new Domain(),
+          users: new User(),
+        }).map(([resource, instance], id) => (
+          <div key={id} className="flex">
+            <BaseButton
+              text={`Request many ${resource}`}
+              onClick={() => {
+                instance.getMany().then((result) => setData({ ...data, [resource]: result.items }));
+              }}
+            />
+            <span>{JSON.stringify(data[resource])}</span>
+          </div>
+        ))}
       </UiItem>
     </div>
   );

@@ -3,6 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   output: 'standalone',
+  serverRuntimeConfig: {
+    API_URL: 'http://api',
+  },
+  publicRuntimeConfig: {
+    API_URL: process.env.DOMAIN ?? 'https://localhost',
+  },
 };
 
 module.exports = nextConfig;

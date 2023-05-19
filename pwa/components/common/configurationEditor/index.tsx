@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Tabbar } from '../tab';
-import { JsonEditor } from '../editor';
-import { Textarea } from '../input';
+import { Tabbar } from 'components/common/tab';
+import { JsonEditor } from 'components/common/editor';
+import { Textarea } from 'components/common/input';
 
 type configurationEditorType = {
   json: object;

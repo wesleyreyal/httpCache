@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { BaseButton } from '../button';
-import { Textarea } from '../input';
+import { BaseButton } from 'components/common/button';
+import { Textarea } from 'components/common/input';
 
 type jsonSchemaEditorType = {
   json: object;

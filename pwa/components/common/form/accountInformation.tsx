@@ -1,5 +1,5 @@
 import React from 'react';
-import { InlineInput } from '../input';
+import { InlineInput } from 'components/common/input';
 import { Form } from './forms';
 
 export type AccountInformationType = {
