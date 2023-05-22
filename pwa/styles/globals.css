@@ -3,26 +3,28 @@
 @tailwind utilities;
 
 @layer base {
-    * {
-        font-family: Poppins;
-    }
-
-    a {
-        @apply no-underline text-cyan-700;
-    }
+    /*:root {
+        --eggshell: #F3FAFF;
+        --rich-black: #01161E;
+        --midnight-green: #124559;
+        --payne-gray: #5F6C7B;
+        --powder-blue: #90B4CE;
+        --argentinian-blue: #3DA9FC;
+        --bittersweet: #F05D5E;
+        --yellow: #F6D800;
+        --red: #FF1313;
+        --green: #1AC421;
+        --black: #1d1e1c;
+        --white: #ffffff;
+    }*/
 }
 
-@layer utilities {
-    .bg-spider-cover {
-        @apply bg-cyan-700 bg-center bg-no-repeat;
-        background-image: url("../public/api-platform/web.svg");
-        background-size: 110%;
-    }
-    .ribbon {
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(13.397459%, -100%) rotate(30deg); /* translateX: 100%*(1-cos(angleRotation) */
-        transform-origin: bottom left;
-  }
+body, #__next {
+  flex-direction: column;
+  display: flex;
+  min-height: 100vh;
+}
+
+main {
+    flex: 1;
 }
