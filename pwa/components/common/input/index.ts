@@ -1,3 +1,4 @@
+export * from './guesser';
 export * from './input';
 export * from './inlineInput';
 export * from './select';

@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { Title } from 'components/common/text';
-import { Blur } from 'components/common/block';
-import { InputBase, inputType } from 'components/common/input';
+import { InputGuesser, InputGuesserProps } from 'components/common/input';
 import Link from 'next/link';
 import { BaseButton, buttonType } from 'components/common/button';
 
@@ -13,21 +12,13 @@ type redirectionType = {
 
 type additionalTypes = {
   authentication?: boolean;
-  title: string;
-  inputs?: ReadonlyArray<inputType>;
-  buttonProps: buttonType;
+  title?: string;
+  inputs: ReadonlyArray<InputGuesserProps>;
+  buttonProps?: buttonType;
   redirectionInformation?: redirectionType;
 };
 
 type formType = additionalTypes & React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
-
-export const AuthenticationForm: React.FC<PropsWithChildren<formType>> = ({ children, title, ...props }) => (
-  <Blur>
-    <Form authentication method="POST" title={title} {...props}>
-      {children}
-    </Form>
-  </Blur>
-);
 
 export const Form: React.FC<PropsWithChildren<formType>> = ({
   children,
@@ -38,12 +29,12 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
   redirectionInformation,
   ...props
 }) => (
-  <form {...props} className={`flex justify-center items-center flex-col gap-y-4 ${className}`}>
+  <form {...props} className={`flex justify-center flex-col gap-y-8 ${className}`}>
     <>
-      <Title title={title} />
-      {inputs ? inputs.map((inputProps, idx) => <InputBase key={idx} {...inputProps} />) : ''}
+      {title && <Title title={title} />}
+      {inputs ? inputs.map((inputProps, idx) => <InputGuesser key={idx} {...inputProps} />) : ''}
       {children}
-      <BaseButton {...buttonProps} className="mt-6" />
+      {buttonProps && <BaseButton {...buttonProps} className="mt-6" />}
       {redirectionInformation ? (
         <Link href={redirectionInformation.redirectionLink}>
           {redirectionInformation.text}{' '}

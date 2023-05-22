@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { HTMLInputTypeAttribute, useEffect, useState } from 'react';
 import { AllowedVariant } from 'types';
 import { AllowedIcons, Icon } from 'components/common/icon';
 
@@ -58,7 +58,7 @@ export const InputBase: React.FC<inputType> = ({
   }, [variant]);
 
   return (
-    <div className={`form-control gap-y-1 ${className}`}>
+    <div className={`form-control gap-y-1 w-full ${className}`}>
       {label && (
         <label htmlFor={id} className={`self-start ${variantProps.textColor}`}>
           {label}
