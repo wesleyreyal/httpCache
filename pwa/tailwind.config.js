@@ -2,7 +2,7 @@
 /** @types {import("tailwindcss").Config} */
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  theme: {
+  /*theme: {
     extend: {
       colors: {
         eggshell: '#F3FAFF',
@@ -20,6 +20,6 @@ module.exports = {
         transparent: 'transparent',
       },
     },
-  },
+  },*/
   plugins: [require('daisyui')],
 };

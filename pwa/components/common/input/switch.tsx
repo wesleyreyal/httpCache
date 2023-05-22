@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 
-type switchProps = {
+export type SwitchProps = {
+  className?: string;
   defaultChecked?: boolean;
-  onChange?: (value: boolean) => void;
+  label: string;
 };
 
-export const Switch: React.FC<switchProps> = ({ defaultChecked = false }) => {
+export const Switch: React.FC<SwitchProps> = ({ className = '', defaultChecked = false, label }) => {
   const [checked, setChecked] = useState(defaultChecked);
+
   return (
-    <input
-      type="checkbox"
-      className="toggle toggle-info"
-      onClick={() => setChecked(!checked)}
-      defaultChecked={checked}
-    />
+    <div className="form-control">
+      <label>{label}</label>
+      <input
+        type="checkbox"
+        className={`toggle toggle-info ${className}`}
+        onClick={() => setChecked(!checked)}
+        defaultChecked={checked}
+      />
+    </div>
   );
 };

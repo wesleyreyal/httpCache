@@ -1,31 +1,39 @@
-import { Tab } from './tab';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
 
-type tabbarProps = {
-  tabsName: string[];
-  className?: string;
-  handleClick?: (id: number) => void;
+type tabProps = {
+  name: string;
+  TabItem: React.ReactNode;
 };
 
-export const Tabbar: React.FC<tabbarProps> = ({ tabsName, className, handleClick }) => {
-  const [focusedTab, setFocusedTab] = useState(0);
-  const [tabs, setTabs] = useState<JSX.Element[]>([]);
+type tabbarProps = {
+  className?: string;
+  defaultTab?: number;
+  tabs: ReadonlyArray<tabProps>;
+};
 
-  useEffect(() => {
-    setTabs(
-      tabsName.map((name, idx) => (
-        <Tab
-          text={name}
-          key={idx}
-          handleClick={() => {
-            setFocusedTab(idx);
-            handleClick?.(idx);
-          }}
-          className={focusedTab === idx ? 'tab-active' : ''}
-        />
-      ))
-    );
-  }, [focusedTab, tabsName]);
+export const Tabbar: React.FC<tabbarProps> = ({ className = '', defaultTab = 0, tabs }) => {
+  const [selected, setSelected] = useState(defaultTab);
+  const tabNames = useMemo(() => tabs.map((tab) => tab.name), [tabs]);
+  const TabItem = useMemo(() => tabs[selected].TabItem, [tabs, selected]);
 
-  return <div className={`tabs ${className}`}>{tabs}</div>;
+  return (
+    <>
+      <div className={`tabs ${className}`}>
+        {tabNames.map((name, index) => (
+          <Link
+            href="#"
+            onClick={() => {
+              setSelected(index);
+            }}
+            key={index}
+            className={`tab tab-lg tab-lifted p-4 ${index === selected ? 'tab-active' : ''}`}
+          >
+            <span className="text-xl">{name}</span>
+          </Link>
+        ))}
+      </div>
+      {TabItem}
+    </>
+  );
 };

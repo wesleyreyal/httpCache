@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { AllowedVariant } from '../../../types';
-import { AllowedIcons, Icon } from '../icon';
+import React, { HTMLInputTypeAttribute, useEffect, useState } from 'react';
+import { AllowedVariant } from 'types';
+import { AllowedIcons, Icon } from 'components/common/icon';
 
 type VariantConfigType = {
   [key: string]: {
@@ -58,14 +58,15 @@ export const InputBase: React.FC<inputType> = ({
   }, [variant]);
 
   return (
-    <div className={`form-control w-80 gap-y-1 ${className}`}>
+    <div className={`form-control gap-y-1 w-full ${className}`}>
       {label && (
         <label htmlFor={id} className={`self-start ${variantProps.textColor}`}>
           {label}
-          {optional && ' (optional)'}
+          {optional ? ' (optional)' : ' *'}
         </label>
       )}
       <input
+        required={!optional}
         type={type}
         className={`input input-bordered w-full rounded-lg border-2 p-1 px-4 ${inputClassName} ${variantProps.inputBorderColor}`}
         id={id}

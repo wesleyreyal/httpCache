@@ -1,59 +1,48 @@
 import React from 'react';
-import { AllowedVariant } from '../../../types';
+import { AllowedVariant } from 'types';
 
-type additionalTypes = { outlined?: boolean; text: string; variant?: AllowedVariant; wide?: boolean };
+type additionalTypes = { text: string; variant?: AllowedVariant; wide?: boolean };
 export type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 export const OutlinedButton: React.FC<buttonType> = (props) => (
-  <BaseButton className={props.className} {...props} outlined />
+  <BaseButton className={`btn-outline ${props.className}`} {...props} />
 );
 
-export const computeClassFromProps = ({ variant, outlined, wide }: Omit<additionalTypes, 'text'>): string => {
-  let classes = '';
-  if (wide) {
-    classes += 'px-9 py-2 ';
-  } else {
-    classes += 'px-3 py-0 h-fit';
-  }
+export const computeClassFromProps = ({ variant, wide }: Omit<additionalTypes, 'text'>): string => {
+  let classes = wide ? 'btn-wide ' : '';
 
-  if (outlined) {
-    classes += 'bg-eggshell border-4 ';
-    switch (variant) {
-      case 'info':
-        classes +=
-          'border-argentinian_blue text-argentinian_blue bg-eggshell hover:bg-argentinian_blue hover:border-argentinian_blue hover:text-eggshell';
-        break;
-      case 'danger':
-        classes += 'border-red text-red bg-eggshell hover:bg-red hover:border-red hover:text-white';
-        break;
-    }
-  } else {
-    classes += 'hover:bg-eggshell hover:border-eggshell';
-    switch (variant) {
-      case 'info':
-        classes += ' bg-argentinian_blue border-argentinian_blue hover:text-argentinian_blue ';
-        break;
-      case 'danger':
-        classes += ' bg-red border-red hover:text-red';
-        break;
-    }
+  switch (variant) {
+    case 'info':
+      classes += 'btn-info';
+      break;
+    case 'danger':
+      classes += 'btn-error';
+      break;
+    case 'success':
+      classes += 'btn-success';
+      break;
+    case 'warning':
+      classes += 'btn-warning';
+      break;
+    case 'ghost':
+      classes += 'btn-ghost';
+      break;
   }
   return classes;
 };
 
 export const BaseButton: React.FC<buttonType> = ({
   variant = 'info',
-  outlined,
   wide,
   text,
-  type = 'button',
+  type = 'components/common/button',
   className = '',
   ...props
 }) => (
   <button
     type={type}
-    className={`btn rounded-sm font-bold w-fit ${computeClassFromProps({ outlined, variant, wide })} ${className}`}
+    className={`btn font-bold w-fit ${computeClassFromProps({ variant, wide })} ${className}`}
     {...props}
   >
     {text}

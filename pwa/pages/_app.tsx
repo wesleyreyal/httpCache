@@ -1,13 +1,15 @@
-import '../styles/globals.css';
+import 'styles/globals.css';
 import type { AppProps } from 'next/app';
-import type { DehydratedState } from 'react-query';
-import { AuthProviders, ToastProvider } from '../context';
+import { AuthProviders, ToastProvider } from 'context';
+import { Layout } from 'components/layout';
 
-function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ToastProvider>
       <AuthProviders>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </AuthProviders>
     </ToastProvider>
   );
