@@ -6,6 +6,7 @@ export const defaultJson: JsonSchema = {
   api: {
     basepath: '/souin-api',
     prometheus: {
+      enabled: true,
       basepath: '/prometheus',
     },
     souin: {
@@ -32,29 +33,6 @@ export const defaultJson: JsonSchema = {
     cache: '10ms',
   },
   ttl: '120s',
-  urls: {
-    '/first-.+': {
-      ttl: '1000s',
-    },
-    '/second-route': {
-      ttl: '10s',
-    },
-    '/third-route': {
-      ttl: '50s',
-    },
-  },
-  surrogate_keys: {
-    The_First_Test: {
-      headers: {
-        'Content-Type': '.+',
-      },
-    },
-    The_Second_Test: {
-      url: 'the/second/.+',
-    },
-    The_Third_Test: {},
-    The_Fourth_Test: {},
-  },
 };
 
 type jsonContextType = {
@@ -89,7 +67,7 @@ const reducer = (state: JsonSchema = initialState, { type, payload }: JsonFormAc
 };
 
 export const JsonProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [json, dispatch] = useReducer(reducer, undefined);
+  const [json, dispatch] = useReducer(reducer, defaultJson);
 
   return <JsonContext.Provider value={{ json, dispatch }}>{children}</JsonContext.Provider>;
 };

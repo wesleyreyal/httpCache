@@ -68,7 +68,7 @@ export const InputBase: React.FC<inputType> = ({
       <input
         required={!optional}
         type={type}
-        className={`input input-bordered w-full rounded-lg border-2 p-1 px-4 ${inputClassName} ${variantProps.inputBorderColor}`}
+        className={`input input-bordered w-full rounded-lg p-1 px-4 ${inputClassName} ${variantProps.inputBorderColor}`}
         id={id}
         {...input}
       />
