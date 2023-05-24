@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import Link from 'next/link';
-import { useIsAuth } from 'context';
+import { useDispatchAuth, useIsAuth } from 'context';
 import { BaseButton, buttonType } from 'components/common/button';
 import { Blur } from 'components/common/block';
+import { ROUTES } from 'routes';
+import { Token } from 'storage';
 
 type commonElementProps = {
   text: string;
@@ -12,13 +14,13 @@ type commonElementProps = {
 const loggedOut: ReadonlyArray<commonElementProps & buttonType> = [
   {
     text: 'register',
-    link: '/register',
+    link: ROUTES.REGISTER,
     className: 'btn-outline',
     variant: 'ghost',
   },
   {
     text: 'sign in',
-    link: '/signin',
+    link: ROUTES.SIGN_IN,
     variant: 'success',
   },
 ];
@@ -44,10 +46,25 @@ const LoggedOutItems: React.FC = () => (
   </>
 );
 
+const Logout = () => {
+  const setConnected = useDispatchAuth();
+  return (
+    <li
+      className="rounded-lg text-xl capitalize pointer"
+      onClick={() => {
+        new Token().delete();
+        setConnected(false);
+      }}
+    >
+      <span>Logout</span>
+    </li>
+  );
+};
+
 const LoggedInItems: React.FC = () => (
   <>
     {loggedIn.map(({ link, text }, id) => (
-      <li key={id} className="flex">
+      <li key={id}>
         <Link href={link} key={id} className="rounded-lg text-xl capitalize">
           {text}
         </Link>
@@ -59,7 +76,14 @@ const LoggedInItems: React.FC = () => (
 const ResponsiveMenuItems: React.FC = () => {
   const connected = useIsAuth();
 
-  return connected ? <LoggedInItems /> : <LoggedOutItems />;
+  return connected ? (
+    <>
+      <LoggedInItems />
+      <Logout />
+    </>
+  ) : (
+    <LoggedOutItems />
+  );
 };
 
 export const Navbar: FC = () => {

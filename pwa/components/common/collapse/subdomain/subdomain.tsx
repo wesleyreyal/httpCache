@@ -15,7 +15,7 @@ export const Subdomain: React.FC<subdomainProps> = ({ zone, ip }) => {
   const [validationPopup, setValidationPopup] = useState(false);
 
   return (
-    <div className="flex justify-around items-center max-w-screen-xl w-full">
+    <div className="flex justify-around items-center w-full">
       <InputBaseWithoutLabel defaultValue={zone} />
       <InputBaseWithoutLabel defaultValue={ip} />
       <EditConfiguration />

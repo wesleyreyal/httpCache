@@ -25,6 +25,6 @@ export const InputGuesser: React.FC<InputGuesserProps> = ({ type, ...props }) =>
     case 'switch':
       return <Switch {...(props as Switchable)} />;
     default:
-      return <InputBase {...(props as inputType)} />;
+      return <InputBase type={type} {...(props as inputType)} />;
   }
 };

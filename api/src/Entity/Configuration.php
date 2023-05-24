@@ -7,6 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\ConfigurationRepository;
@@ -18,6 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            security: "is_granted('ROLE_USER')",
+        ),
         new Get(),
         new Post(
             denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
@@ -35,7 +39,6 @@ class Configuration
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Assert\NotBlank]
     private int $id;
 
     #[Assert\NotBlank]

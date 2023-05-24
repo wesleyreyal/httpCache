@@ -1,23 +1,46 @@
-import { APIToken, UserLogin, User as UserModel } from 'model';
+import { APIToken, User as UserModel, UserAPI, UserLogin } from 'model';
 import { APIPlatform } from './abstract';
 import { SerializerInterface, UserSerializer } from 'serializers';
 import { AxiosResponse } from 'axios';
-import { CookieStorage, LocalStorage } from 'storage';
+import { Token } from 'storage';
 
-export class User extends APIPlatform<UserModel> {
+type UserFromToken = {
+  user_id: string;
+  roles: ReadonlyArray<string>;
+  username: string;
+};
+
+const getUserFromToken = (): UserFromToken | undefined => {
+  const token = new Token().get();
+
+  if (token) {
+    try {
+      return JSON.parse(atob(token.split('.')[1] ?? ''));
+    } catch {
+      return;
+    }
+  }
+
+  return;
+};
+
+export class User extends APIPlatform<UserModel, UserAPI> {
+  endpoint = '/users';
   protected serializer: SerializerInterface<UserModel> = new UserSerializer();
 
-  endpoint = '/users';
+  getCurrentUser() {
+    return this.getOne({ id: getUserFromToken()?.user_id } as UserModel);
+  }
 }
 
 export class Auth extends User {
   endpoint = '/auth';
 
   login(data: UserLogin): Promise<boolean> {
-    new CookieStorage().delete('token');
+    const tokenInstance = new Token();
+    tokenInstance.delete();
     return this.postRequest({ data }).then(({ data: { token } }: AxiosResponse<APIToken>) => {
-      new CookieStorage().set('token', token);
-      new LocalStorage().set('token', token);
+      tokenInstance.set(token);
 
       return true;
     });

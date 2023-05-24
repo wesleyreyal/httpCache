@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Decorater;
+namespace App\Decorator;
 
 use ApiPlatform\Serializer\SerializerContextBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;

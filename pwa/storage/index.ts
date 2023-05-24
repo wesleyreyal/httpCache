@@ -33,3 +33,41 @@ export class LocalStorage implements Storage<string> {
     localStorage.removeItem(key);
   }
 }
+
+export class Token {
+  key = 'token';
+  storages: ReadonlyArray<Storage<string>> = [];
+
+  constructor() {
+    this.storages = [new CookieStorage()];
+    try {
+      if (localStorage) {
+        this.storages = [...this.storages, new LocalStorage()];
+      }
+    } catch {
+      return;
+    }
+  }
+
+  get() {
+    for (let i = 0; i < this.storages.length; i++) {
+      if (this.storages[i].get(this.key)) {
+        return this.storages[i].get(this.key);
+      }
+    }
+
+    return '';
+  }
+
+  set(value: string) {
+    for (let i = 0; i < this.storages.length; i++) {
+      this.storages[i].set(this.key, value);
+    }
+  }
+
+  delete() {
+    for (let i = 0; i < this.storages.length; i++) {
+      this.storages[i].delete(this.key);
+    }
+  }
+}

@@ -1,10 +1,11 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, RawAxiosRequestHeaders } from 'axios';
 import { APIPlatformSerializer } from 'serializers/api-platform';
 import getConfig from 'next/config';
-import { RawAxiosRequestHeaders } from 'axios';
-import { APIList, APIListResult, APISingleResult } from 'model';
+import { APIList, APIListResult, APISingleResult, GenericAPIObject } from 'model';
 import { SerializerInterface } from 'serializers/interface';
-import { CookieStorage } from 'storage';
+import { Token } from 'storage';
+import { ROUTES } from 'routes';
+
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
 interface EndpointInterface {
@@ -41,7 +42,7 @@ export abstract class API {
       headers: getHeaders(),
     });
     instance.interceptors.request.use((r) => {
-      const token = new CookieStorage().get('token');
+      const token = new Token().get();
       if (token) {
         r.headers['Authorization'] = `Bearer ${token}`;
       }
@@ -50,9 +51,11 @@ export abstract class API {
     instance.interceptors.response.use(
       (r) => r,
       (r) => {
-        if (401 === r.response.status) {
-          // new Token().remove();
-          // window.location.pathname = '/login';
+        if (401 === r.response.status && !r.request.responseURL.includes('/auth')) {
+          new Token().delete();
+          if (window && window.location) {
+            window.location.pathname = ROUTES.SIGN_IN;
+          }
           return;
         }
         return Promise.reject(r);
@@ -98,7 +101,7 @@ export abstract class API {
   }
 }
 
-export class APIPlatform<T extends APISingleResult> extends API {
+export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T>> extends API {
   protected serializer: SerializerInterface<T> = new APIPlatformSerializer();
 
   getBaseUrl = (): string => serverRuntimeConfig.API_URL || publicRuntimeConfig.API_URL;
@@ -114,19 +117,17 @@ export class APIPlatform<T extends APISingleResult> extends API {
       });
   }
 
+  create(data: U) {
+    return this.postRequest({ data }).then(({ data: v }) => this.serializer.serialize(v));
+  }
+
+  getOne({ id }: T) {
+    return this.getRequest({ endpoint: `/${id}` })
+      .then(({ data: v }) => this.serializer.serialize(v))
+      .catch(console.warn);
+  }
+
   /*
-  getOne({ id }: APIPlatformSingleInterface) {
-    return this.getRequest({ endpoint: id })
-      .then(({ data: v }) => this.serializer.serialize(v))
-      .catch(console.warn);
-  }
-
-  create(data: Record<string, string>) {
-    return this.postRequest({ data })
-      .then(({ data: v }) => this.serializer.serialize(v))
-      .catch(console.warn);
-  }
-
   update({ id }: APIPlatformSingleInterface) {
     return this.patchRequest({ endpoint: id }).then().catch(console.warn);
   }

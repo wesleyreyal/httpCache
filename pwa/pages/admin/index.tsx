@@ -1,3 +1,4 @@
+import { User } from 'actions/user';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
@@ -11,6 +12,8 @@ const Admin = () => {
       setDynamicAdmin(<HydraAdmin entrypoint={window.origin}></HydraAdmin>);
     })();
   }, []);
+
+  new User().getCurrentUser().then(console.log)
 
   return (
     <>

@@ -4,8 +4,7 @@ import { Title } from 'components/common/text';
 import Navbar from 'components/layout/navbar';
 import { Footer } from 'components/layout/footer';
 import { Form } from 'components/common/form/forms';
-import { InputBase, Select, Switch } from 'components/common/input';
-import { MultiSelect } from 'components/common/input';
+import { InputBase, MultiSelect, Select, Switch } from 'components/common/input';
 import { BaseButton } from 'components/common/button';
 import { Domain } from 'actions';
 import { Auth, User } from 'actions/user';
@@ -127,14 +126,38 @@ const Ui: NextPage = () => {
             <span>{JSON.stringify(data[resource])}</span>
           </div>
         ))}
-        <div className="flex">
-          <BaseButton
-            text="Request login"
-            onClick={() => {
-              new Auth().login({ email: 'admin@test.fr', password: 'test' }).then(console.log);
-            }}
-          />
-        </div>
+        <BaseButton
+          text="Request login"
+          onClick={() => {
+            new Auth().login({ email: 'admin@test.fr', password: 'test' }).then(console.log);
+          }}
+        />
+        <BaseButton
+          text="Create user"
+          onClick={() => {
+            new User()
+              .create({
+                domains: [],
+                email: 'string' + new Date().toISOString(),
+                lastname: 'string',
+                firstname: 'string',
+                company: 'string',
+                password: 'string',
+              })
+              .then(() => {
+                console.log('user created');
+              })
+              .catch(() => {
+                console.log('failed');
+              });
+          }}
+        />
+        <BaseButton
+          text="Get current user"
+          onClick={() => {
+            new User().getCurrentUser();
+          }}
+        />
       </UiItem>
     </div>
   );

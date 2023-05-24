@@ -1,8 +1,7 @@
 import { defaultJson, useConfiguration, useDispatchConfiguration } from 'context';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { Form } from '../form/forms';
-import { InputGuesserProps, Iterable, option } from '../input';
-import { IteratorValue } from '../input/iterator';
+import { InputGuesserProps, Iterable, IteratorValue, option } from '../input';
+import { Form } from 'components/common/form/forms';
 
 const allowedHTTPOptions: ReadonlyArray<option> = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT'].map((method) => ({
   name: method,

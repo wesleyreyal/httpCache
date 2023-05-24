@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'get_domain_normalization'],
-            security: "is_granted('ROLE_ADMIN')",
+            security: "is_granted('ROLE_USER')",
         ),
         new Get(
             normalizationContext: ['groups' => 'get_domain_normalization'],
@@ -44,7 +44,6 @@ class Domain
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Assert\NotBlank]
     private int $id;
 
     #[ORM\Column(length: 255)]
