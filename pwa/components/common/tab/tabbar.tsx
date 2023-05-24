@@ -27,7 +27,7 @@ export const Tabbar: React.FC<tabbarProps> = ({ className = '', defaultTab = 0, 
               setSelected(index);
             }}
             key={index}
-            className={`tab tab-lg tab-lifted p-4 ${index === selected ? 'tab-active' : ''}`}
+            className={`tab tab-lg tab-lifted ${index === selected ? 'tab-active' : ''}`}
           >
             <span className="text-xl">{name}</span>
           </Link>

@@ -8,8 +8,13 @@ export class User extends APIPlatform<UserModel> {
   protected serializer: SerializerInterface<UserModel> = new UserSerializer();
 
   endpoint = '/users';
+}
+
+export class Auth extends User {
+  endpoint = '/auth';
 
   login(data: UserLogin): Promise<boolean> {
+    new CookieStorage().delete('token');
     return this.postRequest({ data }).then(({ data: { token } }: AxiosResponse<APIToken>) => {
       new CookieStorage().set('token', token);
       new LocalStorage().set('token', token);

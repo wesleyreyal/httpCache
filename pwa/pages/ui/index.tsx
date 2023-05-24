@@ -8,7 +8,7 @@ import { InputBase, Select, Switch } from 'components/common/input';
 import { MultiSelect } from 'components/common/input';
 import { BaseButton } from 'components/common/button';
 import { Domain } from 'actions';
-import { User } from 'actions/user';
+import { Auth, User } from 'actions/user';
 
 type uiItemProps = {
   title: string;
@@ -59,8 +59,8 @@ const Ui: NextPage = () => {
         <InputBase label="password" type="password" name="password" placeholder="mypassword" />
         <InputBase label="phone" type="phone" name="phone" placeholder="+33606060606" />
         <div className="flex flex-row">
-          <Switch />
-          <Switch defaultChecked />
+          <Switch label="Unchecked" />
+          <Switch label="Checked by default" defaultChecked />
         </div>
         <MultiSelect
           label="Multiple select"
@@ -127,6 +127,14 @@ const Ui: NextPage = () => {
             <span>{JSON.stringify(data[resource])}</span>
           </div>
         ))}
+        <div className="flex">
+          <BaseButton
+            text="Request login"
+            onClick={() => {
+              new Auth().login({ email: 'admin@test.fr', password: 'test' }).then(console.log);
+            }}
+          />
+        </div>
       </UiItem>
     </div>
   );

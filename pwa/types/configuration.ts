@@ -2,10 +2,6 @@ type APIConfiguration = {
   basepath?: string;
   enabled?: boolean;
 };
-type SurrogateKeys = {
-  headers?: Record<string, string>;
-  url?: string;
-};
 type Key = {
   disable_body?: boolean;
   disable_host?: boolean;
@@ -34,6 +30,4 @@ export type JsonSchema = {
   };
   ttl?: string;
   urls?: Record<string, { ttl?: string; default_cache_control?: string }>;
-  ykeys?: Record<string, SurrogateKeys>;
-  surrogate_keys?: Record<string, SurrogateKeys>;
 };

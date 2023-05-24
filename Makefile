@@ -1,20 +1,27 @@
-.PHONY: start-dev start-prod delete-migrations fixtures reset-db make-migrations
+.PHONY: delete-migrations fixtures generate-migration migrate reset-db start-dev start-prod
 
-DEV_STACK=docker compose -f docker-compose.yml -f
-PHP_DB=$(DEV_STACK) docker-compose.override.yml exec php bin/console
-
-start-dev: ## Run the application in dev
-	$(DEV_STACK) docker-compose.override.yml up -d
-
-start-prod: ## Run the application in prod
-	$(DEV_STACK) docker-compose.prod.yml up -d
+DC=docker compose -f docker-compose.yml -f docker-compose.override.yml
+EXEC_PHP=$(DC) exec php bin/console
 
 delete-migrations:
-	$(DEV_STACK) docker-compose.override.yml exec database psql -U app app -c "delete from doctrine_migration_versions"
+	$(DC) exec database psql -U app app -c "delete from doctrine_migration_versions"
 
-make-migrations:
-	$(PHP_DB) make:migration
+fixtures:
+	$(BIN_CONSOLE) do:fi:lo --quiet
+
+generate-migration:
+	$(BIN_CONSOLE) make:migration
+
+migrate:
+	$(BIN_CONSOLE) do:mi:mi --quiet
+
+start-dev: ## Run the application in dev
+	$(DC) up -d
+
+start-prod: ## Run the application in prod
+	$(DC) docker-compose.prod.yml up -d
 
 reset-db:
-	$(PHP_DB) do:da:dr --force
-	$(PHP_DB) do:da:cr
+	$(BIN_CONSOLE) do:da:dr --force
+	$(BIN_CONSOLE) do:da:cr
+	$(MAKE) migrate fixtures

@@ -4,6 +4,7 @@ import getConfig from 'next/config';
 import { RawAxiosRequestHeaders } from 'axios';
 import { APIList, APIListResult, APISingleResult } from 'model';
 import { SerializerInterface } from 'serializers/interface';
+import { CookieStorage } from 'storage';
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
 interface EndpointInterface {
@@ -40,9 +41,7 @@ export abstract class API {
       headers: getHeaders(),
     });
     instance.interceptors.request.use((r) => {
-      // const token = new Token().get();
-      const token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2ODQ1MTU1OTQsImV4cCI6MTY4NDUxOTE5NCwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluQHRlc3QuZnIifQ.FI3NNeLb3przau6LdtOaIgjmbLuRqGNoPGGgwkevDZPITlbuR9jclvIyW8VCT-DxC9pPTpRt01ZZ4t8Sv6jtQ6kVD28kuBsjT9t0qLT-FI6j19o6qaDCa3M_T0ObMYmcxsmybVUtcUNaeLdTvj4sLsj3Ud2yE1k21sfhnBMBn64-snuUdSFaIEQXEyGI9ki26UC-FDgYNzXL_FvaGzYpmKaGzVrvXlIDMe6ixXkeuWQxoPIeH44fNM4WcBRDMDVr3seNCxl5AjeCXAvYdyBtZHJDFvq3iTZvlA9D8jPvSZwgq55os5LWSJQKN80j-JmITehG0CHzHOI3ywL6eUm1RA';
+      const token = new CookieStorage().get('token');
       if (token) {
         r.headers['Authorization'] = `Bearer ${token}`;
       }

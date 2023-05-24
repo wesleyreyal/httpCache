@@ -37,6 +37,7 @@ const Option: React.FC<OptionProps> = ({ name, onClick }) => {
 };
 
 export type MultiSelectProps = {
+  dynamic?: boolean;
   label: string;
   options: ReadonlyArray<option>;
   placeholder?: string;
@@ -46,6 +47,7 @@ export type MultiSelectProps = {
 };
 
 export const MultiSelect: React.FC<MultiSelectProps> = ({
+  dynamic,
   label,
   options,
   placeholder,
@@ -85,12 +87,12 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
 
   return (
     <div className="flex flex-col items-center relative w-full" ref={ref}>
-      <div className="w-full form-control" onClick={() => setOpen(true)}>
+      <div className="w-full h-full form-control" onClick={() => setOpen(true)}>
         <label>
           {label}
           {required && ' *'}
         </label>
-        <div className="input my-2 p-1 flex input-bordered">
+        <div className="input mt-auto p-1 flex input-bordered">
           <div className="flex flex-auto flex-wrap">
             {choices.map((choice, id) => (
               <ChipSelect key={id} name={choice.name} onClick={() => removeChoice(choice)} />
@@ -100,7 +102,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                 onChange={({ target: { value } }) => setValue(value)}
                 value={value}
                 placeholder={!choices.length ? placeholder : ''}
-                className="h-full w-full input w-full rounded-lg border-2 focus:outline-none p-1 px-4 border-0"
+                className="h-full w-full input w-full rounded-lg focus:outline-none p-1 px-4 border-0"
               />
             </div>
           </div>
@@ -110,8 +112,21 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         </div>
       </div>
       {open && (
-        <div className="absolute shadow top-full bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto">
+        <div className="absolute shadow top-full bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto">
           <div className="flex flex-col w-full">
+            {dynamic && value !== '' && (
+              <Option
+                name={`Insert new ${value} tag`}
+                value={value}
+                onClick={() => {
+                  addChoice({
+                    name: value,
+                    value,
+                  });
+                  setValue('');
+                }}
+              />
+            )}
             {options
               .filter((o) => {
                 return o.name.toLowerCase().includes(value.toLowerCase()) && !choices.some((c) => c.value === o.value);
