@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage, NextPageContext } from 'next';
-import { Domain } from 'actions';
+import { Configuration, Domain } from 'actions';
 import { Configuration as ConfigurationType, Domain as DomainModel } from 'model';
 import { AddDomain, CollapseBlock } from 'components/common/collapse';
 import { useRedirectIfNotLogged } from 'context';
@@ -10,10 +10,10 @@ type DomainsPageProps = {
   total: number;
 };
 
-const Domains: NextPage<DomainsPageProps> = ({ domains: defaultDomains }) => {
+const Domains: NextPage<DomainsPageProps> = (props) => {
   useRedirectIfNotLogged();
 
-  const [domains, setDomains] = useState<ReadonlyArray<DomainModel>>(defaultDomains);
+  const [domains, setDomains] = useState<ReadonlyArray<DomainModel>>(props?.domains ?? []);
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -32,11 +32,14 @@ const Domains: NextPage<DomainsPageProps> = ({ domains: defaultDomains }) => {
 
 Domains.getInitialProps = async (ctx: NextPageContext & { req: { cookies: Record<string, string> } }) => {
   return new Domain()
-    .getMany(
-      ctx?.req?.cookies ? { config: { headers: { Authorization: `Bearer ${ctx.req.cookies.token}` } } } : undefined
-    )
+    .getMany({
+      ...(ctx?.req?.cookies ? { config: { headers: { Authorization: `Bearer ${ctx.req.cookies.token}` } } } : {}),
+      depth: 1,
+    })
     .then(({ items, total }) => ({ domains: items, total }))
-    .catch(() => ({ domains: [], total: 0 }));
+    .catch(() => {
+      return { domains: [], total: 0 };
+    });
 };
 
 export default Domains;

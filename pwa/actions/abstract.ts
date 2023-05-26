@@ -26,6 +26,8 @@ interface ConfigInterface {
   config?: AxiosRequestConfig;
 }
 
+export type RequestInterface = DepthLoaderInterface & ConfigInterface;
+
 const getHeaders = (): RawAxiosRequestHeaders => ({
   Accept: 'application/ld+json',
   'Content-Type': 'application/ld+json',
@@ -122,12 +124,13 @@ export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T
   getMany({ config, depth }: DepthLoaderInterface & ConfigInterface = {}): Promise<APIList<T>> {
     return this.getRequest({ config })
       .then(({ data }: { data: APIListResult<T> }) => data)
-      .then((data) => {
-        return {
-          items: this.serializer.serializeMany(data['hydra:member'], depth),
-          total: data['hydra:totalItems'],
-        } as APIList<T>;
-      });
+      .then((data) =>
+        Promise.all([this.serializer.serializeMany(data['hydra:member'], { config, depth }), data['hydra:totalItems']])
+      )
+      .then(([items, total]) => ({
+        items,
+        total,
+      }));
   }
 
   create(data: U) {
@@ -136,7 +139,7 @@ export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T
 
   getOne({ config, depth, id }: DepthLoaderInterface & ConfigInterface & T) {
     return this.getRequest({ config, endpoint: `/${id}` })
-      .then(({ data: v }) => this.serializer.serialize(v, depth))
+      .then(({ data: v }) => this.serializer.serialize(v, { config, depth }))
       .catch(console.warn);
   }
 

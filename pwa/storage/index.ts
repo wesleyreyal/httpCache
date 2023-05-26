@@ -36,38 +36,21 @@ export class LocalStorage implements Storage<string> {
 
 export class Token {
   key = 'token';
-  storages: ReadonlyArray<Storage<string>> = [];
+  storage: Storage<string>;
 
   constructor() {
-    this.storages = [new CookieStorage()];
-    try {
-      if (localStorage) {
-        this.storages = [...this.storages, new LocalStorage()];
-      }
-    } catch {
-      return;
-    }
+    this.storage = new CookieStorage();
   }
 
   get() {
-    for (let i = 0; i < this.storages.length; i++) {
-      if (this.storages[i].get(this.key)) {
-        return this.storages[i].get(this.key);
-      }
-    }
-
-    return '';
+    return this.storage.get(this.key);
   }
 
   set(value: string) {
-    for (let i = 0; i < this.storages.length; i++) {
-      this.storages[i].set(this.key, value);
-    }
+    this.storage.set(this.key, value);
   }
 
   delete() {
-    for (let i = 0; i < this.storages.length; i++) {
-      this.storages[i].delete(this.key);
-    }
+    this.storage.delete(this.key);
   }
 }
