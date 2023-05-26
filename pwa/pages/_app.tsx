@@ -2,8 +2,7 @@ import 'styles/globals.css';
 import type { AppProps } from 'next/app';
 import { AuthProviders, ToastProvider } from 'context';
 import { Layout } from 'components/layout';
-import { NextPageContext } from 'next';
-import { CookieStorage } from 'storage';
+import { NextPage, NextPageContext } from 'next';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-MyApp.getInitialProps = async ({ ctx }: { ctx: NextPageContext }) => {
+MyApp.getInitialProps = async ({ Component, ctx }: { Component: NextPage; ctx: NextPageContext }) => {
   let authenticated = false;
 
   const { req } = ctx;
@@ -25,11 +24,21 @@ MyApp.getInitialProps = async ({ ctx }: { ctx: NextPageContext }) => {
     const cookies = req.headers.cookie?.split(';').reduce((acc: Record<string, string>, current) => {
       const [name, value] = current.split('=');
       acc[name.trim()] = value.trim();
-      new CookieStorage().set(name.trim(), value.trim());
       return acc;
     }, {});
 
     authenticated = !!cookies?.token;
+    (ctx.req as any).cookies = cookies;
+  }
+
+  if (Component.getInitialProps) {
+    const props = await Component.getInitialProps(ctx);
+    return {
+      pageProps: {
+        ...props,
+        authenticated,
+      },
+    };
   }
 
   return {

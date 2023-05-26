@@ -1,4 +1,10 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, RawAxiosRequestHeaders } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  CreateAxiosDefaults,
+  RawAxiosRequestHeaders,
+} from 'axios';
 import { APIPlatformSerializer } from 'serializers/api-platform';
 import getConfig from 'next/config';
 import { APIList, APIListResult, APISingleResult, GenericAPIObject } from 'model';
@@ -10,6 +16,10 @@ const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
 interface EndpointInterface {
   endpoint?: string;
+}
+
+interface DepthLoaderInterface {
+  depth?: number;
 }
 
 interface ConfigInterface {
@@ -36,10 +46,14 @@ export abstract class API {
 
   getBaseUrl = (): string => '';
 
-  request(): AxiosInstance {
+  request(config?: CreateAxiosDefaults): AxiosInstance {
     const instance = axios.create({
       baseURL: this.getBaseUrl(),
-      headers: getHeaders(),
+      headers: {
+        ...getHeaders(),
+        ...(config?.headers ?? {}),
+      },
+      ...(config ?? {}),
     });
     instance.interceptors.request.use((r) => {
       const token = new Token().get();
@@ -51,12 +65,11 @@ export abstract class API {
     instance.interceptors.response.use(
       (r) => r,
       (r) => {
-        if (401 === r.response.status && !r.request.responseURL.includes('/auth')) {
+        if (401 === r.response.status) {
           new Token().delete();
-          if (window && window.location) {
+          if (typeof window !== 'undefined') {
             window.location.pathname = ROUTES.SIGN_IN;
           }
-          return;
         }
         return Promise.reject(r);
       }
@@ -69,8 +82,8 @@ export abstract class API {
     return this.request().delete(`${this.endpoint}${endpoint || ''}`);
   }
 
-  async getRequest({ endpoint = '' }: EndpointInterface = {}): Promise<AxiosResponse> {
-    return this.request().get(
+  async getRequest({ config, endpoint = '' }: ConfigInterface & EndpointInterface = {}): Promise<AxiosResponse> {
+    return this.request(config).get(
       `${this.endpoint}${endpoint}?${
         new URLSearchParams({
           ...this.pagination,
@@ -106,12 +119,12 @@ export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T
 
   getBaseUrl = (): string => serverRuntimeConfig.API_URL || publicRuntimeConfig.API_URL;
 
-  getMany(): Promise<APIList<T>> {
-    return this.getRequest()
+  getMany({ config, depth }: DepthLoaderInterface & ConfigInterface = {}): Promise<APIList<T>> {
+    return this.getRequest({ config })
       .then(({ data }: { data: APIListResult<T> }) => data)
       .then((data) => {
         return {
-          items: this.serializer.serializeMany(data['hydra:member']),
+          items: this.serializer.serializeMany(data['hydra:member'], depth),
           total: data['hydra:totalItems'],
         } as APIList<T>;
       });
@@ -121,9 +134,9 @@ export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T
     return this.postRequest({ data }).then(({ data: v }) => this.serializer.serialize(v));
   }
 
-  getOne({ id }: T) {
-    return this.getRequest({ endpoint: `/${id}` })
-      .then(({ data: v }) => this.serializer.serialize(v))
+  getOne({ config, depth, id }: DepthLoaderInterface & ConfigInterface & T) {
+    return this.getRequest({ config, endpoint: `/${id}` })
+      .then(({ data: v }) => this.serializer.serialize(v, depth))
       .catch(console.warn);
   }
 

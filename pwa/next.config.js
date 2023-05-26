@@ -4,10 +4,10 @@ const nextConfig = {
   swcMinify: true,
   output: "standalone",
   serverRuntimeConfig: {
-    API_URL: "http://api",
+    API_URL: "http://localhost",
   },
   publicRuntimeConfig: {
-    API_URL: process.env.DOMAIN ?? "http://localhost",
+    API_URL: process.env.DOMAIN,
   },
 };
 
