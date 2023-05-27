@@ -1,5 +1,5 @@
 import React from 'react';
-import { X } from 'react-feather';
+import { Save, X } from 'react-feather';
 import {
   AlertOctagon,
   Box,
@@ -19,52 +19,54 @@ import {
 
 export type AllowedIcons =
   | 'alert'
-  | 'box'
-  | 'server'
-  | 'code'
-  | 'code'
-  | 'chevron-down'
-  | 'chevron-up'
-  | 'extensible'
-  | 'performance'
-  | 'plus'
   | 'arrow-down'
   | 'arrow-left'
-  | 'trash'
+  | 'box'
   | 'check'
+  | 'chevron-down'
+  | 'chevron-up'
+  | 'code'
+  | 'extensible'
+  | 'performance'
   | 'pin'
+  | 'plus'
+  | 'save'
+  | 'server'
+  | 'trash'
   | 'x';
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
-    case 'box':
-      return Box;
-    case 'server':
-      return Server;
-    case 'code':
-      return Code;
-    case 'chevron-down':
-      return ChevronDown;
-    case 'chevron-up':
-      return ChevronUp;
-    case 'extensible':
-      return Maximize2;
-    case 'performance':
-      return Cpu;
-    case 'plus':
-      return Plus;
+    case 'alert':
+      return AlertOctagon;
     case 'arrow-down':
       return ChevronDown;
     case 'arrow-left':
       return ChevronLeft;
-    case 'trash':
-      return Trash2;
+    case 'box':
+      return Box;
     case 'check':
       return Check;
+    case 'chevron-down':
+      return ChevronDown;
+    case 'chevron-up':
+      return ChevronUp;
+    case 'code':
+      return Code;
+    case 'extensible':
+      return Maximize2;
+    case 'performance':
+      return Cpu;
     case 'pin':
       return MapPin;
-    case 'alert':
-      return AlertOctagon;
+    case 'plus':
+      return Plus;
+    case 'save':
+      return Save;
+    case 'server':
+      return Server;
+    case 'trash':
+      return Trash2;
     case 'x':
       return X;
   }

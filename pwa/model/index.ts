@@ -28,11 +28,11 @@ export type Configuration = APISingleResult<{
   domain: Domain | string;
 }>;
 
-export type Domain = APISingleResult<{
+export type Domain<T = Configuration | string> = APISingleResult<{
   dns: string;
   valid: boolean;
   owner: User | APISingleResult;
-  configurations: ReadonlyArray<Configuration | string>;
+  configurations: ReadonlyArray<T>;
 }>;
 
 export type APIList<T> = {

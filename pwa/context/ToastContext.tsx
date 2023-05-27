@@ -35,7 +35,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({ children }) =
 
   return (
     <ToastContext.Provider value={pushToast}>
-      <div className="absolute top-16 toast toast-top toast-end grid gap-4 z-40 w-96">
+      <div className="fixed top-16 toast toast-top toast-end grid gap-4 z-40 w-96">
         {toastList.map((toast, idx) => (
           <Popup
             {...toast}
