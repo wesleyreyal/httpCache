@@ -33,3 +33,24 @@ export class LocalStorage implements Storage<string> {
     localStorage.removeItem(key);
   }
 }
+
+export class Token {
+  key = 'token';
+  storage: Storage<string>;
+
+  constructor() {
+    this.storage = new CookieStorage();
+  }
+
+  get() {
+    return this.storage.get(this.key);
+  }
+
+  set(value: string) {
+    this.storage.set(this.key, value);
+  }
+
+  delete() {
+    this.storage.delete(this.key);
+  }
+}

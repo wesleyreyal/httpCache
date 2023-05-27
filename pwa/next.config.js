@@ -2,12 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  output: "standalone",
   serverRuntimeConfig: {
-    API_URL: 'http://api',
+    API_URL: "http://localhost",
   },
   publicRuntimeConfig: {
-    API_URL: process.env.DOMAIN ?? 'https://localhost',
+    API_URL: process.env.DOMAIN,
   },
 };
 

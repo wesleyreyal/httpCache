@@ -1,12 +1,13 @@
 import { APISingleResult } from 'model';
 import { SerializerInterface } from './interface';
+import { RequestInterface } from 'actions/abstract';
 
 export class APIPlatformSerializer<T extends APISingleResult> implements SerializerInterface<T> {
-  serialize(o: APISingleResult<T>): T {
+  serialize(o: APISingleResult<T>, rq?: RequestInterface): Promise<T> {
     o.id = o['@id'].split('/')?.[2];
-    return o;
+    return Promise.resolve(o);
   }
-  serializeMany(o: ReadonlyArray<T>): ReadonlyArray<T> {
-    return o.map(this.serialize);
+  serializeMany(o: ReadonlyArray<T>, rq?: RequestInterface): Promise<ReadonlyArray<T>> {
+    return Promise.all(o.map((item) => this.serialize(item, rq)));
   }
 }

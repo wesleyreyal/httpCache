@@ -21,6 +21,14 @@ class UserFixtures extends Fixture
             'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
             'roles' => ['ROLE_ADMIN'],
         ]);
+        UserFactory::createOne([
+            'email' => 'test@test.fr',
+            'firstname' => 'Tester',
+            'lastname' => 'Dummy',
+            # Corresponds to 'test'
+            'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
+            'roles' => ['ROLE_USER'],
+        ]);
         UserFactory::createMany(3);
 
         $manager->flush();

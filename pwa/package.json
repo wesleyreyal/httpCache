@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@api-platform/admin": "^3.4.3",
     "app": "link:@types/next/app",
     "axios": "^1.4.0",
     "daisyui": "^2.51.6",

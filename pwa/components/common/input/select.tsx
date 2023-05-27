@@ -164,12 +164,14 @@ export const Select: React.FC<
   ) : (
     <div className={`form-control gap-y-1 ${className ?? ''}`}>
       <label htmlFor={name}>{label}</label>
-      <select className="select w-full" name={name} id={name} {...props}>
-        {placeholder && (
-          <option disabled selected>
-            {placeholder}
-          </option>
-        )}
+      <select
+        className="select w-full"
+        defaultValue={props.defaultValue ?? placeholder}
+        name={name}
+        id={name}
+        {...props}
+      >
+        {placeholder && <option disabled>{placeholder}</option>}
         {options.map(({ name, value }, id) => (
           <option key={id} value={value}>
             {name}

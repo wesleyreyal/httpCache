@@ -32,14 +32,7 @@ export const computeClassFromProps = ({ variant, wide }: Omit<additionalTypes, '
   return classes;
 };
 
-export const BaseButton: React.FC<buttonType> = ({
-  variant = 'info',
-  wide,
-  text,
-  type = 'components/common/button',
-  className = '',
-  ...props
-}) => (
+export const BaseButton: React.FC<buttonType> = ({ variant = 'info', wide, text, type, className = '', ...props }) => (
   <button
     type={type}
     className={`btn font-bold w-fit ${computeClassFromProps({ variant, wide })} ${className}`}

@@ -1,15 +1,21 @@
 import React from 'react';
 import { Form } from 'components/common/form/forms';
 import { buttonType } from 'components/common/button';
+import { Auth } from 'actions/user';
+import { useDispatchAuth, usePushToast } from 'context';
+import { ROUTES } from 'routes';
+import { UserLogin } from 'model';
 
 const inputs = [
   {
     placeholder: 'johndoe@example.com',
-    label: 'mail',
+    name: 'email',
+    label: 'email',
     type: 'email',
   },
   {
     placeholder: 'mysecretpassword',
+    name: 'password',
     label: 'password',
     type: 'password',
   },
@@ -24,9 +30,31 @@ const button: buttonType = {
 const redirection = {
   text: 'No account yet?',
   highlightText: 'Create one',
-  redirectionLink: '/register',
+  redirectionLink: ROUTES.REGISTER,
 };
 
-const Signin = () => <Form title="Sign in" inputs={inputs} buttonProps={button} redirectionInformation={redirection} />;
+const Signin = () => {
+  const setConnected = useDispatchAuth();
+  const pushToast = usePushToast();
+  return (
+    <Form
+      title="Sign in"
+      inputs={inputs}
+      buttonProps={button}
+      redirectionInformation={redirection}
+      handleSubmit={(values) => {
+        new Auth()
+          .login(values as UserLogin)
+          .then(() => {
+            setConnected(true);
+            pushToast({ text: 'Logged in successfully', variant: 'success' });
+          })
+          .catch(() => {
+            pushToast({ text: 'Invalid credentials', variant: 'danger' });
+          });
+      }}
+    />
+  );
+};
 
 export default Signin;

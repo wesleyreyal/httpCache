@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { Subdomain } from './subdomain/subdomain';
+import { Configuration } from '../../../model';
+import { EditDomain } from './editDomain';
 
 type collapseBlockProps = {
   number: number;
   name: string;
-  configurations: ReadonlyArray<subdomain>;
-};
-
-type subdomain = {
-  zone: string;
-  ip: string;
+  configurations: ReadonlyArray<Configuration>;
 };
 
 export const CollapseBlock: React.FC<collapseBlockProps> = ({ number, name, configurations }) => {
@@ -30,6 +27,7 @@ export const CollapseBlock: React.FC<collapseBlockProps> = ({ number, name, conf
         {configurations.map((subdomain, idx) => (
           <Subdomain key={idx} {...subdomain} />
         ))}
+        <EditDomain />
       </div>
     </div>
   );

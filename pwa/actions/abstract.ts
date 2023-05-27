@@ -1,19 +1,32 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  CreateAxiosDefaults,
+  RawAxiosRequestHeaders,
+} from 'axios';
 import { APIPlatformSerializer } from 'serializers/api-platform';
 import getConfig from 'next/config';
-import { RawAxiosRequestHeaders } from 'axios';
-import { APIList, APIListResult, APISingleResult } from 'model';
+import { APIList, APIListResult, APISingleResult, GenericAPIObject } from 'model';
 import { SerializerInterface } from 'serializers/interface';
-import { CookieStorage } from 'storage';
+import { Token } from 'storage';
+import { ROUTES } from 'routes';
+
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
 interface EndpointInterface {
   endpoint?: string;
 }
 
+interface DepthLoaderInterface {
+  depth?: number;
+}
+
 interface ConfigInterface {
   config?: AxiosRequestConfig;
 }
+
+export type RequestInterface = DepthLoaderInterface & ConfigInterface;
 
 const getHeaders = (): RawAxiosRequestHeaders => ({
   Accept: 'application/ld+json',
@@ -35,13 +48,17 @@ export abstract class API {
 
   getBaseUrl = (): string => '';
 
-  request(): AxiosInstance {
+  request(config?: CreateAxiosDefaults): AxiosInstance {
     const instance = axios.create({
       baseURL: this.getBaseUrl(),
-      headers: getHeaders(),
+      headers: {
+        ...getHeaders(),
+        ...(config?.headers ?? {}),
+      },
+      ...(config ?? {}),
     });
     instance.interceptors.request.use((r) => {
-      const token = new CookieStorage().get('token');
+      const token = new Token().get();
       if (token) {
         r.headers['Authorization'] = `Bearer ${token}`;
       }
@@ -51,9 +68,10 @@ export abstract class API {
       (r) => r,
       (r) => {
         if (401 === r.response.status) {
-          // new Token().remove();
-          // window.location.pathname = '/login';
-          return;
+          new Token().delete();
+          if (typeof window !== 'undefined') {
+            window.location.pathname = ROUTES.SIGN_IN;
+          }
         }
         return Promise.reject(r);
       }
@@ -66,8 +84,8 @@ export abstract class API {
     return this.request().delete(`${this.endpoint}${endpoint || ''}`);
   }
 
-  async getRequest({ endpoint = '' }: EndpointInterface = {}): Promise<AxiosResponse> {
-    return this.request().get(
+  async getRequest({ config, endpoint = '' }: ConfigInterface & EndpointInterface = {}): Promise<AxiosResponse> {
+    return this.request(config).get(
       `${this.endpoint}${endpoint}?${
         new URLSearchParams({
           ...this.pagination,
@@ -98,35 +116,34 @@ export abstract class API {
   }
 }
 
-export class APIPlatform<T extends APISingleResult> extends API {
+export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T>> extends API {
   protected serializer: SerializerInterface<T> = new APIPlatformSerializer();
 
   getBaseUrl = (): string => serverRuntimeConfig.API_URL || publicRuntimeConfig.API_URL;
 
-  getMany(): Promise<APIList<T>> {
-    return this.getRequest()
+  getMany({ config, depth }: DepthLoaderInterface & ConfigInterface = {}): Promise<APIList<T>> {
+    return this.getRequest({ config })
       .then(({ data }: { data: APIListResult<T> }) => data)
-      .then((data) => {
-        return {
-          items: this.serializer.serializeMany(data['hydra:member']),
-          total: data['hydra:totalItems'],
-        } as APIList<T>;
-      });
+      .then((data) =>
+        Promise.all([this.serializer.serializeMany(data['hydra:member'], { config, depth }), data['hydra:totalItems']])
+      )
+      .then(([items, total]) => ({
+        items,
+        total,
+      }));
+  }
+
+  create(data: U) {
+    return this.postRequest({ data }).then(({ data: v }) => this.serializer.serialize(v));
+  }
+
+  getOne({ config, depth, id }: DepthLoaderInterface & ConfigInterface & T) {
+    return this.getRequest({ config, endpoint: `/${id}` })
+      .then(({ data: v }) => this.serializer.serialize(v, { config, depth }))
+      .catch(console.warn);
   }
 
   /*
-  getOne({ id }: APIPlatformSingleInterface) {
-    return this.getRequest({ endpoint: id })
-      .then(({ data: v }) => this.serializer.serialize(v))
-      .catch(console.warn);
-  }
-
-  create(data: Record<string, string>) {
-    return this.postRequest({ data })
-      .then(({ data: v }) => this.serializer.serialize(v))
-      .catch(console.warn);
-  }
-
   update({ id }: APIPlatformSingleInterface) {
     return this.patchRequest({ endpoint: id }).then().catch(console.warn);
   }
