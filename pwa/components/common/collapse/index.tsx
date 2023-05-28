@@ -9,7 +9,10 @@ export const Collapse: React.FC<React.PropsWithChildren<{ title: React.ReactNode
         open ? 'collapse-open shadow-lg' : 'collapse-close'
       }`}
     >
-      <div className="collapse-title text-xl font-medium flex justify-between px-10" onClick={() => setOpen(!open)}>
+      <div
+        className="collapse-title text-xl font-medium flex justify-between px-10 cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
         {title}
       </div>
       <div className="collapse-content justify-between gap-y-4 items-center">{children}</div>

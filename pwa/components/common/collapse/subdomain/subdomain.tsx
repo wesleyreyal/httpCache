@@ -4,12 +4,10 @@ import { BaseButton, OutlinedButton } from 'components/common/button';
 import { usePushToast } from 'context';
 import { Blur } from 'components/common/block';
 import Link from 'next/link';
+import { Configuration } from 'model';
 
-export type subdomainProps = {
-  zone: string;
-  ip: string;
-};
-export const Subdomain: React.FC<subdomainProps> = ({ zone, ip }) => {
+export type subdomainProps = Configuration;
+export const Subdomain: React.FC<subdomainProps> = ({ id, zone, ip }) => {
   const pushToast = usePushToast();
   const [validationPopup, setValidationPopup] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -19,7 +17,7 @@ export const Subdomain: React.FC<subdomainProps> = ({ zone, ip }) => {
       <InputBase className="w-full" defaultValue={zone} onChange={() => setUpdated(true)} />
       <InputBase className="w-full" defaultValue={ip} onChange={() => setUpdated(true)} />
       <div className="flex gap-x-4 items-center">
-        <Link href={''}>
+        <Link href="/configuration/[id]" as={`configuration/${id}`}>
           <OutlinedButton text="Edit configuration" className="flex-nowrap whitespace-nowrap" />
         </Link>
         <OutlinedButton variant="danger" icon="trash" onClick={() => setValidationPopup(true)} />

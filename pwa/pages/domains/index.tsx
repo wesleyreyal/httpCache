@@ -46,7 +46,7 @@ const Domains: NextPage<DomainsPageProps> = (props) => {
   );
 };
 
-Domains.getInitialProps = async (ctx: NextPageContext & { req: { cookies: Record<string, string> } }) => {
+Domains.getInitialProps = (ctx: NextPageContext & { req: { cookies: Record<string, string> } }) => {
   return new Domain()
     .getMany({
       ...(ctx?.req?.cookies ? { config: { headers: { Authorization: `Bearer ${ctx.req.cookies.token}` } } } : {}),

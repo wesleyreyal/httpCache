@@ -23,6 +23,7 @@ body, #__next {
   flex-direction: column;
   display: flex;
   min-height: 100vh;
+  background: #f6f8fa;
 }
 
 main {
