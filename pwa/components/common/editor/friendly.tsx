@@ -33,14 +33,16 @@ export const UserFriendlyEditor: React.FC = () => {
   };
 
   useEffect(() => {
-    updateForm(
+    allowedHTTP.length && updateForm(
       'allowed_http_cache',
       allowedHTTP.map((o) => o.value)
     );
   }, [allowedHTTP, setForm]);
 
   useEffect(() => {
-    const timer = setTimeout(() => dispatchConfiguration({ type: 'update', payload: form ?? {} }), 3000);
+    const timer = setTimeout(() => {
+      dispatchConfiguration({ type: 'update', payload: form ?? {} })
+    }, 500);
 
     return () => {
       clearTimeout(timer);

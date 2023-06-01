@@ -8,11 +8,12 @@ export type IteratorValue = Record<string, string | ReadonlyArray<string> | bool
 export type IteratorProps = {
   className?: string;
   iteration?: number;
+  setIteration?: React.Dispatch<React.SetStateAction<number>>;
   label?: string;
   name: string;
   // TODO: remove the any keyword here.
   // eslint-disable-next-line
-  inputsTemplate: ReadonlyArray<InputGuesserProps & { onChange?: (value: any) => void }>;
+  inputsTemplate?: ReadonlyArray<InputGuesserProps & { onChange?: (value: any) => void }>;
   values: ReadonlyArray<IteratorValue>;
   Template?: React.FC<IteratorProps>;
 };
@@ -40,6 +41,7 @@ export const Iterator: React.FC<IteratorProps> = ({
                 iteration={idx}
                 className={className}
                 inputsTemplate={inputsTemplate}
+                setIteration={setIteration}
                 label={label}
                 name={name}
                 Template={Template}
@@ -50,7 +52,7 @@ export const Iterator: React.FC<IteratorProps> = ({
           return (
             <div key={idx} className="flex py-2">
               <Group
-                inputs={inputsTemplate.map(
+                inputs={(inputsTemplate ?? []).map(
                   (template) =>
                     ({
                       ...template,

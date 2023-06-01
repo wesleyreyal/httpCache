@@ -35,10 +35,17 @@ const Domains: NextPage<DomainsPageProps> = (props) => {
             className="pt-8 gap-y-8 grid"
             name="subdomains"
             values={domain.configurations.map((c) => c as Record<string, string>)}
-            inputsTemplate={[]}
-            Template={(props) => <Subdomain {...(props.values[props.iteration ?? 0] as subdomainProps)} />}
+            Template={({iteration, setIteration, ...rest}) => {
+              return <Subdomain 
+                {...(rest.values[iteration ?? 0] as subdomainProps)} 
+                setIteration={setIteration ?? (() => {})} 
+                domain={domain['@id']} 
+                domainIteration={idx} 
+                iteration={iteration ?? 0} 
+                setDomains={setDomains} 
+                />
+            }}
           />
-          {domain.configurations.map((configuration) => JSON.stringify(configuration))}
         </Collapse>
       ))}
       <OutlinedButton text="Add new domain" />

@@ -25,17 +25,22 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             security: "is_granted('ROLE_USER')",
         ),
-        new Get(),
+        new Get(
+            security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
+        ),
         new Post(
-            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
+            denormalizationContext: ['groups' => 'create_configuration_denormalization'],
+            securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
         ),
         new Patch(
-            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
+            denormalizationContext: ['groups' => 'update_configuration_denormalization'],
+            security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
         ),
-        new Delete(),
+        new Delete(
+            security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
+        ),
     ],
     normalizationContext: ['groups' => 'get_configuration_normalization'],
-    security: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user",
 )]
 class Configuration
 {
@@ -46,22 +51,22 @@ class Configuration
     private ?Uuid $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $zone = '';
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
     #[ORM\Column(type: Types::TEXT)]
     private string $configuration = '';
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
     #[ORM\Column(length: 39)]
     private string $ip = '';
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization'])]
     #[ORM\ManyToOne(inversedBy: 'configurations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Domain $domain = null;

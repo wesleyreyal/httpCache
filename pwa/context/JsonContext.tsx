@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import { Configuration } from 'actions';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { JsonSchema } from 'types/configuration';
 
 export const defaultJson: JsonSchema = {
@@ -66,10 +67,18 @@ const reducer = (state: JsonSchema = initialState, { type, payload }: JsonFormAc
   return state;
 };
 
-export const JsonProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [json, dispatch] = useReducer(reducer, defaultJson);
+type JsonContextProps = {
+  json?: JsonSchema;
+  configurationId: string;
+}
 
-  return <JsonContext.Provider value={{ json, dispatch }}>{children}</JsonContext.Provider>;
+export const JsonProvider: React.FC<React.PropsWithChildren<JsonContextProps>> = ({ configurationId, json = defaultJson, children }) => {
+  const [jsonState, dispatch] = useReducer(reducer, json);
+  useEffect(() => {
+    new Configuration().update(configurationId, { configuration: JSON.stringify(jsonState) })
+  }, [jsonState])
+
+  return <JsonContext.Provider value={{ json: jsonState, dispatch }}>{children}</JsonContext.Provider>;
 };
 
 export const useDispatchConfiguration = () => {

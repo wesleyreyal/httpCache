@@ -143,11 +143,11 @@ export class APIPlatform<T extends APISingleResult, U extends GenericAPIObject<T
       .catch(console.warn);
   }
 
-  /*
-  update({ id }: APIPlatformSingleInterface) {
-    return this.patchRequest({ endpoint: id }).then().catch(console.warn);
+  update(id: string, data: Partial<U>) {
+    return this.patchRequest({ data, endpoint: `/${id}` }).then(({ data: v }) => this.serializer.serialize(v));
   }
 
+  /*
   delete({ id }: APIPlatformSingleInterface) {
     return this.deleteRequest({ endpoint: id }).then().catch(console.warn);
   }
