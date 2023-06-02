@@ -85,7 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
 
-    #[ORM\Column(length: 530, nullable: true)]
+    #[ORM\Column(length: 128)]
     private ?string $token = '';
 
     #[Groups(['get_user_normalization','create_update_user_normalization'])]
