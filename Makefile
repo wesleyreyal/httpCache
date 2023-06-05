@@ -1,4 +1,4 @@
-.PHONY: delete-migrations fixtures generate-migration migrate reset-db start-dev start-prod
+.PHONY: delete-migrations fixtures generate-migration migrate reset-db start-dev start-prod analyze
 
 DC=docker compose -f docker-compose.yml -f docker-compose.override.yml
 BIN_CONSOLE=$(DC) exec php bin/console
@@ -25,3 +25,6 @@ reset-db:
 	$(BIN_CONSOLE) do:da:dr --force
 	$(BIN_CONSOLE) do:da:cr
 	$(MAKE) migrate fixtures
+
+analyze: ## Run the phpstan analyze
+	docker compose exec php vendor/bin/phpstan analyze -c phpstan.neon src
