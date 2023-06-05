@@ -18,12 +18,13 @@ final class Configurations implements QueryCollectionExtensionInterface
         $this->security = $security;
     }
 
+    /** @param Array<string> $context */
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
-    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
+    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
         if(Configuration::class !== $resourceClass) {
             return;

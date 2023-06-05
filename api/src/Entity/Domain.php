@@ -63,6 +63,7 @@ class Domain
 
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
     #[Groups(['get_domain_normalization','create_update_domain_normalization'])]
+    /** @var Collection<int, Configuration> */
     private Collection $configurations;
 
     public function __construct()
@@ -111,9 +112,7 @@ class Domain
         return $this;
     }
 
-    /**
-     * @return Collection<int, Configuration>
-     */
+    /** @return Collection<int, Configuration> */
     public function getConfigurations(): Collection
     {
         return $this->configurations;
@@ -131,12 +130,7 @@ class Domain
 
     public function removeConfiguration(Configuration $configuration): self
     {
-        if ($this->configurations->removeElement($configuration)) {
-            // set the owning side to null (unless already changed)
-            if ($configuration->getDomain() === $this) {
-                $configuration->setDomain(null);
-            }
-        }
+        $this->configurations->removeElement($configuration);
 
         return $this;
     }

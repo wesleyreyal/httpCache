@@ -49,7 +49,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
 
     public function handleRegistration(ViewEvent $event): Response
     {
-        /** @var $user User */
+        /** @var User $user */
         $user = $event->getControllerResult();
 
         if (!($user instanceof User && Request::METHOD_POST === $event->getRequest()->getMethod())) {

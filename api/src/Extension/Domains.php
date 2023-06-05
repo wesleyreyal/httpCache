@@ -18,12 +18,13 @@ final class Domains implements QueryCollectionExtensionInterface
         $this->security = $security;
     }
 
-    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
+    /** @param Array<string> $context */
+    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, mixed $context = []): void
     {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
-    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
+    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
         if(Domain::class !== $resourceClass) {
             return;

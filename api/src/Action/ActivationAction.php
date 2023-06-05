@@ -25,13 +25,14 @@ class ActivationAction {
     {
         $content = $request->getContent();
 
-        try {
-            $json = json_decode($content);
-        } catch(\Exception $e) {
+        $json = json_decode($content);
+
+        if (is_object($json) && property_exists($json, 'email') && property_exists($json, 'token')) {
+            $email = $json->email;
+            $token = $json->token;
+        } else {
             throw new BadRequestException();
         }
-        $email = $json->email;
-        $token = $json->token;
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email, 'token' => $token]);
 

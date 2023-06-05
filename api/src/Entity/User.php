@@ -60,7 +60,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization','admin:create_update_user_denormalization','admin:create_update_user_normalization'])]
     #[ORM\Column]
-    private array $roles = [];
+    /** @var array<string> */
+    private mixed $roles = [];
 
     #[ORM\Column]
     #[Assert\NotBlank]
@@ -120,16 +121,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+    /** @return array<string> */
     public function getRoles(): array
     {
+        /** @var array<string> $roles */
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return $roles;
     }
 
-    public function setRoles(array $roles): self
+    /** @param $roles array<string> */
+    public function setRoles(mixed $roles): self
     {
         $this->roles = $roles;
 
@@ -188,9 +190,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Domain>
-     */
+    /** @return Collection<int, Domain> */
     public function getDomains(): Collection
     {
         return $this->domains;
@@ -208,12 +208,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeDomain(Domain $domain): self
     {
-        if ($this->domains->removeElement($domain)) {
-            // set the owning side to null (unless already changed)
-            if ($domain->getOwner() === $this) {
-                $domain->setOwner(null);
-            }
-        }
+        $this->domains->removeElement($domain);
 
         return $this;
     }
