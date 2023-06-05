@@ -62,9 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string|null The hashed password
-     */
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Groups(['create_user_denormalization','update_user_denormalization'])]
@@ -87,6 +84,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['get_user_normalization'])]
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
+
+    #[ORM\Column(length: 128)]
+    private ?string $token = '';
+
+    #[Groups(['get_user_normalization','create_update_user_normalization'])]
+    #[ORM\Column]
+    private bool $activated = false;
 
     public function __construct()
     {
@@ -210,6 +214,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $domain->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function isActivated(): bool
+    {
+        return $this->activated;
+    }
+
+    public function setActivated(bool $activated): self
+    {
+        $this->activated = $activated;
 
         return $this;
     }

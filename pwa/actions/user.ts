@@ -46,3 +46,11 @@ export class Auth extends User {
     });
   }
 }
+
+export class Activation extends User {
+  endpoint = '/activation';
+
+  activate(data: { email: string; token: string }) {
+    return this.postRequest({ data });
+  }
+}
