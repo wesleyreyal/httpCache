@@ -14,7 +14,9 @@ use App\Repository\DomainRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DomainRepository::class)]
@@ -43,17 +45,17 @@ class Domain
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
+    #[ORM\Column(type: UuidType::NAME)]
+    private Uuid $id;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Groups(['get_domain_normalization','create_update_domain_normalization','create_update_domain_denormalization'])]
+    #[Groups(['get_domain_normalization', 'create_update_domain_normalization', 'create_update_domain_denormalization'])]
     private string $dns;
 
     #[ORM\Column]
     #[Assert\NotBlank]
-    #[Groups(['get_domain_normalization','create_update_domain_normalization'])]
+    #[Groups(['get_domain_normalization', 'create_update_domain_normalization'])]
     private bool $valid;
 
     #[ORM\ManyToOne(inversedBy: 'domains')]
@@ -61,8 +63,9 @@ class Domain
     #[Assert\NotBlank]
     private User $owner;
 
+    /** @var Collection<int, Configuration> */
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
-    #[Groups(['get_domain_normalization','create_update_domain_normalization'])]
+    #[Groups(['get_domain_normalization', 'create_update_domain_normalization'])]
     private Collection $configurations;
 
     public function __construct()
@@ -70,7 +73,7 @@ class Domain
         $this->configurations = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -131,12 +134,7 @@ class Domain
 
     public function removeConfiguration(Configuration $configuration): self
     {
-        if ($this->configurations->removeElement($configuration)) {
-            // set the owning side to null (unless already changed)
-            if ($configuration->getDomain() === $this) {
-                $configuration->setDomain(null);
-            }
-        }
+        $this->configurations->removeElement($configuration);
 
         return $this;
     }

@@ -16,9 +16,11 @@ use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -49,38 +51,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
+    #[ORM\Column(type: UuidType::NAME)]
+    private Uuid $id;
 
     #[Assert\NotBlank]
-    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
+    #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 180, unique: true)]
     private string $email;
 
+    /** @var array<string> */
     #[Assert\NotBlank]
-    #[Groups(['get_user_normalization','admin:create_update_user_denormalization','admin:create_update_user_normalization'])]
+    #[Groups(['get_user_normalization', 'admin:create_update_user_denormalization', 'admin:create_update_user_normalization'])]
     #[ORM\Column]
     private array $roles = [];
 
     #[ORM\Column]
     #[Assert\NotBlank]
-    #[Groups(['create_user_denormalization','update_user_denormalization'])]
-    private string $password ;
+    #[Groups(['create_user_denormalization', 'update_user_denormalization'])]
+    private string $password;
 
     #[Assert\NotBlank]
-    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
+    #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $lastname;
 
     #[Assert\NotBlank]
-    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
+    #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $firstname;
 
-    #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
+    #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 150, nullable: true)]
     private string $company;
 
+    /** @var Collection<int, Domain> */
     #[Groups(['get_user_normalization'])]
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
     private Collection $domains;
@@ -88,7 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 128)]
     private ?string $token = '';
 
-    #[Groups(['get_user_normalization','create_update_user_normalization'])]
+    #[Groups(['get_user_normalization', 'create_update_user_normalization'])]
     #[ORM\Column]
     private bool $activated = false;
 
@@ -98,7 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = ['ROLE_USER'];
     }
 
-    public function getId(): int
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -129,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /** @param array<string> $roles */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -208,12 +213,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeDomain(Domain $domain): self
     {
-        if ($this->domains->removeElement($domain)) {
-            // set the owning side to null (unless already changed)
-            if ($domain->getOwner() === $this) {
-                $domain->setOwner(null);
-            }
-        }
+        $this->domains->removeElement($domain);
 
         return $this;
     }

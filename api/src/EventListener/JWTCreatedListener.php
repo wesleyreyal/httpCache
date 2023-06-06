@@ -13,11 +13,11 @@ class JWTCreatedListener
     {
         /** @var User $user */
         $user = $event->getUser();
-        if(!$user->isActivated()) {
+        if (!$user->isActivated()) {
             throw new AccessDeniedException();
         }
 
-        $expiration = new \DateTime('+1 day');
+        $expiration = new \DateTime('+30 days');
         $payload = $event->getData();
         $payload['user_id'] = $user->getId();
         $payload['exp'] = $expiration->getTimestamp();

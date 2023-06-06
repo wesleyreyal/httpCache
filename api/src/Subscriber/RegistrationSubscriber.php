@@ -8,7 +8,6 @@ use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +38,9 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $this->frontendUrl = $frontendUrl;
     }
 
-    #[ArrayShape([KernelEvents::VIEW => "array"])]
+    /**
+     * @return array<string, array<int, int|string>>
+     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -49,14 +50,14 @@ class RegistrationSubscriber implements EventSubscriberInterface
 
     public function handleRegistration(ViewEvent $event): Response
     {
-        /** @var $user User */
+        /** @var User $user */
         $user = $event->getControllerResult();
 
         if (!($user instanceof User && Request::METHOD_POST === $event->getRequest()->getMethod())) {
             return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $token = hash('sha512', $user->getEmail().(new DateTime())->format('Y-m-d H:i:s'));
+        $token = hash('sha512', $user->getEmail() . (new DateTime())->format('Y-m-d H:i:s'));
 
         $user->setToken($token);
 
@@ -73,12 +74,12 @@ class RegistrationSubscriber implements EventSubscriberInterface
             $html = $this->twig->render('emails/registration.html.twig', $context);
             $text = $this->twig->render('emails/registration.txt.twig', $context);
 
-        $email = (new Email())
-            ->from('noreply@souin.com')
-            ->to($user->getEmail())
-            ->subject('Registration confirmation')
-            ->text($text)
-            ->html($html);
+            $email = (new Email())
+                ->from('noreply@souin.com')
+                ->to($user->getEmail())
+                ->subject('Registration confirmation')
+                ->text($text)
+                ->html($html);
 
             $this->mailer->send($email);
         } catch (\Exception | TransportExceptionInterface $e) {

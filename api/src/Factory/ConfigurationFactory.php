@@ -51,7 +51,7 @@ final class ConfigurationFactory extends ModelFactory
         return [
             'configuration' => self::faker()->text(255),
             'ip' => self::faker()->ipv4(),
-            'zone' => $subdomain[random_int(0,count($subdomain)-1)],
+            'zone' => $subdomain[random_int(0, count($subdomain) - 1)],
             'domain' => DomainFactory::random(),
         ];
     }

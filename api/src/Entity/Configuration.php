@@ -13,8 +13,10 @@ use ApiPlatform\Metadata\Post;
 use App\Repository\ConfigurationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
 #[ApiResource(
@@ -38,21 +40,21 @@ class Configuration
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
+    #[ORM\Column(type: UuidType::NAME)]
+    private Uuid $id;
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $zone;
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
     #[ORM\Column(type: Types::TEXT)]
     private string $configuration;
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
     #[ORM\Column(length: 39)]
     private string $ip;
 
@@ -62,7 +64,7 @@ class Configuration
     #[ORM\JoinColumn(nullable: false)]
     private Domain $domain;
 
-    public function getId(): int
+    public function getId(): Uuid
     {
         return $this->id;
     }
