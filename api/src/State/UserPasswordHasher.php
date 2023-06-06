@@ -15,12 +15,10 @@ final class UserPasswordHasher implements ProcessorInterface
     {
     }
 
-    /** 
+    /**
      * @param array<mixed> $context
-     * @param User $data
+     * @param User         $data
      * @param array<mixed> $uriVariables
-     * 
-     * @return mixed 
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {

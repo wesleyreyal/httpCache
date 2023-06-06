@@ -6,7 +6,6 @@ namespace App\Factory;
 
 use App\Entity\Configuration;
 use App\Repository\ConfigurationRepository;
-use Exception;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -14,21 +13,21 @@ use Zenstruck\Foundry\RepositoryProxy;
 /**
  * @extends ModelFactory<Configuration>
  *
- * @method        Configuration|Proxy create(array|callable $attributes = [])
- * @method static Configuration|Proxy createOne(array $attributes = [])
- * @method static Configuration|Proxy find(object|array|mixed $criteria)
- * @method static Configuration|Proxy findOrCreate(array $attributes)
- * @method static Configuration|Proxy first(string $sortedField = 'id')
- * @method static Configuration|Proxy last(string $sortedField = 'id')
- * @method static Configuration|Proxy random(array $attributes = [])
- * @method static Configuration|Proxy randomOrCreate(array $attributes = [])
+ * @method        Configuration|Proxy                     create(array|callable $attributes = [])
+ * @method static Configuration|Proxy                     createOne(array $attributes = [])
+ * @method static Configuration|Proxy                     find(object|array|mixed $criteria)
+ * @method static Configuration|Proxy                     findOrCreate(array $attributes)
+ * @method static Configuration|Proxy                     first(string $sortedField = 'id')
+ * @method static Configuration|Proxy                     last(string $sortedField = 'id')
+ * @method static Configuration|Proxy                     random(array $attributes = [])
+ * @method static Configuration|Proxy                     randomOrCreate(array $attributes = [])
  * @method static ConfigurationRepository|RepositoryProxy repository()
- * @method static Configuration[]|Proxy[] all()
- * @method static Configuration[]|Proxy[] createMany(int $number, array|callable $attributes = [])
- * @method static Configuration[]|Proxy[] createSequence(iterable|callable $sequence)
- * @method static Configuration[]|Proxy[] findBy(array $attributes)
- * @method static Configuration[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
- * @method static Configuration[]|Proxy[] randomSet(int $number, array $attributes = [])
+ * @method static Configuration[]|Proxy[]                 all()
+ * @method static Configuration[]|Proxy[]                 createMany(int $number, array|callable $attributes = [])
+ * @method static Configuration[]|Proxy[]                 createSequence(iterable|callable $sequence)
+ * @method static Configuration[]|Proxy[]                 findBy(array $attributes)
+ * @method static Configuration[]|Proxy[]                 randomRange(int $min, int $max, array $attributes = [])
+ * @method static Configuration[]|Proxy[]                 randomSet(int $number, array $attributes = [])
  */
 final class ConfigurationFactory extends ModelFactory
 {
@@ -43,11 +42,12 @@ final class ConfigurationFactory extends ModelFactory
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function getDefaults(): array
     {
-        $subdomain = ["mail", "shop", "blog", "support", "forum", "api", "news", "events", "status", "dev"];
+        $subdomain = ['mail', 'shop', 'blog', 'support', 'forum', 'api', 'news', 'events', 'status', 'dev'];
+
         return [
             'configuration' => self::faker()->text(255),
             'ip' => self::faker()->ipv4(),

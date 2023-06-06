@@ -39,6 +39,7 @@ class ActivationAction
             ->setToken('')
             ->setActivated(true);
         $this->entityManager->flush();
+
         return new JsonResponse();
     }
 }

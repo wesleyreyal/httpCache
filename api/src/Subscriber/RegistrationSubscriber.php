@@ -6,7 +6,6 @@ namespace App\Subscriber;
 
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\Entity\User;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,6 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
-
 
 class RegistrationSubscriber implements EventSubscriberInterface
 {
@@ -44,7 +42,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['handleRegistration', EventPriorities::POST_VALIDATE]
+            KernelEvents::VIEW => ['handleRegistration', EventPriorities::POST_VALIDATE],
         ];
     }
 
@@ -57,7 +55,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
             return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $token = hash('sha512', $user->getEmail() . (new DateTime())->format('Y-m-d H:i:s'));
+        $token = hash('sha512', $user->getEmail().(new \DateTime())->format('Y-m-d H:i:s'));
 
         $user->setToken($token);
 
@@ -82,7 +80,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
                 ->html($html);
 
             $this->mailer->send($email);
-        } catch (\Exception | TransportExceptionInterface $e) {
+        } catch (\Exception|TransportExceptionInterface $e) {
             return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

@@ -21,12 +21,13 @@ final class AdminContextBuilder implements SerializerContextBuilderInterface
 
     /**
      * @param array<mixed>|null $extractedAttributes
+     *
      * @return array<mixed>
      */
     public function createFromRequest(Request $request, bool $normalization, $extractedAttributes = null): array
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
-        if ($request->getMethod() == Request::METHOD_PATCH && $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if (Request::METHOD_PATCH == $request->getMethod() && $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             if (!is_array($context['groups'])) {
                 $context['groups'] = [$context['groups']];
             }

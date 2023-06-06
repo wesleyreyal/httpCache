@@ -5,7 +5,6 @@ namespace App\EventListener;
 use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class JWTCreatedListener
 {

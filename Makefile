@@ -6,6 +6,9 @@ BIN_CONSOLE=$(DC) exec php bin/console
 analyse:
 	$(DC) exec php vendor/bin/phpstan analyse ./src --level 9
 
+cs-fixer:
+	$(DC) exec php vendor/bin/php-cs-fixer fix src --help
+
 delete-migrations:
 	$(DC) exec database psql -U app app -c "delete from doctrine_migration_versions"
 

@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => 'update_domain_normalization'],
             denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
         ),
-        new Delete()
+        new Delete(),
     ],
     security: "is_granted('ROLE_ADMIN') or object.owner == user",
 )]
