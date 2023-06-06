@@ -41,7 +41,7 @@ class Configuration
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: UuidType::NAME)]
-    private Uuid $id = Uuid::v7();
+    private ?Uuid $id = null;
 
     #[Assert\NotBlank]
     #[Groups(['get_configuration_normalization', 'create_update_domain_denormalization'])]
@@ -64,7 +64,7 @@ class Configuration
     #[ORM\JoinColumn(nullable: false)]
     private ?Domain $domain = null;
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

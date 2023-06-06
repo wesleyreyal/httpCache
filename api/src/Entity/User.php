@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: UuidType::NAME)]
-    private Uuid $id = Uuid::v7();
+    private ?Uuid $id = null;
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
@@ -102,7 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = ['ROLE_USER'];
     }
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

@@ -46,7 +46,7 @@ class Domain
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: UuidType::NAME)]
-    private Uuid $id = Uuid::v7();
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
@@ -73,7 +73,7 @@ class Domain
         $this->configurations = new ArrayCollection();
     }
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
