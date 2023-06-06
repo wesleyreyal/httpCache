@@ -7,28 +7,30 @@ on:
   pull_request: ~
   workflow_dispatch: ~
 
+defaults:
+  run:
+    working-directory: ./api
+
 jobs:
   tests:
     name: analysis
     runs-on: ubuntu-latest
-
     steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          tools: pecl, composer
+          extensions: intl, bcmath, curl, openssl, mbstring
+          coverage: none
+          ini-values: memory_limit=-1
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Composer
-        uses: php-actions/composer@v6
       - name: Install dependencies
-        working-directory: api
         run: composer install
       - name: PHPStan
-        uses: php-actions/phpstan@v3
-        with:
-          path: api/src
+        run: vendor/bin/phpstan analyse ./src --level 9
       - name: PHP-CS-Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: fix --dry-run --diff
+        run: vendor/bin/php-cs-fixer fix src
       - name: Psalm
-        uses: docker://ghcr.io/psalm/psalm-github-actions
-        with:
-          security_analysis: true
+        run: vendor/bin/psalm
