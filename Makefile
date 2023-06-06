@@ -1,7 +1,14 @@
 .PHONY: delete-migrations fixtures generate-migration migrate reset-db start-dev start-prod
 
 DC=docker compose -f docker-compose.yml -f docker-compose.override.yml
-BIN_CONSOLE=$(DC) exec php bin/console
+EXEC_PHP=$(DC) exec php
+BIN_CONSOLE=$(EXEC_PHP) bin/console
+
+analyse:
+	$(EXEC_PHP) vendor/bin/phpstan analyse ./src --level 9
+
+cs-fixer:
+	$(EXEC_PHP) vendor/bin/php-cs-fixer fix src --help
 
 delete-migrations:
 	$(DC) exec database psql -U app app -c "delete from doctrine_migration_versions"
@@ -14,6 +21,9 @@ generate-migration:
 
 migrate:
 	$(BIN_CONSOLE) do:mi:mi --quiet
+
+psalm:
+	$(EXEC_PHP) vendor/bin/psalm
 
 start-dev: ## Run the application in dev
 	$(DC) up -d
