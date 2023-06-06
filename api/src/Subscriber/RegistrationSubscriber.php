@@ -52,7 +52,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
         /** @var User $user */
         $user = $event->getControllerResult();
 
-        if (!($user instanceof User && Request::METHOD_POST === $event->getRequest()->getMethod())) {
+        if (!(Request::METHOD_POST === $event->getRequest()->getMethod())) {
             return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

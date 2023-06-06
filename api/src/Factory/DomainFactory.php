@@ -14,21 +14,21 @@ use Zenstruck\Foundry\RepositoryProxy;
 /**
  * @extends ModelFactory<Domain>
  *
- * @method        Domain|Proxy create(array|callable $attributes = [])
- * @method static Domain|Proxy createOne(array $attributes = [])
- * @method static Domain|Proxy find(object|array|mixed $criteria)
- * @method static Domain|Proxy findOrCreate(array $attributes)
- * @method static Domain|Proxy first(string $sortedField = 'id')
- * @method static Domain|Proxy last(string $sortedField = 'id')
- * @method static Domain|Proxy random(array $attributes = [])
- * @method static Domain|Proxy randomOrCreate(array $attributes = [])
- * @method static DomainRepository|RepositoryProxy repository()
- * @method static Domain[]|Proxy[] all()
- * @method static Domain[]|Proxy[] createMany(int $number, array|callable $attributes = [])
- * @method static Domain[]|Proxy[] createSequence(iterable|callable $sequence)
- * @method static Domain[]|Proxy[] findBy(array $attributes)
- * @method static Domain[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
- * @method static Domain[]|Proxy[] randomSet(int $number, array $attributes = [])
+ * @psalm-method        Domain|Proxy create(array|callable $attributes = [])
+ * @psalm-method static Domain|Proxy createOne(array $attributes = [])
+ * @psalm-method static Domain|Proxy find(object|array|mixed $criteria)
+ * @psalm-method static Domain|Proxy findOrCreate(array $attributes)
+ * @psalm-method static Domain|Proxy first(string $sortedField = 'id')
+ * @psalm-method static Domain|Proxy last(string $sortedField = 'id')
+ * @psalm-method static Domain|Proxy random(array $attributes = [])
+ * @psalm-method static Domain|Proxy randomOrCreate(array $attributes = [])
+ * @psalm-method static DomainRepository|RepositoryProxy repository()
+ * @psalm-method static Domain[]|Proxy[] all()
+ * @psalm-method static Domain[]|Proxy[] createMany(int $number, array|callable $attributes = [])
+ * @psalm-method static Domain[]|Proxy[] createSequence(iterable|callable $sequence)
+ * @psalm-method static Domain[]|Proxy[] findBy(array $attributes)
+ * @psalm-method static Domain[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
+ * @psalm-method static Domain[]|Proxy[] randomSet(int $number, array $attributes = [])
  */
 final class DomainFactory extends ModelFactory
 {

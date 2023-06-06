@@ -44,17 +44,17 @@ class Domain
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private int $id;
+    private int $id = 0;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Groups(['get_domain_normalization','create_update_domain_normalization','create_update_domain_denormalization'])]
-    private string $dns;
+    private string $dns = '';
 
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Groups(['get_domain_normalization','create_update_domain_normalization'])]
-    private bool $valid;
+    private bool $valid = false;
 
     #[ORM\ManyToOne(inversedBy: 'domains')]
     #[ORM\JoinColumn(nullable: false)]
@@ -120,10 +120,8 @@ class Domain
 
     public function addConfiguration(Configuration $configuration): self
     {
-        if (!$this->configurations->contains($configuration)) {
             $this->configurations->add($configuration);
             $configuration->setDomain($this);
-        }
 
         return $this;
     }

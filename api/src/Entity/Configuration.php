@@ -39,22 +39,22 @@ class Configuration
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private int $id;
+    private int $id = 0;
 
     #[Assert\NotBlank]
     #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
     #[ORM\Column(length: 100)]
-    private string $zone;
+    private string $zone = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
     #[ORM\Column(type: Types::TEXT)]
-    private string $configuration;
+    private string $configuration = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_configuration_normalization','create_update_domain_denormalization'])]
     #[ORM\Column(length: 39)]
-    private string $ip;
+    private string $ip = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_configuration_normalization'])]

@@ -14,21 +14,21 @@ use Zenstruck\Foundry\RepositoryProxy;
 /**
  * @extends ModelFactory<Configuration>
  *
- * @method        Configuration|Proxy create(array|callable $attributes = [])
- * @method static Configuration|Proxy createOne(array $attributes = [])
- * @method static Configuration|Proxy find(object|array|mixed $criteria)
- * @method static Configuration|Proxy findOrCreate(array $attributes)
- * @method static Configuration|Proxy first(string $sortedField = 'id')
- * @method static Configuration|Proxy last(string $sortedField = 'id')
- * @method static Configuration|Proxy random(array $attributes = [])
- * @method static Configuration|Proxy randomOrCreate(array $attributes = [])
- * @method static ConfigurationRepository|RepositoryProxy repository()
- * @method static Configuration[]|Proxy[] all()
- * @method static Configuration[]|Proxy[] createMany(int $number, array|callable $attributes = [])
- * @method static Configuration[]|Proxy[] createSequence(iterable|callable $sequence)
- * @method static Configuration[]|Proxy[] findBy(array $attributes)
- * @method static Configuration[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
- * @method static Configuration[]|Proxy[] randomSet(int $number, array $attributes = [])
+ * @psalm-method Configuration|Proxy create(array|callable $attributes = [])
+ * @psalm-method static Configuration|Proxy createOne(array $attributes = [])
+ * @psalm-method static Configuration|Proxy find(object|array|mixed $criteria)
+ * @psalm-method static Configuration|Proxy findOrCreate(array $attributes)
+ * @psalm-method static Configuration|Proxy first(string $sortedField = 'id')
+ * @psalm-method static Configuration|Proxy last(string $sortedField = 'id')
+ * @psalm-method static Configuration|Proxy random(array $attributes = [])
+ * @psalm-method static Configuration|Proxy randomOrCreate(array $attributes = [])
+ * @psalm-method static ConfigurationRepository|RepositoryProxy repository()
+ * @psalm-method static Configuration[]|Proxy[] all()
+ * @psalm-method static Configuration[]|Proxy[] createMany(int $number, array|callable $attributes = [])
+ * @psalm-method static Configuration[]|Proxy[] createSequence(iterable|callable $sequence)
+ * @psalm-method static Configuration[]|Proxy[] findBy(array $attributes)
+ * @psalm-method static Configuration[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
+ * @psalm-method static Configuration[]|Proxy[] randomSet(int $number, array $attributes = [])
  */
 final class ConfigurationFactory extends ModelFactory
 {

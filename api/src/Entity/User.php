@@ -50,37 +50,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private int $id;
+    private int $id = 0;
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 180, unique: true)]
-    private string $email;
+    private string $email = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization','admin:create_update_user_denormalization','admin:create_update_user_normalization'])]
     #[ORM\Column]
     /** @var array<string> */
-    private mixed $roles = [];
+    private array $roles = [];
 
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Groups(['create_user_denormalization','update_user_denormalization'])]
-    private string $password ;
+    private string $password = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 100)]
-    private string $lastname;
+    private string $lastname = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 100)]
-    private string $firstname;
+    private string $firstname = '';
 
     #[Groups(['get_user_normalization','create_update_user_normalization','create_user_denormalization','update_user_denormalization'])]
     #[ORM\Column(length: 150, nullable: true)]
-    private string $company;
+    private string $company = '';
 
     #[Groups(['get_user_normalization'])]
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Domain::class, orphanRemoval: true)]
@@ -118,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /** @return array<string> */
@@ -198,10 +198,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addDomain(Domain $domain): self
     {
-        if (!$this->domains->contains($domain)) {
-            $this->domains->add($domain);
-            $domain->setOwner($this);
-        }
+        $this->domains->add($domain);
+        $domain->setOwner($this);
 
         return $this;
     }

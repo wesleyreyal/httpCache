@@ -20,6 +20,7 @@ class UserFixtures extends Fixture
             # Corresponds to 'test'
             'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
             'roles' => ['ROLE_ADMIN'],
+            'activated' => true,
         ]);
         UserFactory::createOne([
             'email' => 'test@test.fr',
@@ -28,6 +29,7 @@ class UserFixtures extends Fixture
             # Corresponds to 'test'
             'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
             'roles' => ['ROLE_USER'],
+            'activated' => true,
         ]);
         UserFactory::createMany(3);
 
