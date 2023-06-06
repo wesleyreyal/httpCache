@@ -15,17 +15,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      - name: Composer
+        uses: php-actions/composer@v6
+      - name: Install dependencies
+        working-directory: api
+        run: composer install
       - name: PHPStan
         uses: php-actions/phpstan@v3
         with:
           path: api/src
-
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
           args: fix --dry-run --diff
-
       - name: Psalm
         uses: docker://ghcr.io/psalm/psalm-github-actions
         with:
