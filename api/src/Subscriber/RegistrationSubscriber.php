@@ -48,14 +48,14 @@ class RegistrationSubscriber implements EventSubscriberInterface
 
     public function handleRegistration(ViewEvent $event): Response
     {
-        /** @var User $user */
-        $user = $event->getControllerResult();
 
-        if (!($user instanceof User && Request::METHOD_POST === $event->getRequest()->getMethod())) {
+        if (!($event->getControllerResult() instanceof User && Request::METHOD_POST === $event->getRequest()->getMethod())) {
             return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $token = hash('sha512', $user->getEmail().(new \DateTime())->format('Y-m-d H:i:s'));
+        /** @var User $user */
+        $user = $event->getControllerResult();
+        $token = hash('sha512', $user->getEmail() . (new \DateTime())->format('Y-m-d H:i:s'));
 
         $user->setToken($token);
 
@@ -80,7 +80,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
                 ->html($html);
 
             $this->mailer->send($email);
-        } catch (\Exception|TransportExceptionInterface $e) {
+        } catch (\Exception | TransportExceptionInterface $e) {
             return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

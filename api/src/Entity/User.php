@@ -52,12 +52,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: UuidType::NAME)]
-    private Uuid $id;
+    private Uuid $id = Uuid::v7();
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 180, unique: true)]
-    private string $email;
+    private string $email = '';
 
     /** @var array<string> */
     #[Assert\NotBlank]
@@ -68,21 +68,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Groups(['create_user_denormalization', 'update_user_denormalization'])]
-    private string $password;
+    private string $password = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 100)]
-    private string $lastname;
+    private string $lastname = '';
 
     #[Assert\NotBlank]
     #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 100)]
-    private string $firstname;
+    private string $firstname = '';
 
     #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
     #[ORM\Column(length: 150, nullable: true)]
-    private string $company;
+    private string $company = '';
 
     /** @var Collection<int, Domain> */
     #[Groups(['get_user_normalization'])]
@@ -121,7 +121,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     public function getRoles(): array

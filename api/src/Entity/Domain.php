@@ -46,22 +46,22 @@ class Domain
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: UuidType::NAME)]
-    private Uuid $id;
+    private Uuid $id = Uuid::v7();
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Groups(['get_domain_normalization', 'create_update_domain_normalization', 'create_update_domain_denormalization'])]
-    private string $dns;
+    private string $dns = '';
 
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Groups(['get_domain_normalization', 'create_update_domain_normalization'])]
-    private bool $valid;
+    private bool $valid = false;
 
     #[ORM\ManyToOne(inversedBy: 'domains')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
-    private User $owner;
+    private ?User $owner = null;
 
     /** @var Collection<int, Configuration> */
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
@@ -102,7 +102,7 @@ class Domain
         return $this;
     }
 
-    public function getOwner(): User
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
