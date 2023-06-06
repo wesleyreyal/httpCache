@@ -39,7 +39,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Configuration
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[ORM\Column(type: UuidType::NAME)]
     private ?Uuid $id = null;
 

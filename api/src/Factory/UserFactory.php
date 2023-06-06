@@ -50,6 +50,7 @@ final class UserFactory extends ModelFactory
             // #Corresponds to 'test'
             'password' => '$2y$13$cR4usFPNkvZhiAz.44D8zujmeimzhFzXJqPaCve14IqXeRuAiHKjK',
             'roles' => ['ROLE_USER'],
+            'activated' => true,
         ];
     }
 
