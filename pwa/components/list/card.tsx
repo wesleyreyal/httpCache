@@ -5,32 +5,32 @@ import { Icon } from 'components/common/icon';
 const listCardProps: ReadonlyArray<React.PropsWithChildren<cardProps>> = [
   {
     children: <Icon name="box" iconColor="#3DA9FC" />,
-    title: 'card1',
+    title: 'Easy to deploy',
     text: 'textCard1',
   },
   {
     children: <Icon name="server" iconColor="#3DA9FC" />,
-    title: 'card2',
+    title: 'Self-hosted',
     text: 'textCard2',
   },
   {
     children: <Icon name="code" iconColor="#3DA9FC" />,
-    title: 'card3',
+    title: 'Open source',
     text: 'textCard3',
   },
   {
     children: <Icon name="box" iconColor="#3DA9FC" />,
-    title: 'card4',
+    title: 'Compatible',
     text: 'textCard4',
   },
   {
     children: <Icon name="extensible" iconColor="#3DA9FC" />,
-    title: 'card5',
+    title: 'Extensible',
     text: 'textCard5',
   },
   {
     children: <Icon name="performance" iconColor="#3DA9FC" />,
-    title: 'card6',
+    title: 'Optimise performance',
     text: 'textCard6',
   },
 ];
