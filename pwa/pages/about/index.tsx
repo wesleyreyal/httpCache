@@ -1,8 +1,12 @@
 import React from 'react';
 import { Title } from '../../components/common/text';
 import Link from 'next/link';
+import { NextPage } from 'next';
 
-const About = () => {
+const About: NextPage = () => {
+  const titleClass = 'text-xl font-bold mt-8';
+  const subtitleClass = 'text-lg font-semibold mt-4';
+  const listClass = 'list-disc pl-8';
   return (
     <>
       <Title title="Terms & Conditions" />
@@ -20,7 +24,7 @@ const About = () => {
 
         <p className="font-semibold">Type de site : Saas</p>
 
-        <h3 className="text-xl font-bold mt-8">Propriété intellectuelle</h3>
+        <h3 className={titleClass}>Propriété intellectuelle</h3>
 
         <p>
           Tout contenu publié et mis à disposition sur ce site est la propriété de Sylvain COMBRAQUE et de ses
@@ -28,11 +32,11 @@ const About = () => {
           et tout ce qui contribue à la composition de ce site.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Comptes</h3>
+        <h3 className={titleClass}>Comptes</h3>
 
         <p>Lorsque vous créez un compte sur notre site, vous acceptez ce qui suit :</p>
 
-        <ul className="list-disc pl-8">
+        <ul className={listClass}>
           <li>
             que vous êtes seul responsable de votre compte et de la sécurité et la confidentialité de votre compte, y
             compris les mots de passe ou les renseignements de nature délicate joints à ce compte, et
@@ -48,13 +52,13 @@ const About = () => {
           ou si vous violez les conditions d’utilisation acceptable.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Ventes des biens et Services</h3>
+        <h3 className={titleClass}>Ventes des biens et Services</h3>
 
         <p>Ce document régit la vente des services mis à disposition sur notre site.</p>
 
         <p>Les services que nous offrons comprennent :</p>
 
-        <ul className="list-disc pl-8">
+        <ul className={listClass}>
           <li>Gestion de cache HTTP</li>
         </ul>
 
@@ -66,11 +70,11 @@ const About = () => {
           service que nous fournissons. Vous acceptez d’acheter ces services à vos propres risques.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Paiements</h3>
+        <h3 className={titleClass}>Paiements</h3>
 
         <p>Nous acceptons les modes de paiement suivants sur ce site :</p>
 
-        <ul className="list-disc pl-8">
+        <ul className={listClass}>
           <li>Carte bancaire</li>
         </ul>
 
@@ -86,18 +90,18 @@ const About = () => {
           réservons le droit d’annuler votre transaction.
         </p>
 
-        <h4 className="text-lg font-semibold mt-4">Services</h4>
+        <h4 className={subtitleClass}>Services</h4>
 
         <p>Les services seront facturés en totalité à la commande du service.</p>
 
-        <h4 className="text-lg font-semibold mt-4">Abonnements</h4>
+        <h4 className={subtitleClass}>Abonnements</h4>
 
         <p>
           Tous nos abonnements récurrents seront automatiquement facturés et renouvelés jusqu’à ce que nous recevions
           d’avis que vous souhaitez annuler l’abonnement.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Limitation de responsabilité</h3>
+        <h3 className={titleClass}>Limitation de responsabilité</h3>
 
         <p>
           Sylvain COMBRAQUE ou l’un de ses employés sera tenu responsable de tout problème découlant de ce site.
@@ -105,7 +109,7 @@ const About = () => {
           toute utilisation irrégulière de ce site.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Indemnité</h3>
+        <h3 className={titleClass}>Indemnité</h3>
 
         <p>
           En tant qu’utilisateur, vous indemnisez par les présentes Sylvain COMBRAQUE de toute responsabilité, de tout
@@ -113,14 +117,14 @@ const About = () => {
           ou de votre violation de l’une des dispositions énoncées dans le présent document.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Lois applicables</h3>
+        <h3 className={titleClass}>Lois applicables</h3>
 
         <p>
           Ce document est soumis aux lois applicables en France et vise à se conformer à ses règles et règlements
           nécessaires. Cela inclut la réglementation à l’échelle de l’UE énoncée dans le RGPD.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Divisibilité</h3>
+        <h3 className={titleClass}>Divisibilité</h3>
 
         <p>
           Si, à tout moment, l’une des dispositions énoncées dans le présent document est jugée incompatible ou invalide
@@ -129,7 +133,7 @@ const About = () => {
           toujours considéré comme valide.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Modifications</h3>
+        <h3 className={titleClass}>Modifications</h3>
 
         <p>
           Ces conditions générales peuvent être modifiées de temps à autre afin de maintenir le respect de la loi et de
@@ -140,7 +144,7 @@ const About = () => {
           avis sur notre site.
         </p>
 
-        <h3 className="text-xl font-bold mt-8">Contact</h3>
+        <h3 className={titleClass}>Contact</h3>
 
         <p>
           Veuillez communiquer avec nous si vous avez des questions ou des préoccupations. Nos coordonnées sont les

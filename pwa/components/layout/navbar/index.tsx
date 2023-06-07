@@ -34,6 +34,10 @@ const loggedIn: ReadonlyArray<commonElementProps> = [
     text: 'profile',
     link: '/profile',
   },
+  {
+    text: 'about',
+    link: '/about',
+  },
 ];
 
 const LoggedOutItems: React.FC = () => (
