@@ -1,12 +1,19 @@
 import React from 'react';
 import { AllowedVariant } from 'types';
+import { AllowedIcons, Icon } from '../icon';
 
-type additionalTypes = { text: string; variant?: AllowedVariant; wide?: boolean };
+type buttonIcon = { icon: AllowedIcons; position: 'left' | 'right' };
+type buttonText = { text?: string };
+type additionalTypes = { variant?: AllowedVariant; wide?: boolean } & (
+  | buttonText
+  | (buttonText & buttonIcon)
+  | buttonIcon
+);
 export type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 export const OutlinedButton: React.FC<buttonType> = (props) => (
-  <BaseButton className={`btn-outline ${props.className}`} {...props} />
+  <BaseButton {...props} className={`btn-outline ${props.className}`} />
 );
 
 export const computeClassFromProps = ({ variant, wide }: Omit<additionalTypes, 'text'>): string => {
@@ -32,12 +39,13 @@ export const computeClassFromProps = ({ variant, wide }: Omit<additionalTypes, '
   return classes;
 };
 
-export const BaseButton: React.FC<buttonType> = ({ variant = 'info', wide, text, type, className = '', ...props }) => (
+export const BaseButton: React.FC<buttonType> = ({ variant = 'info', wide, type, className = '', ...props }) => (
   <button
     type={type}
     className={`btn font-bold w-fit ${computeClassFromProps({ variant, wide })} ${className}`}
     {...props}
   >
-    {text}
+    {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} size={24} /> : null}
+    {(props as buttonText).text ?? ''}
   </button>
 );

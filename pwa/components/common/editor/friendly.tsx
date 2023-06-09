@@ -33,14 +33,17 @@ export const UserFriendlyEditor: React.FC = () => {
   };
 
   useEffect(() => {
-    updateForm(
-      'allowed_http_cache',
-      allowedHTTP.map((o) => o.value)
-    );
+    allowedHTTP.length &&
+      updateForm(
+        'allowed_http_cache',
+        allowedHTTP.map((o) => o.value)
+      );
   }, [allowedHTTP, setForm]);
 
   useEffect(() => {
-    const timer = setTimeout(() => dispatchConfiguration({ type: 'update', payload: form ?? {} }), 3000);
+    const timer = setTimeout(() => {
+      dispatchConfiguration({ type: 'update', payload: form ?? {} });
+    }, 500);
 
     return () => {
       clearTimeout(timer);
@@ -83,9 +86,10 @@ export const UserFriendlyEditor: React.FC = () => {
                   type: 'switch',
                   label: 'enable',
                   className: 'm-auto',
-                  name: `api.${api}.enable`,
+                  name: `api.${api.toLowerCase()}.enabled`,
                   defaultChecked: configuration?.api?.[api.toLowerCase() as 'souin' | 'prometheus']?.enabled,
-                  onChange: ({ target: { checked } }: BaseSyntheticEvent) => updateForm(`api.${api}.enable`, checked),
+                  onChange: ({ target: { checked } }: BaseSyntheticEvent) =>
+                    updateForm(`api.${api.toLowerCase()}.enabled`, checked),
                 },
                 {
                   name: `api.${api}.basepath`,

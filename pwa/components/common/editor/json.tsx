@@ -41,7 +41,7 @@ export const JsonEditor: React.FC = () => {
       ) : (
         <ReactJson src={configurationValue ?? {}} />
       )}
-      <div className="absolute z-10 right-4 top-4 flex flex-col">
+      <div className="absolute z-10 right-4 top-0 flex flex-col">
         <BaseButton
           variant="ghost"
           onClick={() => setPlainMod(!plainMod)}

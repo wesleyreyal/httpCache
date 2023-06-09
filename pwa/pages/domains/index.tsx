@@ -1,44 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NextPage, NextPageContext } from 'next';
-import { Configuration, Domain } from 'actions';
-import { Configuration as ConfigurationType, Domain as DomainModel } from 'model';
-import { AddDomain, CollapseBlock } from 'components/common/collapse';
+import { Domain } from 'actions';
+import { Configuration, Domain as DomainModel } from 'model';
+import { Collapse } from 'components/common/collapse';
 import { useRedirectIfNotLogged } from 'context';
+import { OutlinedButton } from 'components/common/button';
+import { Iterator } from 'components/common/input';
+import { Subdomain, subdomainProps } from 'components/common/collapse/subdomain/subdomain';
 
 type DomainsPageProps = {
-  domains: ReadonlyArray<DomainModel>;
+  domains: ReadonlyArray<DomainModel<Configuration>>;
   total: number;
 };
 
 const Domains: NextPage<DomainsPageProps> = (props) => {
   useRedirectIfNotLogged();
 
-  const [domains, setDomains] = useState<ReadonlyArray<DomainModel>>(props?.domains ?? []);
+  const [domains, setDomains] = useState<ReadonlyArray<DomainModel<Configuration>>>(props?.domains ?? []);
 
   return (
-    <div className="flex flex-col gap-y-2">
-      <AddDomain />
+    <div className="grid gap-y-8">
       {domains.map((domain, idx) => (
-        <CollapseBlock
+        <Collapse
+          title={
+            <>
+              <span className="font-bold text-base-200">no. {idx}</span>
+              <span className="font-bold">{domain.dns}</span>
+              <span className="font-bold text-base-300">{domain.configurations.length} configurations</span>
+            </>
+          }
           key={idx}
-          number={idx + 1}
-          name={domain.dns}
-          configurations={domain.configurations as ConfigurationType[]}
-        />
+        >
+          <Iterator
+            className="pt-8 gap-y-8 grid"
+            name="subdomains"
+            values={domain.configurations.map((c) => c as Record<string, string>)}
+            Template={({iteration, setIteration, ...rest}) => {
+              return <Subdomain 
+                {...(rest.values[iteration ?? 0] as subdomainProps)} 
+                setIteration={setIteration ?? (() => {})} 
+                domain={domain['@id']} 
+                domainIteration={idx} 
+                iteration={iteration ?? 0} 
+                setDomains={setDomains} 
+                />
+            }}
+          />
+        </Collapse>
       ))}
+      <OutlinedButton text="Add new domain" />
     </div>
   );
 };
 
-Domains.getInitialProps = async (ctx: NextPageContext & { req: { cookies: Record<string, string> } }) => {
+Domains.getInitialProps = (ctx: NextPageContext & { req: { cookies: Record<string, string> } }) => {
   return new Domain()
     .getMany({
       ...(ctx?.req?.cookies ? { config: { headers: { Authorization: `Bearer ${ctx.req.cookies.token}` } } } : {}),
       depth: 1,
     })
-    .then(({ items, total }) => ({ domains: items, total }))
+    .then(({ items, total }) => ({ domains: items as ReadonlyArray<DomainModel<Configuration>>, total }))
     .catch(() => {
-      return { domains: [], total: 0 };
+      return { domains: [] as ReadonlyArray<DomainModel<Configuration>>, total: 0 };
     });
 };
 

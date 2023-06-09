@@ -1,4 +1,4 @@
-.PHONY: delete-migrations fixtures generate-migration migrate reset-db start-dev start-prod
+.PHONY: delete-migrations fixtures generate-jwt generate-migration migrate reset-db run-local-front start-dev start-prod
 
 DC=docker compose -f docker-compose.yml -f docker-compose.override.yml
 EXEC_PHP=$(DC) exec php
@@ -16,6 +16,9 @@ delete-migrations:
 fixtures:
 	$(BIN_CONSOLE) do:fi:lo --quiet
 
+generate-jwt:
+	$(BIN_CONSOLE) lex:jwt:generate-key
+
 generate-migration:
 	$(BIN_CONSOLE) make:migration
 
@@ -25,13 +28,16 @@ migrate:
 psalm:
 	$(EXEC_PHP) vendor/bin/psalm
 
+reset-db:
+	$(BIN_CONSOLE) do:da:dr --force
+	$(BIN_CONSOLE) do:da:cr
+	$(MAKE) migrate fixtures
+
+run-local-front:
+	cd pwa && pnpm install && DOMAIN=http://localhost pnpm dev
+
 start-dev: ## Run the application in dev
 	$(DC) up -d
 
 start-prod: ## Run the application in prod
 	$(DC) docker-compose.prod.yml up -d
-
-reset-db:
-	$(BIN_CONSOLE) do:da:dr --force
-	$(BIN_CONSOLE) do:da:cr
-	$(MAKE) migrate fixtures
