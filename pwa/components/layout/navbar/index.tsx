@@ -34,10 +34,6 @@ const loggedIn: ReadonlyArray<commonElementProps> = [
     text: 'profile',
     link: '/profile',
   },
-  {
-    text: 'about',
-    link: '/about',
-  },
 ];
 
 const LoggedOutItems: React.FC = () => (
@@ -77,16 +73,30 @@ const LoggedInItems: React.FC = () => (
   </>
 );
 
+const CommonNavbarItem: React.FC = () => {
+  return (
+    <li>
+      <Link href="/about" className="rounded-lg text-xl capitalize">
+        About
+      </Link>
+    </li>
+  );
+};
+
 const ResponsiveMenuItems: React.FC = () => {
   const connected = useIsAuth();
 
   return connected ? (
     <>
       <LoggedInItems />
+      <CommonNavbarItem />
       <Logout />
     </>
   ) : (
-    <LoggedOutItems />
+    <>
+      <CommonNavbarItem />
+      <LoggedOutItems />
+    </>
   );
 };
 
