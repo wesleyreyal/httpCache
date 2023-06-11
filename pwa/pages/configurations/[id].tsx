@@ -8,15 +8,20 @@ import { NextPage, NextPageContext } from 'next';
 import React, { useMemo } from 'react';
 
 type ConfigurationProps = {
-  configuration?: ConfigurationModel
-}
+  configuration?: ConfigurationModel;
+};
 
 const Configurations: NextPage<ConfigurationProps> = ({ configuration }) => {
-  const memoizedConfigurationId = useMemo(() => {return configuration?.id || ''}, [configuration?.id])
+  const memoizedConfigurationId = useMemo(() => {
+    return configuration?.id || '';
+  }, [configuration?.id]);
 
   return (
     <div className="container m-auto">
-      <JsonProvider configurationId={memoizedConfigurationId} json={configuration?.configuration ? JSON.parse(configuration?.configuration) : undefined}>
+      <JsonProvider
+        configurationId={memoizedConfigurationId}
+        json={configuration?.configuration ? JSON.parse(configuration?.configuration) : undefined}
+      >
         <Tabbar
           tabs={[
             { name: 'User friendly', TabItem: <UserFriendlyEditor /> },

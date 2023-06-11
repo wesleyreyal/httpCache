@@ -31,11 +31,11 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => 'get_domain_normalization'],
         ),
         new Post(
-            normalizationContext: ['groups' => 'create_domain_normalization'],
+            normalizationContext: ['groups' => 'create_update_domain_normalization'],
             denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
         ),
         new Patch(
-            normalizationContext: ['groups' => 'update_domain_normalization'],
+            normalizationContext: ['groups' => 'create_update_domain_normalization'],
             denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
         ),
         new Delete(),
@@ -55,8 +55,8 @@ class Domain
     #[Groups(['get_domain_normalization', 'create_update_domain_normalization', 'create_update_domain_denormalization'])]
     private string $dns = '';
 
+    // Removed the not blank assertion because false is considered as blank.
     #[ORM\Column]
-    #[Assert\NotBlank]
     #[Groups(['get_domain_normalization', 'create_update_domain_normalization'])]
     private bool $valid = false;
 

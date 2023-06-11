@@ -33,9 +33,7 @@ export const Tabbar: React.FC<tabbarProps> = ({ className = '', defaultTab = 0, 
           </Link>
         ))}
       </div>
-      <div className='p-8 bg-base-100 rounded-tr-xl rounded-br-xl rounded-bl-xl'>
-        {TabItem}
-      </div>
+      <div className="p-8 bg-base-100 rounded-tr-xl rounded-br-xl rounded-bl-xl">{TabItem}</div>
     </>
   );
 };

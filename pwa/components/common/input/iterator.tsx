@@ -8,14 +8,15 @@ export type IteratorValue = Record<string, string | ReadonlyArray<string> | bool
 export type IteratorProps = {
   className?: string;
   iteration?: number;
-  setIteration?: React.Dispatch<React.SetStateAction<number>>;
   label?: string;
   name: string;
+  onDelete?: () => void;
   // TODO: remove the any keyword here.
   // eslint-disable-next-line
   inputsTemplate?: ReadonlyArray<InputGuesserProps & { onChange?: (value: any) => void }>;
-  values: ReadonlyArray<IteratorValue>;
+  setIteration?: React.Dispatch<React.SetStateAction<number>>;
   Template?: React.FC<IteratorProps>;
+  values: ReadonlyArray<IteratorValue>;
 };
 
 export const Iterator: React.FC<IteratorProps> = ({
@@ -23,6 +24,7 @@ export const Iterator: React.FC<IteratorProps> = ({
   inputsTemplate,
   label,
   name,
+  onDelete,
   Template,
   values,
 }) => {
@@ -68,13 +70,25 @@ export const Iterator: React.FC<IteratorProps> = ({
           );
         })}
       </div>
-      <OutlinedButton
-        text={`Add new item in ${name}`}
-        onClick={(ev) => {
-          ev.preventDefault();
-          setIteration(iteration + 1);
-        }}
-      />
+      <div className="flex gap-4">
+        <OutlinedButton
+          text={`Add new item in ${name}`}
+          onClick={(ev) => {
+            ev.preventDefault();
+            setIteration(iteration + 1);
+          }}
+        />
+        {onDelete && (
+          <OutlinedButton
+            variant="danger"
+            text={`Delete all ${name}`}
+            onClick={(ev) => {
+              ev.preventDefault();
+              onDelete();
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };

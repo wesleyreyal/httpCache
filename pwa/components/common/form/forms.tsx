@@ -48,14 +48,14 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
       handleSubmit?.(values as CreatableAPIResource);
     }}
     {...props}
-    className={`flex justify-center flex-col gap-y-8 ${className}`}
+    className={`flex justify-center gap-y-8 ${className ?? 'flex-col'}`}
   >
     <>
       {title && <Title title={title} />}
       {inputs ? inputs.map((inputProps, idx) => <InputGuesser key={idx} {...inputProps} />) : ''}
       {children}
       <div className="m-auto grid gap-4">
-        {buttonProps && <BaseButton {...buttonProps} className="m-auto" />}
+        {buttonProps && <BaseButton {...buttonProps} className={`m-auto ${buttonProps.className ?? ''}`} />}
         {redirectionInformation ? (
           <Link href={redirectionInformation.redirectionLink} className="hover:underline text-neutral">
             {redirectionInformation.text}{' '}
