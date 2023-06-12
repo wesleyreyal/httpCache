@@ -5,7 +5,7 @@ import { List, Subtitle, Title } from 'components/common/text';
 
 const About: NextPage = () => {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div>
       <Title title="Terms & Conditions" />
       <Subtitle text="CONDITIONS GÉNÉRALES" />
       <p>
@@ -67,9 +67,9 @@ const About: NextPage = () => {
         Si nous estimons que votre paiement a violé une loi ou l’une de nos conditions d’utilisation, nous nous
         réservons le droit d’annuler votre transaction.
       </p>
-      <Subtitle text="Services" level={2} />
+      <Subtitle text="Services" level={4} />
       <p>Les services seront facturés en totalité à la commande du service.</p>
-      <Subtitle text="Abonnements" level={2} />
+      <Subtitle text="Abonnements" level={4} />
       <p>
         Tous nos abonnements récurrents seront automatiquement facturés et renouvelés jusqu’à ce que nous recevions
         d’avis que vous souhaitez annuler l’abonnement.
