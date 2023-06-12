@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent } from 'react';
+import React from 'react';
 import { InputBase, inputType } from './input';
 import { MultiSelectProps, Select, SelectProps } from './select';
 import { Group, GroupProps } from './group';

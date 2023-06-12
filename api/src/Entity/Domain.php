@@ -31,16 +31,17 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => 'get_domain_normalization'],
         ),
         new Post(
-            normalizationContext: ['groups' => 'create_update_domain_normalization'],
-            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
+            normalizationContext: ['groups' => 'create_domain_normalization'],
+            denormalizationContext: ['groups' => 'create_domain_denormalization'],
         ),
         new Patch(
-            normalizationContext: ['groups' => 'create_update_domain_normalization'],
-            denormalizationContext: ['groups' => 'create_update_domain_denormalization'],
+            normalizationContext: ['groups' => 'update_domain_normalization'],
+            denormalizationContext: ['groups' => 'update_domain_denormalization'],
+            security: "is_granted('PATCH_EDIT', object) or is_granted('ROLE_ADMIN') or object.getOwner() == user"
         ),
         new Delete(),
     ],
-    security: "is_granted('ROLE_ADMIN') or object.owner == user",
+    security: "is_granted('ROLE_ADMIN') or object.getOwner() == user",
 )]
 class Domain
 {
@@ -52,12 +53,23 @@ class Domain
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Groups(['get_domain_normalization', 'create_update_domain_normalization', 'create_update_domain_denormalization'])]
+    #[Groups([
+        'get_domain_normalization',
+        'create_domain_normalization',
+        'create_domain_denormalization',
+        'update_domain_normalization',
+        'create_configuration_normalization',
+    ])]
     private string $dns = '';
 
     // Removed the not blank assertion because false is considered as blank.
     #[ORM\Column]
-    #[Groups(['get_domain_normalization', 'create_update_domain_normalization'])]
+    #[Groups([
+        'get_domain_normalization',
+        'create_domain_normalization',
+        'update_domain_normalization',
+        'middleware:update:domain_denormalization',
+    ])]
     private bool $valid = false;
 
     #[ORM\ManyToOne(inversedBy: 'domains')]
@@ -67,7 +79,7 @@ class Domain
 
     /** @var Collection<int, Configuration> */
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
-    #[Groups(['get_domain_normalization', 'create_update_domain_normalization'])]
+    #[Groups(['get_domain_normalization', 'create_domain_normalization', 'update_domain_normalization'])]
     private Collection $configurations;
 
     public function __construct()

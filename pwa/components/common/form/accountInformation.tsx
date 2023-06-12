@@ -36,7 +36,7 @@ const button = {
 };
 
 export const AccountInformation: React.FC = () => (
-  <Form buttonProps={button} title="My account">
+  <Form inputs={[]} buttonProps={button} title="My account">
     {fields.map((field, idx) => (
       <InlineInput {...field} key={idx} />
     ))}

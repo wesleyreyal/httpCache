@@ -39,6 +39,8 @@ class DomainSubscriber implements EventSubscriberInterface
         $domain = $event->getControllerResult();
 
         $domain->setValid(false);
-        $domain->setOwner($this->security->getUser());
+        if (\is_null($this->security->getUser())) {
+            $domain->setOwner($this->security->getUser());
+        }
     }
 }

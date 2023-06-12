@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    /*:root {
-        --eggshell: #F3FAFF;
-        --rich-black: #01161E;
-        --midnight-green: #124559;
-        --payne-gray: #5F6C7B;
-        --powder-blue: #90B4CE;
-        --argentinian-blue: #3DA9FC;
-        --bittersweet: #F05D5E;
-        --yellow: #F6D800;
-        --red: #FF1313;
-        --green: #1AC421;
-        --black: #1d1e1c;
-        --white: #ffffff;
-    }*/
-}
-
 body, #__next {
   flex-direction: column;
   display: flex;
