@@ -1,5 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 
-export const List: React.FC<PropsWithChildren> = ({ children }) => {
-  return <ul className="list-disc pl-8">{children}</ul>;
-};
+type listType = React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement>;
+
+export const List: React.FC<PropsWithChildren<listType>> = ({ children, ...props }) => (
+  <ul {...props}>
+    {children}
+  </ul>
+);
