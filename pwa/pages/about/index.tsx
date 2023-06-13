@@ -6,8 +6,8 @@ import { List, Title } from 'components/common/text';
 const About: NextPage = () => {
   return (
     <>
-      <Title title="Terms & Conditions" />
       <article className="prose m-auto mt-12">
+        <Title title="Terms & Conditions" />
         <h3>CONDITIONS GÉNÉRALES</h3>
         <p>
           Les présentes conditions générales régissent l’utilisation du site souin.app. Ce site appartient et est géré
