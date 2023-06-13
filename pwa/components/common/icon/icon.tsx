@@ -1,5 +1,4 @@
 import React from 'react';
-import { GitHub, Save, X } from "react-feather";
 import {
   AlertOctagon,
   Box,
@@ -16,6 +15,9 @@ import {
   Server,
   Trash2,
   Lock,
+  GitHub,
+  Save,
+  X,
 } from 'react-feather';
 
 export type AllowedIcons =

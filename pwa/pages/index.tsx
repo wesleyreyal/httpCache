@@ -10,7 +10,7 @@ import Image from 'next/image';
 import map from 'public/images/map.png';
 import blue_line from 'public/images/blue_line.png';
 import Link from 'next/link';
-import { Icon } from "../components/common/icon";
+import { Icon } from '../components/common/icon';
 
 const Home: NextPage = () => {
   const { push } = useRouter();
@@ -40,9 +40,9 @@ const Home: NextPage = () => {
           <Title title="Open-source" />
           <p className="text-justify">
             Souin is built for the community, by the community. Its code is totally open-source available on the github
-            repository <Link href="github.com/darkweak/souin">github.com/darkweak/souin</Link>. Everyone can access,
-            audit and explore the code. Feel free to open a PR or issues if you think some parts are not working as
-            expected, if you encounter some troubles to configure it or if the doc is not clear enough. There are no
+            repository <Link href="https://github.com/darkweak/souin">github.com/darkweak/souin</Link>. Everyone can
+            access, audit and explore the code. Feel free to open a PR or issues if you think some parts are not working
+            as expected, if you encounter some troubles to configure it or if the doc is not clear enough. There are no
             hidden part, or enterprise edition because it doesn't make sense to make money on the back of the
             contributors and all features in Souin will stay free forever.
           </p>
