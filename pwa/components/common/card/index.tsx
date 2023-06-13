@@ -9,7 +9,7 @@ export const Card: React.FC<PropsWithChildren<cardProps>> = ({ children, text, t
     <div className="card-body text-center flex flex-col gap-4 items-center">
       {children}
       <h2 className="card-title font-bold font-sans text-xl">{title}</h2>
-      <p>{text}</p>
+      <p className="text-justify">{text}</p>
     </div>
   </div>
 );

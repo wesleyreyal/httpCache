@@ -1,5 +1,5 @@
 import React from 'react';
-import { Save, X } from 'react-feather';
+import { GitHub, Save, X } from "react-feather";
 import {
   AlertOctagon,
   Box,
@@ -15,6 +15,7 @@ import {
   Plus,
   Server,
   Trash2,
+  Lock,
 } from 'react-feather';
 
 export type AllowedIcons =
@@ -33,7 +34,9 @@ export type AllowedIcons =
   | 'save'
   | 'server'
   | 'trash'
-  | 'x';
+  | 'x'
+  | 'lock'
+  | 'github';
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -69,6 +72,10 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Trash2;
     case 'x':
       return X;
+    case 'lock':
+      return Lock;
+    case 'github':
+      return GitHub;
   }
 }
 
