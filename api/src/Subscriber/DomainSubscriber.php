@@ -6,6 +6,7 @@ namespace App\Subscriber;
 
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\Entity\Domain;
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +19,6 @@ class DomainSubscriber implements EventSubscriberInterface
     {
     }
 
-    /**
-     * @return array<string, array<int, int|string>>
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -37,10 +35,11 @@ class DomainSubscriber implements EventSubscriberInterface
 
         /** @var Domain $domain */
         $domain = $event->getControllerResult();
-
         $domain->setValid(false);
-        if (\is_null($this->security->getUser())) {
-            $domain->setOwner($this->security->getUser());
+
+        $user = $this->security->getUser();
+        if (!\is_null($user) && $user instanceof User) {
+            $domain->setOwner($user);
         }
     }
 }
