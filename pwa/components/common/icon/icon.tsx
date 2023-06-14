@@ -8,14 +8,14 @@ import {
   ChevronUp,
   Code,
   Cpu,
+  GitHub,
   Icon as FeatherIcon,
+  Lock,
   MapPin,
   Maximize2,
   Plus,
   Server,
   Trash2,
-  Lock,
-  GitHub,
   Save,
   X,
 } from 'react-feather';
@@ -30,15 +30,15 @@ export type AllowedIcons =
   | 'chevron-up'
   | 'code'
   | 'extensible'
+  | 'github'
+  | 'lock'
   | 'performance'
   | 'pin'
   | 'plus'
   | 'save'
   | 'server'
   | 'trash'
-  | 'x'
-  | 'lock'
-  | 'github';
+  | 'x';
 
 function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   switch (name) {
@@ -60,6 +60,10 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Code;
     case 'extensible':
       return Maximize2;
+    case 'github':
+      return GitHub;
+    case 'lock':
+      return Lock;
     case 'performance':
       return Cpu;
     case 'pin':
@@ -74,10 +78,6 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Trash2;
     case 'x':
       return X;
-    case 'lock':
-      return Lock;
-    case 'github':
-      return GitHub;
   }
 }
 
