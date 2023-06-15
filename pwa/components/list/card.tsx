@@ -5,7 +5,7 @@ import { Icon } from 'components/common/icon';
 const listCardProps: ReadonlyArray<React.PropsWithChildren<cardProps>> = [
   {
     children: <Icon name="box" iconColor="#3DA9FC" />,
-    title: 'Easy to deploy',
+    title: 'Easy deploy',
     text: 'Souin is a Cloud Native application shipped as a ready-to-use single Docker image. It is compatible with Kubernetes or baremetal.',
   },
   {

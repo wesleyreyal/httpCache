@@ -13,11 +13,11 @@ const Home: NextPage = () => {
   return (
     <>
       <div
-        className="absolute h-screen w-screen bg-center bg-cover top-0"
+        className="absolute h-screen w-full bg-center bg-cover top-0 left-0 overflow-hidden"
         style={{ backgroundImage: `url(${map.src})` }}
       />
-      <div className="w-full flex flex-col items-center">
-        <div className="flex justify-center items-center h-screen w-screen">
+      <div className="w-full flex flex-col items-center w-full">
+        <div className="flex justify-center items-center h-screen w-full">
           <Blur className="flex flex-col p-4 items-center max-w-screen-sm gap-y-10 py-6 px-12 h-fit shadow-xl">
             <Title title="Say hello to Souin !" />
             <p className="text-justify">
@@ -31,12 +31,12 @@ const Home: NextPage = () => {
         </div>
 
         <div className="flex flex-col items-center gap-y-20">
-          <div className="w-full max-w-screen-lg flex flex-col gap-y-12">
+          <div className="py-16 grid gap-y-8 px-4  w-full">
             <Title title="Souin is better" />
             <CardList />
           </div>
 
-          <div className="flex flex-col items-center max-w-screen-sm mx-12 lg:max-w-screen-lg gap-y-6">
+          <div className="flex flex-col items-center max-w-screen-sm mx-12 lg:max-w-screen-lg gap-y-10">
             <Title title="Open-source" />
             <p className="text-justify">
               Souin is built for the community, by the community. Its code is totally open-source available on the
