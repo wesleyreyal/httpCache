@@ -81,10 +81,12 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
   }
 }
 
+export type AllowedSize = 16 | 20 | 24 | 32 | 48;
+
 type iconProps = {
   name: AllowedIcons;
   iconColor?: string;
-  size?: number;
+  size?: AllowedSize;
   className?: string;
   onClick?: () => void;
 };
@@ -94,5 +96,5 @@ export const Icon: React.FC<iconProps> = ({ name, iconColor, size, ...props }) =
   if (!InternalIcon) {
     return null;
   }
-  return <InternalIcon size={size ? size : 48} color={iconColor} {...props} />;
+  return <InternalIcon size={size ? size : 48} color={iconColor || 'black'} {...props} />;
 };

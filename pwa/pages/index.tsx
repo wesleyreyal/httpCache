@@ -7,17 +7,18 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from 'routes';
 import { CardList } from 'components/list/card';
 import map from 'public/images/map.png';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
   const { push } = useRouter();
   return (
     <>
       <div
-        className="absolute h-screen w-full bg-center bg-cover top-0 left-0 overflow-hidden"
+        className="absolute h-screen w-full bg-center bg-cover top-0 left-0²"
         style={{ backgroundImage: `url(${map.src})` }}
       />
       <div className="w-full flex flex-col items-center w-full">
-        <div className="flex justify-center items-center h-screen w-full">
+        <div className="flex justify-center items-center w-full content-container">
           <Blur className="flex flex-col p-4 items-center max-w-screen-sm gap-y-10 py-6 px-12 h-fit shadow-xl">
             <Title title="Say hello to Souin !" />
             <p className="text-justify">
@@ -41,15 +42,15 @@ const Home: NextPage = () => {
             <p className="text-justify">
               Souin is built for the community, by the community. Its code is totally open-source available on the
               github repository{' '}
-              <a href="https://github.com/darkweak/souin" target="_blank">
+              <Link href="https://github.com/darkweak/souin" target="_blank">
                 github.com/darkweak/souin
-              </a>
+              </Link>
               . Everyone can access, audit and explore the code. Feel free to open a PR or issues if you think some
               parts are not working as expected, if you encounter some troubles to configure it or if the doc is not
               clear enough. There are no hidden part, or enterprise edition because it doesn't make sense to make money
               on the back of the contributors and all features in Souin will stay free forever.
             </p>
-            <OutlinedButton className="btn-outline" icon="github" text="JOIN THE PROJECT" variant="ghost" />
+            <OutlinedButton className="btn-outline" icon="github" text="JOIN THE PROJECT" variant="ghost" size={16} />
           </div>
         </div>
       </div>

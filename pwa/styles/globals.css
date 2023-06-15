@@ -29,3 +29,7 @@ body, #__next {
 main {
     flex: 1;
 }
+
+.content-container {
+    height: calc(100vh - 100px)
+}

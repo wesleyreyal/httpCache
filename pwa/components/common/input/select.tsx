@@ -11,7 +11,7 @@ const ChipSelect: React.FC<ChipSelectProps> = ({ name, onClick }) => {
     <div className="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-base border border-success">
       <div className="text-xs font-normal leading-none max-w-full flex-initial">{name}</div>
       <div className="flex flex-auto flex-row-reverse">
-        <Icon onClick={onClick} size={12} name="x" className="cursor-pointer hover:text-teal-400 rounded-full ml-2" />
+        <Icon onClick={onClick} size={16} name="x" className="cursor-pointer hover:text-teal-400 rounded-full ml-2" />
       </div>
     </div>
   );

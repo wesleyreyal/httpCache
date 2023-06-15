@@ -74,7 +74,7 @@ export const InputBase: React.FC<inputType> = ({
       />
       {variant !== 'info' && variantProps.iconName && (
         <p className="text-red flex items-center gap-x-1">
-          <Icon name={variantProps.iconName} size={18} iconColor={variantProps.iconColor} />
+          <Icon name={variantProps.iconName} size={16} iconColor={variantProps.iconColor} />
           {subText}
         </p>
       )}

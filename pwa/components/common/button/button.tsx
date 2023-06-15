@@ -1,8 +1,8 @@
 import React from 'react';
 import { AllowedVariant } from 'types';
-import { AllowedIcons, Icon } from '../icon';
+import { AllowedIcons, AllowedSize, Icon } from 'components/common/icon';
 
-type buttonIcon = { icon: AllowedIcons; position: 'left' | 'right' };
+type buttonIcon = { icon: AllowedIcons; position: 'left' | 'right'; color: string; size: AllowedSize };
 type buttonText = { text?: string };
 type additionalTypes = { variant?: AllowedVariant; wide?: boolean } & (
   | buttonText
@@ -45,7 +45,13 @@ export const BaseButton: React.FC<buttonType> = ({ variant = 'info', wide, type,
     className={`btn font-bold w-fit ${computeClassFromProps({ variant, wide })} ${className}`}
     {...props}
   >
-    {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} size={24} /> : null}
+    {(props as buttonIcon).icon ? (
+      <Icon
+        name={(props as buttonIcon).icon}
+        size={(props as buttonIcon).size || 24}
+        iconColor={(props as buttonIcon).color}
+      />
+    ) : null}
     {(props as buttonText).text ?? ''}
   </button>
 );
