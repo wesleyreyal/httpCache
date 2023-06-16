@@ -1,9 +1,16 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@api-platform/admin':
     specifier: ^3.4.3
     version: 3.4.3(@types/react@18.2.0)(react-dom@18.2.0)(react@18.2.0)
+  '@tailwindcss/typography':
+    specifier: ^0.5.9
+    version: 0.5.9(tailwindcss@3.3.2)
   app:
     specifier: link:@types/next/app
     version: link:@types/next/app
@@ -11,8 +18,8 @@ dependencies:
     specifier: ^1.4.0
     version: 1.4.0
   daisyui:
-    specifier: ^3.0.0
-    version: 3.0.0(postcss@8.4.23)
+    specifier: ^3.1.0
+    version: 3.1.0(postcss@8.4.23)
   js-cookie:
     specifier: ^3.0.5
     version: 3.0.5
@@ -45,18 +52,12 @@ devDependencies:
   '@popperjs/core':
     specifier: ^2.11.7
     version: 2.11.7
-  '@tailwindcss/typography':
-    specifier: ^0.5.9
-    version: 0.5.9(tailwindcss@3.3.2)
   '@types/js-cookie':
     specifier: ^3.0.3
     version: 3.0.3
   '@types/node':
     specifier: ^18.16.2
     version: 18.16.2
-  '@types/prop-types':
-    specifier: ^15.7.5
-    version: 15.7.5
   '@types/react':
     specifier: ^18.2.0
     version: 18.2.0
@@ -863,7 +864,7 @@ packages:
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.3.2
-    dev: true
+    dev: false
 
   /@types/js-cookie@3.0.3:
     resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==}
@@ -1862,8 +1863,9 @@ packages:
       type: 1.2.0
     dev: true
 
-  /daisyui@3.0.0(postcss@8.4.23):
-    resolution: {integrity: sha512-EuNK9JQd5yrPLDynAPQkG/29vjZXFWhBK4HXvM83d9oJU0EmF35UNLLs0cslBFfLK4b+bOuhgoYPJ4BjytOxNQ==}
+  /daisyui@3.1.0(postcss@8.4.23):
+    resolution: {integrity: sha512-G4dz/bRZVvlhQ/FtezXSg0rXOXzDJ0PcnMqeLSwCYNWXxf46fNJ8LWeV5qwsYOdJbXiXoZLnwyy+BsNoWZ+Bjg==}
+    engines: {node: '>=16.9.0'}
     peerDependencies:
       postcss: ^8
     dependencies:
@@ -3890,7 +3892,7 @@ packages:
 
   /lodash.castarray@4.4.0:
     resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
-    dev: true
+    dev: false
 
   /lodash.clonedeep@4.5.0:
     resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
@@ -3910,10 +3912,10 @@ packages:
 
   /lodash.isplainobject@4.0.6:
     resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
+    dev: false
 
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: true
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -4595,7 +4597,7 @@ packages:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
-    dev: true
+    dev: false
 
   /postcss-selector-parser@6.0.11:
     resolution: {integrity: sha512-zbARubNdogI9j7WY4nQJBiNqQf3sLS3wCP4WfOidu+p28LofJqDH1tcXypGrcmMHhDk2t9wGhCsYe/+szLTy1g==}

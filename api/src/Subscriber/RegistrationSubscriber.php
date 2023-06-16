@@ -9,10 +9,8 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -36,9 +34,6 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $this->frontendUrl = $frontendUrl;
     }
 
-    /**
-     * @return array<string, array<int, int|string>>
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -46,11 +41,11 @@ class RegistrationSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function handleRegistration(ViewEvent $event): Response
+    public function handleRegistration(ViewEvent $event): void
     {
 
         if (!($event->getControllerResult() instanceof User && Request::METHOD_POST === $event->getRequest()->getMethod())) {
-            return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return;
         }
 
         /** @var User $user */
@@ -68,22 +63,16 @@ class RegistrationSubscriber implements EventSubscriberInterface
             'activationUrl' => $activationUrl,
         ];
 
-        try {
-            $html = $this->twig->render('emails/registration.html.twig', $context);
-            $text = $this->twig->render('emails/registration.txt.twig', $context);
+        $html = $this->twig->render('emails/registration.html.twig', $context);
+        $text = $this->twig->render('emails/registration.txt.twig', $context);
 
-            $email = (new Email())
-                ->from('noreply@souin.com')
-                ->to($user->getEmail())
-                ->subject('Registration confirmation')
-                ->text($text)
-                ->html($html);
+        $email = (new Email())
+            ->from('noreply@souin.com')
+            ->to($user->getEmail())
+            ->subject('Registration confirmation')
+            ->text($text)
+            ->html($html);
 
-            $this->mailer->send($email);
-        } catch (\Exception | TransportExceptionInterface $e) {
-            return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        return new Response('', Response::HTTP_OK);
+        $this->mailer->send($email);
     }
 }

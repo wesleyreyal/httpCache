@@ -28,6 +28,7 @@ MyApp.getInitialProps = async ({ Component, ctx }: { Component: NextPage; ctx: N
     }, {});
 
     authenticated = !!cookies?.token;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (ctx.req as any).cookies = cookies;
   }
 

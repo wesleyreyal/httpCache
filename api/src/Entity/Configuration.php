@@ -29,6 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
         ),
         new Post(
+            normalizationContext: ['groups' => 'create_configuration_normalization'],
             denormalizationContext: ['groups' => 'create_configuration_denormalization'],
             securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
         ),
@@ -51,22 +52,22 @@ class Configuration
     private ?Uuid $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
     #[ORM\Column(length: 100)]
     private string $zone = '';
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
     #[ORM\Column(type: Types::TEXT)]
     private string $configuration = '';
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
     #[ORM\Column(length: 39)]
     private string $ip = '';
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_normalization', 'create_configuration_denormalization'])]
     #[ORM\ManyToOne(inversedBy: 'configurations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Domain $domain = null;
