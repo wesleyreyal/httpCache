@@ -73,16 +73,28 @@ const LoggedInItems: React.FC = () => (
   </>
 );
 
+const CommonNavbarItem: React.FC = () => (
+  <li>
+    <Link href="/about" className="rounded-lg text-xl capitalize">
+      About
+    </Link>
+  </li>
+);
+
 const ResponsiveMenuItems: React.FC = () => {
   const connected = useIsAuth();
 
   return connected ? (
     <>
       <LoggedInItems />
+      <CommonNavbarItem />
       <Logout />
     </>
   ) : (
-    <LoggedOutItems />
+    <>
+      <CommonNavbarItem />
+      <LoggedOutItems />
+    </>
   );
 };
 
