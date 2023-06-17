@@ -70,13 +70,17 @@ const reducer = (state: JsonSchema = initialState, { type, payload }: JsonFormAc
 type JsonContextProps = {
   json?: JsonSchema;
   configurationId: string;
-}
+};
 
-export const JsonProvider: React.FC<React.PropsWithChildren<JsonContextProps>> = ({ configurationId, json = defaultJson, children }) => {
+export const JsonProvider: React.FC<React.PropsWithChildren<JsonContextProps>> = ({
+  configurationId,
+  json = defaultJson,
+  children,
+}) => {
   const [jsonState, dispatch] = useReducer(reducer, json);
   useEffect(() => {
-    new Configuration().update(configurationId, { configuration: JSON.stringify(jsonState) })
-  }, [jsonState])
+    new Configuration().update(configurationId, { configuration: JSON.stringify(jsonState) });
+  }, [jsonState]);
 
   return <JsonContext.Provider value={{ json: jsonState, dispatch }}>{children}</JsonContext.Provider>;
 };

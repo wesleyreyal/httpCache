@@ -15,8 +15,10 @@ export type cardProps = {
 };
 export const Card: React.FC<PropsWithChildren<cardProps>> = ({ children, text, title }) => (
   <SimpleCard className="hover:scale-105 transition-all">
-    {children}
-    <h2 className="card-title font-bold font-sans text-xl">{title}</h2>
-    <p>{text}</p>
+    <div className="card-body text-center flex flex-col gap-4 items-center">
+      {children}
+      <h2 className="card-title font-bold font-sans text-xl">{title}</h2>
+      <p>{text}</p>
+    </div>
   </SimpleCard>
 );

@@ -24,12 +24,12 @@ class ChangePasswordAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        /** @var User */
-        $user = $this->security->getUser();
-        if (!$user) {
+        if (!$this->security->getUser()) {
             throw new BadRequestException();
         }
 
+        /** @var User */
+        $user = $this->security->getUser();
         $content = $request->getContent();
 
         /** @var object{'current_password': string, 'new_password': string} */
