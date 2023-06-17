@@ -1,5 +1,4 @@
 import React from 'react';
-import { Save, X } from 'react-feather';
 import {
   AlertOctagon,
   Box,
@@ -10,11 +9,15 @@ import {
   Code,
   Cpu,
   Icon as FeatherIcon,
+  GitHub,
+  Lock,
   MapPin,
   Maximize2,
   Plus,
+  Save,
   Server,
   Trash2,
+  X,
 } from 'react-feather';
 
 export type AllowedIcons =
@@ -27,6 +30,8 @@ export type AllowedIcons =
   | 'chevron-up'
   | 'code'
   | 'extensible'
+  | 'github'
+  | 'lock'
   | 'performance'
   | 'pin'
   | 'plus'
@@ -55,6 +60,10 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
       return Code;
     case 'extensible':
       return Maximize2;
+    case 'github':
+      return GitHub;
+    case 'lock':
+      return Lock;
     case 'performance':
       return Cpu;
     case 'pin':
@@ -74,16 +83,15 @@ function mapIcon(name: AllowedIcons): FeatherIcon | undefined {
 
 type iconProps = {
   name: AllowedIcons;
-  iconColor?: string;
   size?: number;
   className?: string;
   onClick?: () => void;
 };
 
-export const Icon: React.FC<iconProps> = ({ name, iconColor, size, ...props }) => {
+export const Icon: React.FC<iconProps> = ({ name, size, ...props }) => {
   const InternalIcon = mapIcon(name);
   if (!InternalIcon) {
     return null;
   }
-  return <InternalIcon size={size ? size : 48} color={iconColor} {...props} />;
+  return <InternalIcon size={size ? size : 48} className={`text-info`} {...props} />;
 };
