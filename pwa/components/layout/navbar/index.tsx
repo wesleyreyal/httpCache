@@ -5,6 +5,7 @@ import { BaseButton, buttonType } from 'components/common/button';
 import { Blur } from 'components/common/block';
 import { ROUTES } from 'routes';
 import { Token } from 'storage';
+import { NavItem } from './item';
 
 type commonElementProps = {
   text: string;
@@ -39,7 +40,7 @@ const loggedIn: ReadonlyArray<commonElementProps> = [
 const LoggedOutItems: React.FC = () => (
   <>
     {loggedOut.map(({ link, text, ...props }, id) => (
-      <Link href={link} key={id} className="text-xl capitalize">
+      <Link href={link} key={id} className="w-fit">
         <BaseButton text={text} {...props} />
       </Link>
     ))}
@@ -49,37 +50,29 @@ const LoggedOutItems: React.FC = () => (
 const Logout = () => {
   const setConnected = useDispatchAuth();
   return (
-    <li
-      className="rounded-lg text-xl capitalize pointer"
+    <NavItem
+      withLink={false}
       onClick={() => {
         new Token().delete();
         setConnected(false);
       }}
     >
-      <span>Logout</span>
-    </li>
+      logout
+    </NavItem>
   );
 };
 
 const LoggedInItems: React.FC = () => (
   <>
     {loggedIn.map(({ link, text }, id) => (
-      <li key={id}>
-        <Link href={link} key={id} className="rounded-lg text-xl capitalize">
-          {text}
-        </Link>
-      </li>
+      <NavItem key={id} path={link}>
+        {text}
+      </NavItem>
     ))}
   </>
 );
 
-const CommonNavbarItem: React.FC = () => (
-  <li>
-    <Link href="/about" className="rounded-lg text-xl capitalize">
-      About
-    </Link>
-  </li>
-);
+const CommonNavbarItem: React.FC = () => <NavItem path="/terms-of-service">terms of service</NavItem>;
 
 const ResponsiveMenuItems: React.FC = () => {
   const connected = useIsAuth();
@@ -118,12 +111,12 @@ export const Navbar: FC = () => {
               </svg>
             </label>
           </div>
-          <div className="navbar-start w-full">
+          <div className="navbar-start m-auto">
             <Link href="/" className="text-2xl btn btn-ghost normal-case m-auto lg:m-0">
               Souin
             </Link>
           </div>
-          <div className="navbar-end hidden lg:flex">
+          <div className="navbar-end hidden lg:flex w-full">
             <ul className="menu menu-horizontal px-1 gap-4">
               <ResponsiveMenuItems />
             </ul>

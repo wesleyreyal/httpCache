@@ -1,13 +1,18 @@
 import React from 'react';
 import Navbar from './navbar';
 import { Footer } from './footer';
+import { usePathname } from 'next/navigation';
 
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <>
-    <main>
-      <Navbar />
-      <div className="py-4 container px-4 md:px-0 m-auto md:prose-xl lg:prose lg:prose-2xl">{children}</div>
-    </main>
-    <Footer />
-  </>
-);
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const p = usePathname();
+
+  return (
+    <>
+      <main>
+        <Navbar />
+        <div className={p !== '/' ? 'py-4 px-4 md:px-0 m-auto max-w-screen-sm lg:max-w-screen-lg' : ''}>{children}</div>
+      </main>
+      <Footer />
+    </>
+  );
+};

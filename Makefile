@@ -34,7 +34,7 @@ reset-db:
 	$(MAKE) migrate fixtures
 
 run-local-front:
-	cd pwa && pnpm install && DOMAIN=http://localhost pnpm dev
+	cd pwa && pnpm install && pnpm dev
 
 start-dev: ## Run the application in dev
 	$(DC) up -d

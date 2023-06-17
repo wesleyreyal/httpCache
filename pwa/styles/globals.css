@@ -12,3 +12,7 @@ body, #__next {
 main {
     flex: 1;
 }
+
+.min-h-75 {
+    min-height: 75vh;
+}

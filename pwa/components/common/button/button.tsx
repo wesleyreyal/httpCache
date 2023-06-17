@@ -16,36 +16,26 @@ export const OutlinedButton: React.FC<buttonType> = (props) => (
   <BaseButton {...props} className={`btn-outline ${props.className}`} />
 );
 
-export const computeClassFromProps = ({ variant, wide }: Omit<additionalTypes, 'text'>): string => {
-  let classes = wide ? 'btn-wide ' : '';
-
+export const computeClassFromProps = ({ variant }: Omit<additionalTypes, 'text'>): string => {
   switch (variant) {
     case 'info':
-      classes += 'btn-info';
-      break;
+      return 'btn-info';
     case 'danger':
-      classes += 'btn-error';
-      break;
+      return 'btn-error';
     case 'success':
-      classes += 'btn-success';
-      break;
+      return 'btn-success';
     case 'warning':
-      classes += 'btn-warning';
-      break;
+      return 'btn-warning';
     case 'ghost':
-      classes += 'btn-ghost';
-      break;
+      return 'btn-ghost';
   }
-  return classes;
+
+  return '';
 };
 
 export const BaseButton: React.FC<buttonType> = ({ variant = 'info', wide, type, className = '', ...props }) => (
-  <button
-    type={type}
-    className={`btn font-bold w-fit ${computeClassFromProps({ variant, wide })} ${className}`}
-    {...props}
-  >
-    {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} size={24} /> : null}
+  <button type={type} className={`btn ${computeClassFromProps({ variant, wide })} ${className}`} {...props}>
+    {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} className="text-inherit" size={24} /> : null}
     {(props as buttonText).text ?? ''}
   </button>
 );

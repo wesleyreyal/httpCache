@@ -1,16 +1,31 @@
 import Link from 'next/link';
-import type { FC } from 'react';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
-type ItemProps = {
-  text: string;
-  link: string;
+type NavItemProps = {
+  isActive?: (path: string) => boolean;
+  path?: string;
+  withLink?: boolean;
+} & React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>;
+
+export const NavItem: React.FC<React.PropsWithChildren<NavItemProps>> = ({
+  children,
+  isActive,
+  path = '/',
+  withLink = true,
+  ...rest
+}) => {
+  const pathname = usePathname();
+  const active = isActive?.(pathname) ?? pathname === path ? 'active' : '';
+  return (
+    <li className="w-fit" {...rest}>
+      {withLink ? (
+        <Link href={path} className={`text-lg my-auto ${active}`}>
+          {children}
+        </Link>
+      ) : (
+        <span className={`text-lg my-auto ${active}`}>{children}</span>
+      )}
+    </li>
+  );
 };
-
-export const Item: FC<ItemProps> = ({ link, text }) => (
-  <li>
-    <Link href={link} className="block py-2 pl-3 pr-4 text-rich_black rounded md:p-0 relative group">
-      <span>{text}</span>
-      <span className="absolute bottom-0.5 left-0 w-0 h-0.5 bg-rich_black transition-all group-hover:w-full"></span>
-    </Link>
-  </li>
-);
