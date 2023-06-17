@@ -227,7 +227,7 @@ export const UserFriendlyEditor: React.FC = () => {
               placeholder: '.*\\.css',
               label: 'URL pattern to match',
               onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.key`, { key: value }),
+                updateForm(`cache_keys.${iteration}.key`, value),
             },
             {
               name: 'headers',
@@ -239,47 +239,47 @@ export const UserFriendlyEditor: React.FC = () => {
               type: 'select',
               label: 'Headers to match',
               onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.headers`, { headers: value }),
+                updateForm(`cache_keys.${iteration}.headers`, value),
             },
             {
               type: 'switch',
               label: 'Disable body',
               className: '',
               name: 'disable_body',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_body`, { disable_body: value }),
+              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iteration}.disable_body`, checked),
             },
             {
               type: 'switch',
               label: 'Disable host',
               className: '',
               name: 'disable_host',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_host`, { disable_host: value }),
+              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iteration}.disable_host`, checked),
             },
             {
               type: 'switch',
               label: 'Disable method',
               className: '',
               name: 'disable_method',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_method`, { disable_method: value }),
+              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iteration}.disable_method`, checked),
             },
             {
               type: 'switch',
               label: 'Disable query',
               className: '',
               name: 'disable_query',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_query`, { disable_query: value }),
+              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iteration}.disable_query`, checked),
             },
             {
               type: 'switch',
               label: 'Hide key',
               className: '',
               name: 'hide',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.hide`, { hide: value }),
+              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iteration}.hide`, checked),
             },
           ] as ReadonlyArray<InputGuesserProps>,
           values: Object.entries(configuration?.cache_keys ?? {}).map(

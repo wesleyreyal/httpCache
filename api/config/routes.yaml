@@ -12,3 +12,8 @@ activation:
     path: /activation
     methods: [ 'POST' ]
     controller: App\Action\ActivationAction
+    
+update-password:
+    path: /update-password
+    methods: [ 'PATCH' ]
+    controller: App\Action\ChangePasswordAction

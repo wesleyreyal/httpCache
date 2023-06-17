@@ -33,6 +33,11 @@ export const AuthProviders: React.FC<React.PropsWithChildren<AuthProviderProps>>
 }) => {
   const [connected, setConnected] = useState(authenticated || !!new Token().get());
   const [token, setToken] = useState(requestToken || new Token().get() || undefined);
+  useEffect(() => {
+    if (new Token().get()) {
+      setToken(new Token().get());
+    }
+  }, [connected]);
 
   return <AuthContext.Provider value={{ connected, setConnected, setToken, token }}>{children}</AuthContext.Provider>;
 };

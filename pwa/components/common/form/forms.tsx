@@ -49,7 +49,10 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
       }, {});
 
       handleSubmit?.(values as CreatableAPIResource)
-        .then(form.reset)
+        .then((res) => {
+          form.reset();
+          return res;
+        })
         .catch((err) => console.log(err));
     }}
     {...props}
