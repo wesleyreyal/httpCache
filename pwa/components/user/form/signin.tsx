@@ -24,7 +24,6 @@ const inputs = [
 const button: buttonType = {
   text: 'sign in',
   variant: 'success',
-  wide: true,
 };
 
 const redirection = {
@@ -43,7 +42,7 @@ const Signin = () => {
       buttonProps={button}
       redirectionInformation={redirection}
       handleSubmit={(values) => {
-        new Auth()
+        return new Auth()
           .login(values as UserLogin)
           .then(() => {
             setConnected(true);

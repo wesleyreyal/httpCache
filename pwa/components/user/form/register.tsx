@@ -49,7 +49,6 @@ const inputs = [
 const button: buttonType = {
   text: 'register',
   variant: 'success',
-  wide: true,
 };
 
 const redirection = {
@@ -61,8 +60,8 @@ const redirection = {
 const Register = () => {
   const { push } = useRouter();
   const pushToast = usePushToast();
-  const handleSubmit = async (values: CreatableAPIResource) => {
-    new User()
+  const handleSubmit = (values: CreatableAPIResource) => {
+    return new User()
       .create(values as UserAPI)
       .then(() => {
         push(redirection.redirectionLink);

@@ -39,9 +39,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             denormalizationContext: ['groups' => 'update_domain_denormalization'],
             security: "is_granted('PATCH_EDIT', object) or is_granted('ROLE_ADMIN') or object.getOwner() == user"
         ),
-        new Delete(),
+        new Delete(
+            security: "is_granted('ROLE_ADMIN') or object.getOwner() == user"
+        ),
     ],
-    security: "is_granted('ROLE_ADMIN') or object.getOwner() == user",
 )]
 class Domain
 {

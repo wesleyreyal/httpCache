@@ -51,6 +51,7 @@ const Logout = () => {
   const setConnected = useDispatchAuth();
   return (
     <NavItem
+      isActive={() => false}
       withLink={false}
       onClick={() => {
         new Token().delete();
