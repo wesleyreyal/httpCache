@@ -4,11 +4,7 @@ import { AllowedIcons, Icon } from '../icon';
 
 type buttonIcon = { icon: AllowedIcons; position: 'left' | 'right' };
 type buttonText = { text?: string };
-type additionalTypes = { variant?: AllowedVariant; wide?: boolean } & (
-  | buttonText
-  | (buttonText & buttonIcon)
-  | buttonIcon
-);
+type additionalTypes = { variant?: AllowedVariant } & (buttonText | (buttonText & buttonIcon) | buttonIcon);
 export type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
@@ -33,8 +29,8 @@ export const computeClassFromProps = ({ variant }: Omit<additionalTypes, 'text'>
   return '';
 };
 
-export const BaseButton: React.FC<buttonType> = ({ variant = 'info', wide, type, className = '', ...props }) => (
-  <button type={type} className={`btn ${computeClassFromProps({ variant, wide })} ${className}`} {...props}>
+export const BaseButton: React.FC<buttonType> = ({ variant = 'info', type, className = '', ...props }) => (
+  <button type={type} className={`btn ${computeClassFromProps({ variant })} ${className}`} {...props}>
     {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} className="text-inherit" size={24} /> : null}
     {(props as buttonText).text ?? ''}
   </button>

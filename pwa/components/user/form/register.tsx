@@ -61,7 +61,7 @@ const redirection = {
 const Register = () => {
   const { push } = useRouter();
   const pushToast = usePushToast();
-  const handleSubmit = (values: CreatableAPIResource) => {
+  const handleSubmit = async (values: CreatableAPIResource) => {
     new User()
       .create(values as UserAPI)
       .then(() => {

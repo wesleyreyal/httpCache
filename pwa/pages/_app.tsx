@@ -7,7 +7,7 @@ import { NextPage, NextPageContext } from 'next';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ToastProvider>
-      <AuthProviders authenticated={pageProps.authenticated}>
+      <AuthProviders authenticated={pageProps.authenticated} requestToken={pageProps.token}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
@@ -18,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 MyApp.getInitialProps = async ({ Component, ctx }: { Component: NextPage; ctx: NextPageContext }) => {
   let authenticated = false;
+  let token;
 
   const { req } = ctx;
   if (req) {
@@ -27,6 +28,7 @@ MyApp.getInitialProps = async ({ Component, ctx }: { Component: NextPage; ctx: N
       return acc;
     }, {});
 
+    token = cookies?.token;
     authenticated = !!cookies?.token;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (ctx.req as any).cookies = cookies;
@@ -38,6 +40,7 @@ MyApp.getInitialProps = async ({ Component, ctx }: { Component: NextPage; ctx: N
       pageProps: {
         ...props,
         authenticated,
+        token,
       },
     };
   }
@@ -45,6 +48,7 @@ MyApp.getInitialProps = async ({ Component, ctx }: { Component: NextPage; ctx: N
   return {
     pageProps: {
       authenticated,
+      token,
     },
   };
 };

@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization', 'update_user_denormalization'])]
+    #[Groups(['get_user_normalization', 'create_update_user_normalization', 'create_user_denormalization'])]
     #[ORM\Column(length: 180, unique: true)]
     private string $email = '';
 
