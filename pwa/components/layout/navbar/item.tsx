@@ -18,7 +18,7 @@ export const NavItem: React.FC<React.PropsWithChildren<NavItemProps>> = ({
   const pathname = usePathname();
   const active = isActive?.(pathname) ?? pathname === path ? 'active' : '';
   return (
-    <li className="w-fit" {...rest}>
+    <li className="w-fit cursor-pointer" {...rest}>
       {withLink ? (
         <Link href={path} className={`text-lg my-auto ${active}`}>
           {children}

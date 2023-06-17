@@ -49,7 +49,7 @@ const AddDomain: React.FC<AddDomainProps> = ({ setDomains }) => {
                 className: 'ml-4',
               }}
               handleSubmit={(values: CreatableAPIResource) => {
-                new Domain()
+                return new Domain()
                   .create(values as DomainAPI)
                   .then((domain) => {
                     setDomains((prevDomains) => [...prevDomains, domain] as ReadonlyArray<DomainModel<Configuration>>);
@@ -74,6 +74,7 @@ const AddDomain: React.FC<AddDomainProps> = ({ setDomains }) => {
   return (
     <OutlinedButton
       text="Add new domain"
+      className="w-fit"
       onClick={() => {
         setContext('add');
       }}

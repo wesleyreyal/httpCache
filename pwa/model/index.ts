@@ -18,6 +18,11 @@ export type User = APISingleResult<{
   domains: ReadonlyArray<Domain | string>;
 }>;
 
+export type UserPasswordUpdate = APISingleResult<{
+  current_password: string;
+  new_password: string;
+  new_password2: string;
+}>;
 export type UserLogin = Pick<User, 'email' | 'password'>;
 export type APIToken = { token: string };
 
@@ -44,4 +49,4 @@ export type GenericAPIObject<T> = Omit<T, keyof APISingleResult>;
 export type UserAPI = GenericAPIObject<User>;
 export type ConfigurationAPI = GenericAPIObject<Configuration>;
 export type DomainAPI = GenericAPIObject<Domain>;
-export type CreatableAPIResource = UserAPI | ConfigurationAPI | DomainAPI;
+export type CreatableAPIResource = UserAPI | ConfigurationAPI | DomainAPI | UserPasswordUpdate;

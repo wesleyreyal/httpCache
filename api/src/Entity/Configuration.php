@@ -26,19 +26,19 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('ROLE_USER')",
         ),
         new Get(
-            security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
+            security: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user",
         ),
         new Post(
             normalizationContext: ['groups' => 'create_configuration_normalization'],
             denormalizationContext: ['groups' => 'create_configuration_denormalization'],
-            securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
+            securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user",
         ),
         new Patch(
             denormalizationContext: ['groups' => 'update_configuration_denormalization'],
-            security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
+            security: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user",
         ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN') or object.domain.owner == user",
+            security: "is_granted('ROLE_ADMIN') or object.getDomain().getOwner() == user",
         ),
     ],
     normalizationContext: ['groups' => 'get_configuration_normalization'],

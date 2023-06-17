@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import Link from 'next/link';
-import { useDispatchAuth, useIsAuth } from 'context';
+import { useDispatchAuth, useIsAuth, useMe } from 'context';
 import { BaseButton, buttonType } from 'components/common/button';
 import { Blur } from 'components/common/block';
 import { ROUTES } from 'routes';
@@ -51,6 +51,7 @@ const Logout = () => {
   const setConnected = useDispatchAuth();
   return (
     <NavItem
+      isActive={() => false}
       withLink={false}
       onClick={() => {
         new Token().delete();
@@ -93,6 +94,7 @@ const ResponsiveMenuItems: React.FC = () => {
 
 export const Navbar: FC = () => {
   const [open, setOpen] = useState(false);
+  const me = useMe();
 
   return (
     <nav className="shadow transition-all transition-duration-300 sticky top-0 z-10">

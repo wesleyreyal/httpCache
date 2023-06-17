@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BaseButton, buttonType } from 'components/common/button';
 import { FormEventHandler } from 'react';
 import { CreatableAPIResource } from 'model';
+import SubtitleForm from './subtitle';
 
 type redirectionType = {
   text: string;
@@ -15,10 +16,11 @@ type redirectionType = {
 type additionalTypes = {
   authentication?: boolean;
   title?: string;
+  subtitle?: string;
   inputs: ReadonlyArray<InputGuesserProps>;
   buttonProps?: buttonType;
   redirectionInformation?: redirectionType;
-  handleSubmit?: (values: CreatableAPIResource) => void;
+  handleSubmit?: (values: CreatableAPIResource) => Promise<void>;
 };
 
 type formType = additionalTypes & React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
@@ -28,6 +30,7 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
   children,
   className,
   title,
+  subtitle,
   inputs,
   buttonProps,
   redirectionInformation,
@@ -45,24 +48,25 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
         return data;
       }, {});
 
-      handleSubmit?.(values as CreatableAPIResource);
+      handleSubmit?.(values as CreatableAPIResource)
+        .then(form.reset)
+        .catch((err) => console.log(err));
     }}
     {...props}
     className={`flex justify-center gap-y-8 ${className ?? 'flex-col'}`}
   >
-    <>
-      {title && <Title title={title} />}
-      {inputs ? inputs.map((inputProps, idx) => <InputGuesser key={idx} {...inputProps} />) : ''}
-      {children}
-      <div className="m-auto grid gap-4">
-        {buttonProps && <BaseButton {...buttonProps} className={`m-auto ${buttonProps.className ?? ''}`} />}
-        {redirectionInformation ? (
-          <Link href={redirectionInformation.redirectionLink} className="hover:underline text-neutral">
-            {redirectionInformation.text}{' '}
-            <span className="font-bold text-base-900">{redirectionInformation.highlightText}</span>
-          </Link>
-        ) : null}
-      </div>
-    </>
+    {title && <Title title={title} />}
+    {subtitle && <SubtitleForm>{subtitle}</SubtitleForm>}
+    {inputs ? inputs.map((inputProps, idx) => <InputGuesser key={idx} {...inputProps} />) : ''}
+    {children}
+    <div className="m-auto grid gap-4">
+      {buttonProps && <BaseButton {...buttonProps} className={`m-auto ${buttonProps.className ?? ''}`} />}
+      {redirectionInformation ? (
+        <Link href={redirectionInformation.redirectionLink} className="hover:underline text-neutral">
+          {redirectionInformation.text}{' '}
+          <span className="font-bold text-base-900">{redirectionInformation.highlightText}</span>
+        </Link>
+      ) : null}
+    </div>
   </form>
 );

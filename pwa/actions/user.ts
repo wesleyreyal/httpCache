@@ -1,4 +1,4 @@
-import { APIToken, User as UserModel, UserAPI, UserLogin } from 'model';
+import { APIToken, User as UserModel, UserAPI, UserLogin, UserPasswordUpdate } from 'model';
 import { APIPlatform } from './abstract';
 import { SerializerInterface, UserSerializer } from 'serializers';
 import { AxiosResponse } from 'axios';
@@ -44,6 +44,14 @@ export class Auth extends User {
 
       return true;
     });
+  }
+}
+
+export class PasswordUpdater extends APIPlatform<UserPasswordUpdate, UserPasswordUpdate> {
+  endpoint = '/update-password';
+
+  patch(data: UserPasswordUpdate): Promise<boolean> {
+    return this.patchRequest({ data }).then(({ status }: AxiosResponse) => status === 204);
   }
 }
 
