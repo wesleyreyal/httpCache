@@ -61,7 +61,9 @@ export const Iterator: React.FC<IteratorProps> = ({
                       defaultValue: values[idx]?.[(template as InputHTMLAttributes<HTMLInputElement>).name ?? ''],
                       defaultChecked: values[idx]?.[(template as InputHTMLAttributes<HTMLInputElement>).name ?? ''],
                       onChange: ({ target }) => {
-                        template.onChange?.({ target: { ...target, iteration: idx } });
+                        template.onChange?.({
+                          target: { ...target, iteration: idx, iterationKey: values[idx].key as string },
+                        });
                       },
                     } as InputGuesserProps)
                 )}

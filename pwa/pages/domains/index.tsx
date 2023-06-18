@@ -20,6 +20,7 @@ type AddDomainProps = {
   setDomains: React.Dispatch<React.SetStateAction<ReadonlyArray<DomainModel<Configuration>>>>;
 };
 const AddDomain: React.FC<AddDomainProps> = ({ setDomains }) => {
+  useRedirectIfNotLogged();
   const pushToast = usePushToast();
   const [context, setContext] = useState<AddDomainContext>('waiting');
 
@@ -153,7 +154,8 @@ Domains.getInitialProps = (ctx: NextPageContext & { req: { cookies: Record<strin
       depth: 1,
     })
     .then(({ items, total }) => ({ domains: items as ReadonlyArray<DomainModel<Configuration>>, total }))
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       return { domains: [] as ReadonlyArray<DomainModel<Configuration>>, total: 0 };
     });
 };

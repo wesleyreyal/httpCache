@@ -3,17 +3,30 @@ import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { InputGuesserProps, Iterable, IteratorValue, option } from '../input';
 import { Form } from 'components/common/form/forms';
 
+const souinInternalKey = 'souin_internal_key';
+
 const allowedHTTPOptions: ReadonlyArray<option> = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT'].map((method) => ({
   name: method,
   value: method,
 }));
 
-const recursiveStateAccess = (key: string, current: Record<string, object>, value: object): object => {
+const recursiveStateAccess = (
+  key: string,
+  current: Record<string, object>,
+  value: object,
+  iterationKey?: string
+): object => {
   if (key.includes('.')) {
-    const [k, ...nkey] = key.split('.');
+    // eslint-disable-next-line prefer-const
+    let [k, ...nkey] = key.split('.');
+    if (k === souinInternalKey) {
+      k = iterationKey || '';
+    }
     return {
       ...(current ?? {}),
-      ...{ [k]: recursiveStateAccess(nkey.join('.'), (current[k] ?? {}) as Record<string, object>, value) },
+      ...{
+        [k]: recursiveStateAccess(nkey.join('.'), (current[k] ?? {}) as Record<string, object>, value, iterationKey),
+      },
     };
   }
 
@@ -26,9 +39,12 @@ export const UserFriendlyEditor: React.FC = () => {
   const allowedHTTPSelectedOptions = (configuration?.allowed_http_cache ?? []).map((a) => ({ name: a, value: a }));
   const [form, setForm] = useState(configuration);
   const [allowedHTTP, setAllowedHTTP] = useState<ReadonlyArray<option>>(allowedHTTPSelectedOptions);
-  const updateForm = (key: string, value: object) => {
+  const updateForm = (key: string, value: object, iterationKey?: string) => {
+    if (iterationKey?.includes('.')) {
+      key = key.replace(iterationKey, souinInternalKey);
+    }
     setForm((prevState) => {
-      return recursiveStateAccess(key, prevState as Record<string, object>, value);
+      return recursiveStateAccess(key, prevState as Record<string, object>, value, iterationKey);
     });
   };
 
@@ -197,16 +213,16 @@ export const UserFriendlyEditor: React.FC = () => {
               placeholder: defaultJson.ttl,
               optional: true,
               label: 'time-to-live duration',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`urls.${iteration}.ttl`, { ttl: value }),
+              onChange: ({ target: { iterationKey, value } }: BaseSyntheticEvent) =>
+                updateForm(`urls.${iterationKey}.ttl`, { ttl: value }),
             },
             {
               name: 'default_cache_control',
               placeholder: defaultJson.default_cache_control,
               optional: true,
               label: 'default Cache-Control header',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`urls.${iteration}.default_cache_control`, { default_cache_control: value }),
+              onChange: ({ target: { iterationKey, value } }: BaseSyntheticEvent) =>
+                updateForm(`urls.${iterationKey}.default_cache_control`, { default_cache_control: value }),
             },
           ] as ReadonlyArray<InputGuesserProps>,
           values: Object.entries(configuration?.urls ?? {}).map(
@@ -238,48 +254,49 @@ export const UserFriendlyEditor: React.FC = () => {
               options: [],
               type: 'select',
               label: 'Headers to match',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.headers`, value),
+              onChange: ({ target: { iterationKey, value } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.headers`, value, iterationKey),
             },
             {
               type: 'switch',
               label: 'Disable body',
               className: '',
               name: 'disable_body',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_body`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_body`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Disable host',
               className: '',
               name: 'disable_host',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_host`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_host`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Disable method',
               className: '',
               name: 'disable_method',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_method`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) => {
+                return updateForm(`cache_keys.${iterationKey}.disable_method`, checked, iterationKey);
+              },
             },
             {
               type: 'switch',
               label: 'Disable query',
               className: '',
               name: 'disable_query',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_query`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_query`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Hide key',
               className: '',
               name: 'hide',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.hide`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.hide`, checked, iterationKey),
             },
           ] as ReadonlyArray<InputGuesserProps>,
           values: Object.entries(configuration?.cache_keys ?? {}).map(
