@@ -59,8 +59,9 @@ const AddDomain: React.FC<AddDomainProps> = ({ setDomains }) => {
                     });
                     setContext('waiting');
                   })
-                  .catch(() => {
+                  .catch((err) => {
                     pushToast({ text: 'Impossible to create the domain. Try again later', variant: 'warning' });
+                    throw err;
                   });
               }}
             />

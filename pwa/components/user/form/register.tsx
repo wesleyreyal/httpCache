@@ -67,7 +67,10 @@ const Register = () => {
         push(redirection.redirectionLink);
         pushToast({ text: 'Account created successfully !', variant: 'success' });
       })
-      .catch(() => pushToast({ text: 'Account creation failed !', variant: 'danger' }));
+      .catch((err) => {
+        pushToast({ text: 'Account creation failed !', variant: 'danger' });
+        throw err;
+      });
   };
 
   return (
