@@ -70,7 +70,6 @@ const reducer = (state: JsonSchema = initialState, { type, payload }: JsonFormAc
           }
           return acc;
         }, {} as Record<string, Key & { key?: string }>);
-        console.log(payload.cache_keys);
       }
       return {
         ...state,

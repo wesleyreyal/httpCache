@@ -2,6 +2,7 @@ import { defaultJson, useConfiguration, useDispatchConfiguration } from 'context
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { InputGuesser, InputGuesserProps, Iterable, IteratorValue, option } from '../input';
 import { Form } from 'components/common/form/forms';
+import { InformationalAlert } from '../popup';
 
 const souinInternalKey = 'souin_internal_key';
 
@@ -34,12 +35,17 @@ const recursiveStateAccess = (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const URLs: React.FC = ({ inputsTemplate, iteration, values }: any) => {
+const URLs: React.FC = ({ inputsTemplate, iteration, values, ...plus }: any) => {
+  const [keyInput, ...restInput] = inputsTemplate;
   const value = values[iteration];
   return (
     <>
+      {iteration <= 0 && (
+        <InformationalAlert text="This part is a little bit buggy, prefer use the JSON editor instead." />
+      )}
       <div className="flex gap-x-4 w-full">
-        {inputsTemplate.map((input: InputGuesserProps, idx: number) => (
+        <InputGuesser {...keyInput} defaultValue={value?.[keyInput.name]} />
+        {restInput.map((input: InputGuesserProps, idx: number) => (
           <InputGuesser
             key={`${input.label}-${idx}`}
             {...input}
@@ -65,6 +71,9 @@ const CacheKeys: React.FC = ({ inputsTemplate, iteration, values }: any) => {
   const value = values[iteration];
   return (
     <>
+      {iteration <= 0 && (
+        <InformationalAlert text="This part is a little bit buggy, prefer use the JSON editor instead." />
+      )}
       <div className="flex gap-x-4 w-full">
         <InputGuesser {...keyInput} defaultValue={value?.[keyInput.name]} />
         <InputGuesser
@@ -262,11 +271,12 @@ export const UserFriendlyEditor: React.FC = () => {
           type: 'iterator',
           label: 'URLs',
           name: 'urls',
+          className: 'flex flex-wrap gap-x-12 gap-y-4 pb-4',
           inputsTemplate: [
             {
               name: 'key',
-              placeholder: '.+\\.css',
-              label: 'URL',
+              placeholder: '.*\\.css',
+              label: 'URL pattern to match',
               onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
                 updateForm(`urls.${iteration}.key`, value),
             },
