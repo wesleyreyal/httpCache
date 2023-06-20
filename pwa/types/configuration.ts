@@ -2,13 +2,14 @@ type APIConfiguration = {
   basepath?: string;
   enabled?: boolean;
 };
-type Key = {
+export type Key = {
   disable_body?: boolean;
   disable_host?: boolean;
   disable_method?: boolean;
   disable_query?: boolean;
   headers?: ReadonlyArray<string>;
   hide?: boolean;
+  key?: string;
 };
 
 export type JsonSchema = {
