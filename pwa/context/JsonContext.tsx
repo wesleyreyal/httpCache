@@ -1,6 +1,6 @@
 import { Configuration } from 'actions';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { JsonSchema } from 'types/configuration';
+import { JsonSchema, Key } from 'types/configuration';
 
 export const defaultJson: JsonSchema = {
   allowed_http_cache: ['GET', 'HEAD'],
@@ -58,6 +58,18 @@ const reducer = (state: JsonSchema = initialState, { type, payload }: JsonFormAc
     case 'update':
       if (!payload) {
         return undefined;
+      }
+
+      if (payload.cache_keys) {
+        payload.cache_keys = Object.entries(payload.cache_keys).reduce((acc, [currentPrevKey, current]) => {
+          acc[currentPrevKey] = current;
+          // console.log(acc, currentPrevKey, current);
+          if (current.key) {
+            delete acc[currentPrevKey as string];
+            acc[current.key ?? ''] = { ...current };
+          }
+          return acc;
+        }, {} as Record<string, Key & { key?: string }>);
       }
       return {
         ...state,

@@ -54,15 +54,45 @@ export const Iterator: React.FC<IteratorProps> = ({
           return (
             <div key={idx} className="flex py-2">
               <Group
+                className={className}
                 inputs={(inputsTemplate ?? []).map(
                   (template) =>
                     ({
                       ...template,
                       defaultValue: values[idx]?.[(template as InputHTMLAttributes<HTMLInputElement>).name ?? ''],
                       defaultChecked: values[idx]?.[(template as InputHTMLAttributes<HTMLInputElement>).name ?? ''],
-                      onChange: ({ target }) => {
-                        template.onChange?.({ target: { ...target, iteration: idx } });
-                      },
+                      ...(template.type === 'select'
+                        ? {
+                            handleChange: (props: never) =>
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              (template as any).handleChange(
+                                {
+                                  target: { iteration: idx, iterationKey: values[idx]?.key ?? idx },
+                                },
+                                props
+                              ),
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            ...((template as any).isMultiple
+                              ? {
+                                  selectedOptions:
+                                    (
+                                      (values[idx]?.[
+                                        (template as InputHTMLAttributes<HTMLInputElement>).name ?? ''
+                                      ] as ReadonlyArray<string>) ?? []
+                                    ).map((v) => ({ name: v, value: v })) ?? [],
+                                }
+                              : {
+                                  selectedOption:
+                                    values[idx]?.[(template as InputHTMLAttributes<HTMLInputElement>).name ?? ''],
+                                }),
+                          }
+                        : {
+                            onChange: ({ target }) => {
+                              template.onChange?.({
+                                target: { ...target, iteration: idx, iterationKey: values[idx]?.key ?? idx },
+                              });
+                            },
+                          }),
                     } as InputGuesserProps)
                 )}
               />

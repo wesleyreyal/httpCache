@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Icon } from 'components/common/icon';
 import useOnClickOutside from 'hooks/useClickOutside';
+import { ClassName } from 'types';
 
 type ChipSelectProps = {
   name: string;
@@ -39,14 +40,16 @@ const Option: React.FC<OptionProps> = ({ name, onClick }) => {
 export type MultiSelectProps = {
   dynamic?: boolean;
   label: string;
+  name?: string;
   options: ReadonlyArray<option>;
   placeholder?: string;
   required?: boolean;
   selectedOptions?: ReadonlyArray<option>;
-  handleChange?: (value: ReadonlyArray<option>) => void;
+  handleChange?: (value: ReadonlyArray<option>, additional?: { iterationKey?: string }) => void;
 };
 
-export const MultiSelect: React.FC<MultiSelectProps> = ({
+export const MultiSelect: React.FC<MultiSelectProps & ClassName> = ({
+  className = 'flex flex-col items-center relative w-full',
   dynamic,
   label,
   options,
@@ -57,36 +60,27 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
 }) => {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [choices, setChoices] = useState<ReadonlyArray<option>>(selectedOptions);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => {
     setOpen(false);
   });
 
-  useEffect(() => {
-    handleChange?.(choices);
-  }, [choices, handleChange]);
-
   const addChoice = useCallback(
     (choice: option) => {
-      setChoices((prevChoices) => {
-        return [...prevChoices, choice];
-      });
+      handleChange?.([...selectedOptions, choice]);
     },
-    [setChoices]
+    [handleChange, selectedOptions]
   );
   const removeChoice = useCallback(
     (choice: option) => {
-      setChoices((prevChoices) => {
-        return prevChoices.filter((c) => c.value !== choice.value);
-      });
+      handleChange?.(selectedOptions.filter((c) => c.value !== choice.value));
     },
-    [setChoices]
+    [handleChange, selectedOptions]
   );
 
   return (
-    <div className="flex flex-col items-center relative w-full" ref={ref}>
+    <div className={className} ref={ref}>
       <div className="w-full h-full form-control" onClick={() => setOpen(true)}>
         <label>
           {label}
@@ -94,14 +88,14 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         </label>
         <div className="input mt-auto p-1 flex input-bordered">
           <div className="flex flex-auto flex-wrap">
-            {choices.map((choice, id) => (
+            {selectedOptions.map((choice, id) => (
               <ChipSelect key={id} name={choice.name} onClick={() => removeChoice(choice)} />
             ))}
             <div className="flex-1">
               <input
                 onChange={({ target: { value } }) => setValue(value)}
                 value={value}
-                placeholder={!choices.length ? placeholder : ''}
+                placeholder={!selectedOptions.length ? placeholder : ''}
                 className="h-full w-full input w-full rounded-lg focus:outline-none p-1 px-4 border-0"
               />
             </div>
@@ -129,7 +123,10 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
             )}
             {options
               .filter((o) => {
-                return o.name.toLowerCase().includes(value.toLowerCase()) && !choices.some((c) => c.value === o.value);
+                return (
+                  o.name.toLowerCase().includes(value.toLowerCase()) &&
+                  !selectedOptions.some((c) => c.value === o.value)
+                );
               })
               .map((o, id) => (
                 <Option
@@ -153,14 +150,25 @@ export type SelectProps = {
   options: ReadonlyArray<option>;
 } & (
   | { isMultiple?: false; selectedOption?: option }
-  | { isMultiple: true; selectedOptions?: ReadonlyArray<option>; handleChange?: (value: ReadonlyArray<option>) => void }
+  | {
+      isMultiple: true;
+      selectedOptions?: ReadonlyArray<option>;
+      handleChange?: (value: ReadonlyArray<option>, additional?: { iterationKey?: string }) => void;
+    }
 );
 
 export const Select: React.FC<
   SelectProps & React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
 > = ({ className, isMultiple, label, name, options, placeholder, ...props }) =>
   isMultiple === true ? (
-    <MultiSelect label={label} options={options} placeholder={placeholder} {...props} />
+    <MultiSelect
+      className={className}
+      label={label}
+      name={name}
+      options={options}
+      placeholder={placeholder}
+      {...props}
+    />
   ) : (
     <div className={`form-control gap-y-1 ${className ?? ''}`}>
       <label htmlFor={name}>{label}</label>

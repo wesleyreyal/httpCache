@@ -63,7 +63,6 @@ export const Subdomain: React.FC<subdomainProps> = ({
               <BaseButton
                 text="Delete"
                 variant="danger"
-                wide
                 onClick={() => {
                   new Configuration().delete(id ?? '').then(() => {
                     pushToast({ text: `Your zone ${zone} has been deleted!`, variant: 'success' });

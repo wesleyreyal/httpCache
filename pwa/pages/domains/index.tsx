@@ -20,6 +20,7 @@ type AddDomainProps = {
   setDomains: React.Dispatch<React.SetStateAction<ReadonlyArray<DomainModel<Configuration>>>>;
 };
 const AddDomain: React.FC<AddDomainProps> = ({ setDomains }) => {
+  useRedirectIfNotLogged();
   const pushToast = usePushToast();
   const [context, setContext] = useState<AddDomainContext>('waiting');
 
@@ -59,8 +60,9 @@ const AddDomain: React.FC<AddDomainProps> = ({ setDomains }) => {
                     });
                     setContext('waiting');
                   })
-                  .catch(() => {
+                  .catch((err) => {
                     pushToast({ text: 'Impossible to create the domain. Try again later', variant: 'warning' });
+                    throw err;
                   });
               }}
             />
@@ -152,7 +154,9 @@ Domains.getInitialProps = (ctx: NextPageContext & { req: { cookies: Record<strin
       depth: 1,
     })
     .then(({ items, total }) => ({ domains: items as ReadonlyArray<DomainModel<Configuration>>, total }))
-    .catch(() => {
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
       return { domains: [] as ReadonlyArray<DomainModel<Configuration>>, total: 0 };
     });
 };

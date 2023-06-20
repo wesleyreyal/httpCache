@@ -48,8 +48,9 @@ const Signin = () => {
             setConnected(true);
             pushToast({ text: 'Logged in successfully', variant: 'success' });
           })
-          .catch(() => {
+          .catch((err) => {
             pushToast({ text: 'Invalid credentials', variant: 'danger' });
+            throw err;
           });
       }}
     />

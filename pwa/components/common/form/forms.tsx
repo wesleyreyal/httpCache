@@ -53,6 +53,7 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
           form.reset();
           return res;
         })
+        // eslint-disable-next-line no-console
         .catch((err) => console.log(err));
     }}
     {...props}

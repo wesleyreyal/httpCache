@@ -129,6 +129,7 @@ const Ui: NextPage = () => {
         <BaseButton
           text="Request login"
           onClick={() => {
+            // eslint-disable-next-line no-console
             new Auth().login({ email: 'admin@test.fr', password: 'test' }).then(console.log);
           }}
         />
@@ -145,9 +146,11 @@ const Ui: NextPage = () => {
                 password: 'string',
               })
               .then(() => {
+                // eslint-disable-next-line no-console
                 console.log('user created');
               })
               .catch(() => {
+                // eslint-disable-next-line no-console
                 console.log('failed');
               });
           }}

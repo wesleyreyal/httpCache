@@ -1,23 +1,107 @@
 import { defaultJson, useConfiguration, useDispatchConfiguration } from 'context';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { InputGuesserProps, Iterable, IteratorValue, option } from '../input';
+import { InputGuesser, InputGuesserProps, Iterable, IteratorValue, option } from '../input';
 import { Form } from 'components/common/form/forms';
+import { InformationalAlert } from '../popup';
+
+const souinInternalKey = 'souin_internal_key';
 
 const allowedHTTPOptions: ReadonlyArray<option> = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT'].map((method) => ({
   name: method,
   value: method,
 }));
 
-const recursiveStateAccess = (key: string, current: Record<string, object>, value: object): object => {
+const recursiveStateAccess = (
+  key: string,
+  current: Record<string, object>,
+  value: object,
+  iterationKey?: string
+): object => {
   if (key.includes('.')) {
-    const [k, ...nkey] = key.split('.');
+    // eslint-disable-next-line prefer-const
+    let [k, ...nkey] = key.split('.');
+    if (k === souinInternalKey) {
+      k = iterationKey || '';
+    }
     return {
       ...(current ?? {}),
-      ...{ [k]: recursiveStateAccess(nkey.join('.'), (current[k] ?? {}) as Record<string, object>, value) },
+      ...{
+        [k]: recursiveStateAccess(nkey.join('.'), (current[k] ?? {}) as Record<string, object>, value, iterationKey),
+      },
     };
   }
 
   return { ...(current ?? {}), [key]: value };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const URLs: React.FC = ({ inputsTemplate, iteration, values, ...plus }: any) => {
+  const [keyInput, ...restInput] = inputsTemplate;
+  const value = values[iteration];
+  return (
+    <>
+      {iteration <= 0 && (
+        <InformationalAlert text="This part is a little bit buggy, prefer use the JSON editor instead." />
+      )}
+      <div className="flex gap-x-4 w-full">
+        <InputGuesser {...keyInput} defaultValue={value?.[keyInput.name]} />
+        {restInput.map((input: InputGuesserProps, idx: number) => (
+          <InputGuesser
+            key={`${input.label}-${idx}`}
+            {...input}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(v: any) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (v.target as any).iterationKey = value?.key;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (input as any).onChange({ ...v });
+            }}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            defaultValue={value?.[(input as any).name]}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CacheKeys: React.FC = ({ inputsTemplate, iteration, values }: any) => {
+  const [keyInput, headersInput, ...restInput] = inputsTemplate;
+  const value = values[iteration];
+  return (
+    <>
+      {iteration <= 0 && (
+        <InformationalAlert text="This part is a little bit buggy, prefer use the JSON editor instead." />
+      )}
+      <div className="flex gap-x-4 w-full">
+        <InputGuesser {...keyInput} defaultValue={value?.[keyInput.name]} />
+        <InputGuesser
+          {...headersInput}
+          handleChange={(options: ReadonlyArray<option>) =>
+            headersInput.handleChange({ target: { iterationKey: value?.key } }, options)
+          }
+          selectedOptions={value?.[headersInput.name]?.map((v: string) => ({ name: v, value: v }))}
+        />
+      </div>
+      {restInput.map((input: InputGuesserProps, idx: number) => (
+        <InputGuesser
+          key={`${input.label}-${idx}`}
+          {...input}
+          type="switch"
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(v: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (v.target as any).iterationKey = value?.key;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (input as any).onChange({ ...v });
+          }}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          defaultChecked={value?.[(input as any).name]}
+        />
+      ))}
+    </>
+  );
 };
 
 export const UserFriendlyEditor: React.FC = () => {
@@ -26,9 +110,12 @@ export const UserFriendlyEditor: React.FC = () => {
   const allowedHTTPSelectedOptions = (configuration?.allowed_http_cache ?? []).map((a) => ({ name: a, value: a }));
   const [form, setForm] = useState(configuration);
   const [allowedHTTP, setAllowedHTTP] = useState<ReadonlyArray<option>>(allowedHTTPSelectedOptions);
-  const updateForm = (key: string, value: object) => {
+  const updateForm = (key: string, value: object, iterationKey?: string) => {
+    if (iterationKey?.includes('.')) {
+      key = key.replace(iterationKey, souinInternalKey);
+    }
     setForm((prevState) => {
-      return recursiveStateAccess(key, prevState as Record<string, object>, value);
+      return recursiveStateAccess(key, prevState as Record<string, object>, value, iterationKey);
     });
   };
 
@@ -184,31 +271,33 @@ export const UserFriendlyEditor: React.FC = () => {
           type: 'iterator',
           label: 'URLs',
           name: 'urls',
+          className: 'flex flex-wrap gap-x-12 gap-y-4 pb-4',
           inputsTemplate: [
             {
               name: 'key',
-              placeholder: '.+\\.css',
-              label: 'URL',
+              placeholder: '.*\\.css',
+              label: 'URL pattern to match',
               onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`urls.${iteration}.key`, { key: value }),
+                updateForm(`urls.${iteration}.key`, value),
             },
             {
               name: 'ttl',
               placeholder: defaultJson.ttl,
               optional: true,
               label: 'time-to-live duration',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`urls.${iteration}.ttl`, { ttl: value }),
+              onChange: ({ target: { iterationKey, value } }: BaseSyntheticEvent) =>
+                updateForm(`urls.${iterationKey}.ttl`, value),
             },
             {
               name: 'default_cache_control',
               placeholder: defaultJson.default_cache_control,
               optional: true,
               label: 'default Cache-Control header',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`urls.${iteration}.default_cache_control`, { default_cache_control: value }),
+              onChange: ({ target: { iterationKey, value } }: BaseSyntheticEvent) =>
+                updateForm(`urls.${iterationKey}.default_cache_control`, value),
             },
           ] as ReadonlyArray<InputGuesserProps>,
+          Template: URLs,
           values: Object.entries(configuration?.urls ?? {}).map(
             ([key, values]) =>
               ({
@@ -221,16 +310,19 @@ export const UserFriendlyEditor: React.FC = () => {
           type: 'iterator',
           label: 'Cache Keys',
           name: 'cache_keys',
+          className: 'flex flex-wrap gap-x-12 gap-y-4 pb-4',
           inputsTemplate: [
             {
               name: 'key',
               placeholder: '.*\\.css',
+              className: 'w-full',
               label: 'URL pattern to match',
               onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
                 updateForm(`cache_keys.${iteration}.key`, value),
             },
             {
               name: 'headers',
+              className: 'w-full relative',
               placeholder: 'Cache-Control, Authorization',
               optional: true,
               isMultiple: true,
@@ -238,50 +330,55 @@ export const UserFriendlyEditor: React.FC = () => {
               options: [],
               type: 'select',
               label: 'Headers to match',
-              onChange: ({ target: { iteration, value } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.headers`, value),
+              handleChange: ({ target: { iterationKey } }: BaseSyntheticEvent, values: ReadonlyArray<option>) =>
+                updateForm(
+                  `cache_keys.${iterationKey}.headers`,
+                  values.map((v) => v.value),
+                  iterationKey
+                ),
             },
             {
               type: 'switch',
               label: 'Disable body',
               className: '',
               name: 'disable_body',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_body`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_body`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Disable host',
               className: '',
               name: 'disable_host',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_host`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_host`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Disable method',
               className: '',
               name: 'disable_method',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_method`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_method`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Disable query',
               className: '',
               name: 'disable_query',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.disable_query`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.disable_query`, checked, iterationKey),
             },
             {
               type: 'switch',
               label: 'Hide key',
               className: '',
               name: 'hide',
-              onChange: ({ target: { iteration, checked } }: BaseSyntheticEvent) =>
-                updateForm(`cache_keys.${iteration}.hide`, checked),
+              onChange: ({ target: { iterationKey, checked } }: BaseSyntheticEvent) =>
+                updateForm(`cache_keys.${iterationKey}.hide`, checked, iterationKey),
             },
           ] as ReadonlyArray<InputGuesserProps>,
+          Template: CacheKeys,
           values: Object.entries(configuration?.cache_keys ?? {}).map(
             ([key, values]) =>
               ({

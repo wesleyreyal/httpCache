@@ -53,8 +53,9 @@ const Profile: NextPage = () => {
                   .then(() => {
                     pushToast({ text: 'Your password has been updated!', variant: 'success' });
                   })
-                  .catch(() => {
+                  .catch((err) => {
                     pushToast({ text: 'We cannot update your password!', variant: 'danger' });
+                    throw err;
                   });
               }}
             />
@@ -99,8 +100,9 @@ const Profile: NextPage = () => {
                   .then(() => {
                     pushToast({ text: 'Your informations have been updated!', variant: 'success' });
                   })
-                  .catch(() => {
+                  .catch((err) => {
                     pushToast({ text: 'We cannot update your informations!', variant: 'danger' });
+                    throw err;
                   });
               }}
             />

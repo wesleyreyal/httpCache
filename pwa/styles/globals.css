@@ -16,3 +16,7 @@ main {
 .min-h-75 {
     min-height: 75vh;
 }
+
+a.active {
+  @apply bg-base-300 text-base-content;
+}
