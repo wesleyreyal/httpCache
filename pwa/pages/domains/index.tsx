@@ -155,6 +155,7 @@ Domains.getInitialProps = (ctx: NextPageContext & { req: { cookies: Record<strin
     })
     .then(({ items, total }) => ({ domains: items as ReadonlyArray<DomainModel<Configuration>>, total }))
     .catch((err) => {
+      // eslint-disable-next-line no-console
       console.log(err);
       return { domains: [] as ReadonlyArray<DomainModel<Configuration>>, total: 0 };
     });

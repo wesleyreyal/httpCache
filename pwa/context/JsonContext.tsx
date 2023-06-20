@@ -63,13 +63,14 @@ const reducer = (state: JsonSchema = initialState, { type, payload }: JsonFormAc
       if (payload.cache_keys) {
         payload.cache_keys = Object.entries(payload.cache_keys).reduce((acc, [currentPrevKey, current]) => {
           acc[currentPrevKey] = current;
-          console.log(acc, currentPrevKey, current);
+          // console.log(acc, currentPrevKey, current);
           if (current.key) {
             delete acc[currentPrevKey as string];
             acc[current.key ?? ''] = { ...current };
           }
           return acc;
         }, {} as Record<string, Key & { key?: string }>);
+        console.log(payload.cache_keys);
       }
       return {
         ...state,

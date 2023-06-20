@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Icon } from 'components/common/icon';
 import useOnClickOutside from 'hooks/useClickOutside';
 import { ClassName } from 'types';
