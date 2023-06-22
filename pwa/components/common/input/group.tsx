@@ -13,7 +13,7 @@ export const Group: React.FC<GroupProps> = ({ className = 'flex gap-4', label, i
     <div className="form-control w-full">
       {label && <label className="text-xl font-bold">{label}</label>}
       <div className={className}>
-        {inputs.map(({ name, ...inputProps }, id) => (
+        {inputs.map((inputProps, id) => (
           <InputGuesser key={id} name={`${prefix ? `${prefix}.` : ''}${name}`} {...inputProps} />
         ))}
       </div>
