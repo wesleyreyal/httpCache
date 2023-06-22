@@ -7,6 +7,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
@@ -17,6 +18,8 @@ const path = "/var/run/php/php-fpm.sock"
 
 const root = "/srv/app/public"
 const scriptName = "/index.php"
+
+var TRUSTED_MIDDLEWARE = os.Getenv("TRUSTED_MIDDLEWARE")
 
 type envVars map[string]string
 
@@ -65,7 +68,7 @@ func buildEnv(r *http.Request) (envVars, error) {
 		// Other variables
 		"DOCUMENT_ROOT":   root,
 		"DOCUMENT_URI":    root,
-		"HTTP_HOST":       "souin", // added here, since not always part of headers
+		"HTTP_HOST":       TRUSTED_MIDDLEWARE, // added here, since not always part of headers
 		"SCRIPT_FILENAME": caddyhttp.SanitizedPathJoin(root, scriptName),
 		"SCRIPT_NAME":     scriptName,
 	}
@@ -115,13 +118,4 @@ func validateDomain(domainIRI string) {
 	rq.Params["CONTENT_LENGTH"] = fmt.Sprint(reader.Len())
 	fmt.Println("validate domain", domainIRI)
 	_, _ = client.Do(rq)
-
-	// if e != nil {
-	// 	return
-	// }
-
-	// value := newWriter()
-	// buf := bytes.NewBuffer([]byte{})
-	// res.WriteTo(value, buf)
-	// os.WriteFile("/usr/local/go/src/souin_middleware/t.log", value.body, 0777)
 }
