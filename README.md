@@ -1,7 +1,7 @@
 
 # http-cache
 
-http-cache is an SaaS of [Souin](https://github.com/darkweak/souin). It allows websites to store http cache.
+http-cache is the [Souin](https://github.com/darkweak/souin) SaaS web UI platform. It allow users to setup and manage the Souin HTTP cache on a proxied server.
 
 
 ## Authors
@@ -12,11 +12,11 @@ http-cache is an SaaS of [Souin](https://github.com/darkweak/souin). It allows w
 
 ## Dependencies
 
-PHP >= 8.1
+* PHP >= 8.1
 
-Node.js v18.16.0
+* Node.js v18.16.0
 
-PostgreSQL v15.3
+* PostgreSQL v15.3
 
 
 ## Install project
@@ -24,18 +24,18 @@ PostgreSQL v15.3
 Clone the project
 
 ```bash
-  git clone https://github.com/ReyalWesley/httpCache.git
+  git clone https://github.com/ReyalWesley/httpCache
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd httpCache
 ```
 
 ### Docker
 
-This project use docker to deploy so before the next steps, make sur to install docker [here](https://docs.docker.com/engine/install/).
+This project uses docker to deploy so before the next steps, make sur to install docker [here](https://docs.docker.com/engine/install/).
 
 You can now run all the containers using
 
@@ -51,7 +51,7 @@ in prod:
 
 ### Install dependencies
 
-on api :
+on api:
 ```bash
   composer install
 ```
@@ -63,11 +63,11 @@ on pwa:
 
 ## API
 
-This project use API Platform, here is the CDM of the project :
+This project uses API Platform, here is the CDM of the project:
 
 ![CDM](https://github.com/reyalwesley/httpcache/blob/main/docs/cdm.png)
 
-You can fill the API with fixtures using :
+You can fill the API with fixtures using:
 
 ```bash
   make reset-db
@@ -75,7 +75,7 @@ You can fill the API with fixtures using :
 
 ## JWT Authentication
 
-This project use the JWT Authentication so you need to generate crypting key using :
+This project uses the JWT Authentication so you need to generate the RSA keys using:
 
 ```bash
   make generate-jwt
