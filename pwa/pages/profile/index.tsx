@@ -20,7 +20,7 @@ const Profile: NextPage = () => {
   return (
     <div className="container m-auto">
       <Title title="Profile" />
-      <div className="prose md:prose-xl py-8">
+      <div className="prose md:prose-xl py-8 max-w-full">
         <h2 className="text-neutral-content">Welcome on your profile {username}</h2>
       </div>
       <div className="gap-8 flex flex-col lg:flex-row">

@@ -103,14 +103,16 @@ const Domains: NextPage<DomainsPageProps> = (props) => {
               >
                 {domain.valid ? 'active' : 'waiting'}
               </span>
-              <span className="font-bold">{domain.dns}</span>
-              <span className="font-bold text-base-300">{domain.configurations.length} configurations</span>
+              <span className="font-bold text-accent-content">{domain.dns}</span>
+              <span className="font-bold text-neutral-content">
+                {domain.configurations.length} configuration{domain.configurations.length > 1 ? 's' : ''}
+              </span>
             </>
           }
           key={`${domain['@id']}-${idx}`}
         >
           <Iterator
-            className="pt-8 gap-y-8 grid"
+            className="py-8 gap-y-8 grid"
             name="subdomains"
             values={domain.configurations.map((c) => c as Record<string, string>)}
             onDelete={() => {

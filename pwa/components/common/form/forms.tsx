@@ -66,9 +66,9 @@ export const Form: React.FC<PropsWithChildren<formType>> = ({
     <div className="m-auto grid gap-4">
       {buttonProps && <BaseButton {...buttonProps} className={`m-auto ${buttonProps.className ?? ''}`} />}
       {redirectionInformation ? (
-        <Link href={redirectionInformation.redirectionLink} className="hover:underline text-neutral">
+        <Link href={redirectionInformation.redirectionLink} className="hover:underline text-base-content">
           {redirectionInformation.text}{' '}
-          <span className="font-bold text-base-900">{redirectionInformation.highlightText}</span>
+          <span className="font-bold text-accent-content">{redirectionInformation.highlightText}</span>
         </Link>
       ) : null}
     </div>
