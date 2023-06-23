@@ -35,7 +35,7 @@ const recursiveStateAccess = (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const URLs: React.FC = ({ inputsTemplate, iteration, values, ...plus }: any) => {
+const URLs: React.FC = ({ inputsTemplate, iteration, values }: any) => {
   const [keyInput, ...restInput] = inputsTemplate;
   const value = values[iteration];
   return (

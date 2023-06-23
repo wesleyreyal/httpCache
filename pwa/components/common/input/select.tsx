@@ -27,8 +27,8 @@ type OptionProps = option & {
 };
 const Option: React.FC<OptionProps> = ({ name, onClick }) => {
   return (
-    <div onClick={onClick} className="cursor-pointer w-full rounded-t border-b hover:bg-gray-100">
-      <div className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
+    <div onClick={onClick} className="cursor-pointer w-full rounded-t border-b border-base-300 hover:bg-base-200">
+      <div className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative">
         <div className="w-full items-center flex">
           <div className="mx-2 leading-6">{name}</div>
         </div>
@@ -100,13 +100,13 @@ export const MultiSelect: React.FC<MultiSelectProps & ClassName> = ({
               />
             </div>
           </div>
-          <div className="text-base w-8 py-1 pl-2 pr-1 border-l flex items-center">
-            <Icon size={16} name={open ? 'chevron-up' : 'chevron-down'} />
+          <div className="w-8 py-1 pl-2 pr-1 border-l flex items-center">
+            <Icon className="text-base-content" size={16} name={open ? 'chevron-up' : 'chevron-down'} />
           </div>
         </div>
       </div>
       {open && (
-        <div className="absolute shadow top-full bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto">
+        <div className="absolute shadow top-full bg-base-100 z-40 w-full left-0 rounded max-h-select overflow-y-auto">
           <div className="flex flex-col w-full">
             {dynamic && value !== '' && (
               <Option

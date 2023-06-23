@@ -8,7 +8,7 @@ export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <main>
+      <main className="bg-base-200/50">
         <Navbar />
         <div className={p !== '/' ? 'py-4 px-4 md:px-0 m-auto max-w-screen-sm lg:max-w-screen-lg' : ''}>{children}</div>
       </main>

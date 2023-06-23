@@ -35,9 +35,9 @@ export const Subdomain: React.FC<subdomainProps> = ({
       onSubmit={(ev) => ev.preventDefault()}
       ref={formRef}
     >
-      <InputBase name="zone" className="w-full" defaultValue={zone} onChange={() => setUpdated(true)} />
-      <InputBase name="ip" className="w-full" defaultValue={ip} onChange={() => setUpdated(true)} />
-      <div className="flex gap-x-4 items-center">
+      <InputBase label="zone" name="zone" className="w-full" defaultValue={zone} onChange={() => setUpdated(true)} />
+      <InputBase label="ip" name="ip" className="w-full" defaultValue={ip} onChange={() => setUpdated(true)} />
+      <div className="flex gap-x-4 items-center mt-auto">
         {id && (
           <Link href="/configurations/[id]" as={`configurations/${id}`}>
             <OutlinedButton text="Edit configuration" className="flex-nowrap whitespace-nowrap" />

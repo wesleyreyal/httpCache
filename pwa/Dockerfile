@@ -40,6 +40,16 @@ FROM builder_base AS builder
 COPY --link . .
 COPY --from=deps --link /srv/app/node_modules ./node_modules
 
+ARG NEXT_PUBLIC_ENTRYPOINT
+ARG API_URL
+ARG CONTACT_EMAIL
+ARG ADDRESS
+
+ENV NEXT_PUBLIC_ENTRYPOINT=${NEXT_PUBLIC_ENTRYPOINT}
+ENV API_URL=${API_URL}
+ENV CONTACT_EMAIL=${CONTACT_EMAIL}
+ENV ADDRESS=${ADDRESS}
+
 RUN pnpm run build
 
 
@@ -49,7 +59,7 @@ WORKDIR /srv/app
 
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

@@ -18,19 +18,28 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-14}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
-      TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|caddy|souin$$
-      TRUSTED_MIDDLEWARE: souin
+      TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|caddy|${TRUSTED_MIDDLEWARE:-souin}$$
+      TRUSTED_MIDDLEWARE: ${TRUSTED_MIDDLEWARE:-souin}
+      MAILER_DSN: ${MAILER_DSN:-smtp://mailhog:1025}
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
 
   pwa:
     build:
       context: ./pwa
       target: prod
+      args:
+        NEXT_PUBLIC_ENTRYPOINT: http://caddy
+        API_URL: ${API_URL:-http://localhost}
+        CONTACT_EMAIL: ${CONTACT_EMAIL:-my@email.com}
+        ADDRESS: ${ADDRESS:-somewhere}
     environment:
       NEXT_PUBLIC_ENTRYPOINT: http://caddy
-
+      API_URL: ${API_URL:-http://localhost}
+      CONTACT_EMAIL: ${CONTACT_EMAIL:-my@email.com}
+      ADDRESS: ${ADDRESS:-somewhere}
   caddy:
     build:
       context: api/
@@ -43,6 +52,7 @@ services:
       SERVER_NAME: ${SERVER_NAME:-localhost:80, localhost:443}, caddy:80
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      TRUSTED_MIDDLEWARE: ${TRUSTED_MIDDLEWARE:-souin}
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php

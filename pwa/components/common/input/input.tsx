@@ -32,7 +32,7 @@ export const InputBase: React.FC<inputType> = ({
       <input
         required={!optional}
         type={type}
-        className={`input input-bordered w-full rounded-lg p-1 px-4 ${inputClassName}`}
+        className={`input input-bordered border-neutral-content w-full rounded-lg p-1 px-4 ${inputClassName}`}
         id={id}
         {...input}
       />

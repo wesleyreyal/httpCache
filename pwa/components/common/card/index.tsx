@@ -3,7 +3,7 @@ import { ClassName } from 'types';
 
 export const SimpleCard: React.FC<PropsWithChildren & ClassName> = ({ children, className }) => (
   <div
-    className={`card bg-base-100 shadow-md rounded-2xl h-full min-w-full flex items-center justify-center ${className}`}
+    className={`card bg-base-100 shadow-md rounded-2xl h-full min-w-full flex items-center justify-center border-base-300 ${className}`}
   >
     {children}
   </div>

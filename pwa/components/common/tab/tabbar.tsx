@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
+import { SimpleCard } from '../card';
 
 type tabProps = {
   name: string;
@@ -33,7 +34,7 @@ export const Tabbar: React.FC<tabbarProps> = ({ className = '', defaultTab = 0, 
           </Link>
         ))}
       </div>
-      <div className="p-8 bg-base-100 rounded-tr-xl rounded-br-xl rounded-bl-xl">{TabItem}</div>
+      <div className="bg-base-200/50 p-8 rounded-tr-xl rounded-br-xl rounded-bl-xl">{TabItem}</div>
     </>
   );
 };

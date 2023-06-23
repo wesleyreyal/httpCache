@@ -1,6 +1,6 @@
 {
     # Debug
-    {$CADDY_DEBUG}
+    debug
     auto_https off
     order souin_middleware_handler before php_fastcgi
 }
@@ -45,7 +45,7 @@ route {
 
     # Comment the following line if you don't want Next.js to catch requests for HTML documents.
     # In this case, they will be handled by the PHP app.
-    # reverse_proxy @pwa http://{$PWA_UPSTREAM}
+    reverse_proxy @pwa http://{$PWA_UPSTREAM}
 
     souin_middleware_handler
 
