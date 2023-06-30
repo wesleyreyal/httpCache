@@ -11,7 +11,7 @@ const address = serverRuntimeConfig.ADDRESS || publicRuntimeConfig.ADDRESS;
 const ToS: NextPage = () => (
   <>
     <Title title="Terms of service" />
-    <article className="max-w-full prose md:prose-xl">
+    <article className="max-w-full prose md:prose-xl pt-8">
       <p>
         These general terms and conditions govern the use of the souin.app website. This site is owned and managed by
         Mr. Sylvain COMBRAQUE.

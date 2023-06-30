@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
 import Link from 'next/link';
 import { useDispatchAuth, useIsAuth } from 'context';
-import { BaseButton, buttonType } from 'components/common/button';
+import { BaseButton, OutlinedButton, buttonType } from 'components/common/button';
 import { Blur } from 'components/common/block';
 import { ROUTES } from 'routes';
 import { Token } from 'storage';
 import { NavItem } from './item';
+import Image from 'next/image';
 
 type commonElementProps = {
   text: string;
@@ -15,13 +16,13 @@ type commonElementProps = {
 
 const loggedOut: ReadonlyArray<commonElementProps & buttonType> = [
   {
-    text: 'register',
+    text: 'Register',
     link: ROUTES.REGISTER,
     className: 'btn-outline',
     variant: 'ghost',
   },
   {
-    text: 'sign in',
+    text: 'Sign in',
     link: ROUTES.SIGN_IN,
     variant: 'success',
   },
@@ -29,12 +30,12 @@ const loggedOut: ReadonlyArray<commonElementProps & buttonType> = [
 
 const loggedIn: ReadonlyArray<commonElementProps> = [
   {
-    text: 'domains',
+    text: 'Domains',
     link: '/domains',
     isActive: (pathname) => pathname.includes('/domains') || pathname.includes('/configurations'),
   },
   {
-    text: 'profile',
+    text: 'Profile',
     link: '/profile',
   },
 ];
@@ -43,7 +44,11 @@ const LoggedOutItems: React.FC = () => (
   <>
     {loggedOut.map(({ link, text, ...props }, id) => (
       <Link href={link} key={id} className="w-fit">
-        <BaseButton text={text} {...props} />
+        {props.className?.includes('outline') ? (
+          <OutlinedButton text={text} {...props} />
+        ) : (
+          <BaseButton text={text} {...props} />
+        )}
       </Link>
     ))}
   </>
@@ -76,7 +81,7 @@ const LoggedInItems: React.FC = () => (
   </>
 );
 
-const CommonNavbarItem: React.FC = () => <NavItem path="/terms-of-service">terms of service</NavItem>;
+const CommonNavbarItem: React.FC = () => <NavItem path="/terms-of-service">Terms of service</NavItem>;
 
 const ResponsiveMenuItems: React.FC = () => {
   const connected = useIsAuth();
@@ -117,7 +122,34 @@ export const Navbar: FC = () => {
           </div>
           <div className="navbar-start m-auto">
             <Link href="/" className="text-2xl btn btn-ghost normal-case m-auto lg:m-0">
-              Souin
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="auto" height="100%" viewBox="10 10 80 80">
+                <g>
+                  <path
+                    d="M 34.79 77.89 Q 90 70 50 50 Q 10 30 65.21 22.11"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="8"
+                    stroke-miterlimit="10"
+                    pointer-events="stroke"
+                  />
+                  <path
+                    d="M 28.85 78.74 L 36.21 73.64 L 34.79 77.89 L 37.34 81.56 Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-width="8"
+                    stroke-miterlimit="10"
+                    pointer-events="all"
+                  />
+                  <path
+                    d="M 71.15 21.26 L 63.79 26.36 L 65.21 22.11 L 62.66 18.44 Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-width="8"
+                    stroke-miterlimit="10"
+                    pointer-events="all"
+                  />
+                </g>
+              </svg>
             </Link>
           </div>
           <div className="navbar-end hidden lg:flex w-full">

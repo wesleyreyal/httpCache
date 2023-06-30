@@ -8,8 +8,20 @@ type additionalTypes = { variant?: AllowedVariant } & (buttonText | (buttonText 
 export type buttonType = additionalTypes &
   React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
+const Base: React.FC<React.PropsWithChildren<buttonType>> = ({ variant = 'info', type, className = '', ...props }) => (
+  <button
+    type={type}
+    className={`btn border-2 font-extrabold ${computeClassFromProps({ variant })} ${className}`}
+    {...props}
+  >
+    {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} className="text-inherit" size={24} /> : null}
+    {(props as buttonText).text ?? ''}
+    {props.children}
+  </button>
+);
+
 export const OutlinedButton: React.FC<buttonType> = (props) => (
-  <BaseButton {...props} className={`btn-outline ${props.className}`} />
+  <Base {...props} className={`btn-outline ${props.className}`} />
 );
 
 export const computeClassFromProps = ({ variant }: Omit<additionalTypes, 'text'>): string => {
@@ -29,9 +41,25 @@ export const computeClassFromProps = ({ variant }: Omit<additionalTypes, 'text'>
   return '';
 };
 
-export const BaseButton: React.FC<buttonType> = ({ variant = 'info', type, className = '', ...props }) => (
-  <button type={type} className={`btn ${computeClassFromProps({ variant })} ${className}`} {...props}>
-    {(props as buttonIcon).icon ? <Icon name={(props as buttonIcon).icon} className="text-inherit" size={24} /> : null}
-    {(props as buttonText).text ?? ''}
-  </button>
-);
+export const BaseButton: React.FC<buttonType> = (props) => {
+  let textColor = '';
+  switch (props.variant ?? 'info') {
+    case 'info':
+      textColor = 'hover:text-info';
+      break;
+    case 'danger':
+      textColor = 'hover:text-error';
+      break;
+    case 'success':
+      textColor = 'hover:text-success';
+      break;
+    case 'warning':
+      textColor = 'hover:text-warning';
+      break;
+    case 'ghost':
+      textColor = 'hover:text-ghost';
+      break;
+  }
+
+  return <Base {...props} className={`${props.className} text-base-100 hover:bg-transparent ${textColor}`} />;
+};
