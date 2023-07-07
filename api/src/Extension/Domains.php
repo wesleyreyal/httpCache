@@ -8,12 +8,13 @@ use ApiPlatform\Metadata\Operation;
 use App\Entity\Domain;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class Domains implements QueryCollectionExtensionInterface
 {
     private Security $security;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, private RequestStack $request)
     {
         $this->security = $security;
     }
@@ -32,7 +33,10 @@ final class Domains implements QueryCollectionExtensionInterface
             return;
         }
 
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if (
+            $this->security->isGranted('ROLE_ADMIN') ||
+            ($this->request->getMainRequest()?->getHost() === \getenv('TRUSTED_MIDDLEWARE') && \is_null($this->security->getUser()))
+        ) {
             return;
         }
 

@@ -6,7 +6,6 @@ import { Blur } from 'components/common/block';
 import { ROUTES } from 'routes';
 import { Token } from 'storage';
 import { NavItem } from './item';
-import Image from 'next/image';
 
 type commonElementProps = {
   text: string;
@@ -100,12 +99,19 @@ const ResponsiveMenuItems: React.FC = () => {
   );
 };
 
+const Headband = () => (
+  <div className="beta-headband absolute bg-warning/80 absolute text-accent-content font-bold text-xl -z-10 text-center px-4 top-full left-1/2 w-fit -translate-x-1/2 -translate-y-1/2 rounded-md">
+    Currently in BETA
+  </div>
+);
+
 export const Navbar: FC = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="shadow transition-all transition-duration-300 sticky top-0 z-10">
+    <nav className="relative shadow transition-all transition-duration-300 sticky top-0 z-10">
       <Blur className="lg:px-8 lg:m-auto">
+        <Headband />
         <div className="w-full navbar">
           <div className="flex-none lg:hidden absolute">
             <label className="btn btn-square btn-ghost" onClick={() => setOpen(!open)}>

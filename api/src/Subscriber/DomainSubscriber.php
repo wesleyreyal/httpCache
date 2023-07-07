@@ -28,7 +28,6 @@ class DomainSubscriber implements EventSubscriberInterface
 
     public function handleDomain(ViewEvent $event): void
     {
-
         if (!($event->getControllerResult() instanceof Domain && Request::METHOD_POST === $event->getRequest()->getMethod())) {
             return;
         }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -25,10 +27,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'get_domain_normalization'],
-            security: "is_granted('ROLE_USER')",
         ),
         new Get(
             normalizationContext: ['groups' => 'get_domain_normalization'],
+            paginationEnabled: false,
         ),
         new Post(
             normalizationContext: ['groups' => 'create_domain_normalization'],
@@ -44,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ],
 )]
+#[ApiFilter(BooleanFilter::class, properties: ['valid'])]
 class Domain
 {
     #[ORM\Id]
@@ -80,7 +83,7 @@ class Domain
 
     /** @var Collection<int, Configuration> */
     #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Configuration::class, orphanRemoval: true)]
-    #[Groups(['get_domain_normalization', 'create_domain_normalization', 'update_domain_normalization'])]
+    #[Groups(['get_domain_normalization', 'create_domain_normalization', 'update_domain_normalization', 'middleware:get:domain_normalization'])]
     private Collection $configurations;
 
     public function __construct()

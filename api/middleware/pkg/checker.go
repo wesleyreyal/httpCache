@@ -61,6 +61,7 @@ func (c *CheckerChain) Add(id, dns, sub string) {
 	if c.cancel == nil {
 		c.ctx, c.cancel = context.WithCancel(context.Background())
 		go func(checker *CheckerChain) {
+			fmt.Println("Start the checker loop")
 			for {
 				select {
 				case <-checker.ctx.Done():
@@ -68,7 +69,7 @@ func (c *CheckerChain) Add(id, dns, sub string) {
 				default:
 					c.Map.Range(func(key, value any) bool {
 						go func(dns string, dom *domain) {
-							fmt.Println("Start the checker loop")
+							fmt.Println("Try to validate", dns)
 							if isDomainValid(dns) {
 								validateDomain(dom.id)
 								c.Del(dns)
