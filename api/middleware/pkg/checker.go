@@ -3,22 +3,26 @@ package pkg
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io"
 	"net/http"
+	"souin_middleware/pkg/deployer"
 	"sync"
 	"time"
+
+	"go.uber.org/zap"
 )
 
 type CheckerChain struct {
 	*sync.Map
+	logger *zap.Logger
 	cancel context.CancelFunc
 	ctx    context.Context
 }
 
-func NewCheckerChain() *CheckerChain {
+func NewCheckerChain(logger *zap.Logger) *CheckerChain {
 	return &CheckerChain{
-		Map: &sync.Map{},
+		Map:    &sync.Map{},
+		logger: logger,
 	}
 }
 
@@ -61,7 +65,7 @@ func (c *CheckerChain) Add(id, dns, sub string) {
 	if c.cancel == nil {
 		c.ctx, c.cancel = context.WithCancel(context.Background())
 		go func(checker *CheckerChain) {
-			fmt.Println("Start the checker loop")
+			c.logger.Debug("Start the checker loop")
 			for {
 				select {
 				case <-checker.ctx.Done():
@@ -69,9 +73,10 @@ func (c *CheckerChain) Add(id, dns, sub string) {
 				default:
 					c.Map.Range(func(key, value any) bool {
 						go func(dns string, dom *domain) {
-							fmt.Println("Try to validate", dns)
+							c.logger.Sugar().Debugf("Try to validate %s", dns)
 							if isDomainValid(dns) {
 								validateDomain(dom.id)
+								deployer.Deploy(dns, dom.subs...)
 								c.Del(dns)
 
 								return
@@ -80,6 +85,7 @@ func (c *CheckerChain) Add(id, dns, sub string) {
 							for _, sub := range dom.subs {
 								if sub != "" && isDomainValid(sub+"."+dns) {
 									validateDomain(dom.id)
+									deployer.Deploy(dns, dom.subs...)
 									c.Del(dns)
 
 									return
@@ -98,7 +104,7 @@ func (c *CheckerChain) Add(id, dns, sub string) {
 }
 
 func (c *CheckerChain) Del(dns string) {
-	fmt.Println("Delete", dns)
+	c.logger.Sugar().Infof("Delete %s", dns)
 	c.Map.Delete(dns)
 	hasItem := false
 	c.Map.Range(func(key, value any) bool {
@@ -107,7 +113,7 @@ func (c *CheckerChain) Del(dns string) {
 	})
 
 	if !hasItem {
-		fmt.Println("Stop the checker loop")
+		c.logger.Debug("Stop the checker loop")
 		c.cancel()
 	}
 }

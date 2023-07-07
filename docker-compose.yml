@@ -40,6 +40,7 @@ services:
       API_URL: ${API_URL:-http://localhost}
       CONTACT_EMAIL: ${CONTACT_EMAIL:-my@email.com}
       ADDRESS: ${ADDRESS:-somewhere}
+
   caddy:
     build:
       context: api/
@@ -53,6 +54,11 @@ services:
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       TRUSTED_MIDDLEWARE: ${TRUSTED_MIDDLEWARE:-souin}
+      SEMAPHORE_URL: ${SEMAPHORE_URL:-http://semaphore:3000}
+      SEMAPHORE_USERNAME: ${SEMAPHORE_USER}
+      SEMAPHORE_PASSWORD: ${SEMAPHORE_PASSWORD}
+      PROJECT_ID: ${PROJECT_ID:-1}
+      TEMPLATE_ID: ${TEMPLATE_ID:-1}
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
@@ -84,11 +90,31 @@ services:
       - db_data:/var/lib/postgresql/data
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
 
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+  # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
+  ###> symfony/mercure-bundle ###
+  ###< symfony/mercure-bundle ###
+
+  semaphore:
+    image: semaphoreui/semaphore:latest
+    volumes:
+      - ./api/middleware/pkg/deployer/semaphore:/tmp/semaphore:rw,delegated
+    environment:
+      SEMAPHORE_DB_USER: ${POSTGRES_USER:-app}
+      SEMAPHORE_DB_PASS: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      SEMAPHORE_DB_HOST: database
+      SEMAPHORE_DB_PORT: 5432
+      SEMAPHORE_DB_DIALECT: postgres
+      SEMAPHORE_DB: ${POSTGRES_DB:-semaphore}
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/playbooks
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_PASSWORD}
+      SEMAPHORE_ADMIN_NAME: ${SEMAPHORE_USER}
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: ${SEMAPHORE_USER}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: gs72mPntFATGJs9qK0pQ0rKtfidlexiMjYCH9gWKhTU=
+    depends_on:
+      - database
 
 volumes:
   php_socket:

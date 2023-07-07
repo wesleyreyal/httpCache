@@ -1,0 +1,23 @@
+- hosts: manager
+  vars:
+    label: '{{ LABEL }}'
+    deploy_name: cache-handler
+  tasks:
+    - name: Init swarm on the first node
+      shell: "docker node ls | grep Leader | awk '{print $1}'"
+      register: result
+
+    - name: Set manager token
+      set_fact:
+        main_node: "{{ hostvars['manager0'].result.stdout_lines[0] }}"
+
+    - name: Add {{ label }} label for main node
+      shell: 'docker node update --label-add {{ label }}.{{ label }}-data=true {{ main_node }}'
+
+    - name: Deploy {{ label }}
+      shell: 'docker stack deploy -c cache-handler/docker-compose.yml {{ deploy_name }}_{{ label }}'
+      environment:
+        - DOMAIN: '{{ CURRENT_DOMAIN }}'
+        - LABEL: '{{ label }}'
+      args:
+        chdir: $HOME
