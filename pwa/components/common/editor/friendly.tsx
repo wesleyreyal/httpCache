@@ -1,5 +1,5 @@
 import { defaultJson, useConfiguration, useDispatchConfiguration } from 'context';
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, ChangeEvent, useEffect, useState } from 'react';
 import { InputGuesser, InputGuesserProps, Iterable, IteratorValue, option } from '../input';
 import { Form } from 'components/common/form/forms';
 import { InformationalAlert } from '../popup';
@@ -34,6 +34,10 @@ const recursiveStateAccess = (
   return { ...(current ?? {}), [key]: value };
 };
 
+type iterableChangeEvent = {
+  iterationKey?: string;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const URLs: React.FC = ({ inputsTemplate, iteration, values }: any) => {
   const [keyInput, ...restInput] = inputsTemplate;
@@ -49,10 +53,8 @@ const URLs: React.FC = ({ inputsTemplate, iteration, values }: any) => {
           <InputGuesser
             key={`${input.label}-${idx}`}
             {...input}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onChange={(v: any) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (v.target as any).iterationKey = value?.key;
+            onChange={(v: ChangeEvent<(HTMLInputElement | HTMLSelectElement) & iterableChangeEvent>) => {
+              v.target.iterationKey = value?.key;
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (input as any).onChange({ ...v });
             }}

@@ -27,13 +27,13 @@ const Home: NextPage = () => {
               ensuring fast and reliable content delivery to your users. Plus, as an open source application, Souin
               provides flexibility and transparency, allowing for customizations and contributions from the community.
             </p>
-            <BaseButton text="Try it now" onClick={() => push(ROUTES.REGISTER)} className="text-white" />
+            <BaseButton text="Try it now" onClick={() => push(ROUTES.REGISTER)} />
           </Blur>
         </div>
       </div>
       <div className="m-auto max-w-screen-sm lg:max-w-screen-lg">
         <div className="py-16 grid gap-y-8 px-4">
-          <Title title="Souin is better" />
+          <Title title="Why use Souin?" />
           <CardList />
         </div>
         <div className="py-16 grid gap-y-8 px-4">

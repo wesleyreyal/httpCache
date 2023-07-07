@@ -23,7 +23,7 @@ func init() {
 
 type Middleware struct {
 	logger  *zap.Logger
-	checker pkg.CheckerChain
+	checker *pkg.CheckerChain
 }
 
 func (Middleware) CaddyModule() caddy.ModuleInfo {
@@ -96,7 +96,14 @@ func (s *Middleware) ServeHTTP(rw http.ResponseWriter, r *http.Request, next cad
 
 func (s *Middleware) Provision(ctx caddy.Context) error {
 	s.logger = ctx.Logger(s)
-	s.checker = *pkg.NewCheckerChain()
+	s.checker = pkg.NewCheckerChain(s.logger)
+	domains := pkg.RetrieveDomains()
+
+	for _, domain := range domains {
+		for _, sub := range domain.Configurations {
+			s.checker.Add(domain.Id, domain.Dns, sub.Zone)
+		}
+	}
 
 	return nil
 }

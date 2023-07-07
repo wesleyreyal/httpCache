@@ -119,3 +119,56 @@ func validateDomain(domainIRI string) {
 	fmt.Println("validate domain", domainIRI)
 	_, _ = client.Do(rq)
 }
+
+type customRs struct {
+	body   []byte
+	status int
+}
+
+func (c *customRs) Write(b []byte) (int, error) {
+	c.body = append(c.body, b...)
+
+	return len(b), nil
+}
+
+func (c *customRs) Header() http.Header {
+	return http.Header{}
+}
+
+func (c *customRs) WriteHeader(code int) {
+	c.status = code
+}
+
+type DomainAPI struct {
+	Id             string `json:"@id"`
+	Dns            string `json:"dns"`
+	Configurations []struct {
+		Zone string `json:"zone"`
+	} `json:"configurations"`
+}
+
+func RetrieveDomains() []DomainAPI {
+	r, _ := http.NewRequest(http.MethodGet, "/", nil)
+	client, err := gofast.SimpleClientFactory(gofast.SimpleConnFactory("unix", path))()
+	if err != nil {
+		return []DomainAPI{}
+	}
+
+	rq := gofast.NewRequest(r)
+	rq.Params, _ = buildEnv(r)
+	rq.Params["REQUEST_URI"] = "/domains"
+	rq.Params["QUERY_STRING"] = "valid=false"
+	rq.Params["CONTENT_TYPE"] = "application/json"
+	res, _ := client.Do(rq)
+
+	var rs customRs
+	_ = res.WriteTo(&rs, bytes.NewBuffer([]byte{}))
+
+	var apiResult struct {
+		Domains []DomainAPI `json:"hydra:member"`
+	}
+	_ = json.Unmarshal(rs.body, &apiResult)
+	fmt.Printf("Retrieved %d unvalidated domains from the database.\n", len(apiResult.Domains))
+
+	return apiResult.Domains
+}

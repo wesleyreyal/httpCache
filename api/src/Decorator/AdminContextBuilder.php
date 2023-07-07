@@ -44,6 +44,12 @@ final class AdminContextBuilder implements SerializerContextBuilderInterface
             }
             $context['groups'][] = 'middleware:update:domain_denormalization';
         }
+        if (Request::METHOD_GET === $request->getMethod() && $resourceClass === Domain::class && \getenv('TRUSTED_MIDDLEWARE') === $request->getHost() && $normalization) {
+            if (!is_array($context['groups'])) {
+                $context['groups'] = [$context['groups']];
+            }
+            $context['groups'][] = 'middleware:get:domain_normalization';
+        }
 
         return $context;
     }

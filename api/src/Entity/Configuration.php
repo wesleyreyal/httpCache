@@ -52,7 +52,7 @@ class Configuration
     private ?Uuid $id = null;
 
     #[Assert\NotBlank]
-    #[Groups(['get_configuration_normalization', 'create_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization'])]
+    #[Groups(['get_configuration_normalization', 'create_configuration_normalization', 'create_configuration_denormalization', 'update_configuration_denormalization', 'middleware:get:domain_normalization'])]
     #[ORM\Column(length: 100)]
     private string $zone = '';
 
